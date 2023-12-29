@@ -27,6 +27,9 @@
 # Visual Studio Code
 .vscode/
 
+# JetBrains
+.idea/
+
 # Visual Studio cache directory
 .vs/
 
@@ -74,3 +77,6 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Mac
+.DS_Store
