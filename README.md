@@ -17,5 +17,4 @@ Ein 3d Open World Space Shooter.
 - Tutorial
 - Minibosse
 - Mehr Bosse (abhängig von Difficulty)
-- Storyline
-- Planeten
+
