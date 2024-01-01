@@ -1,6 +1,6 @@
 # EIGE-Projekt
 ## Zielsetzung
-Ein 3d Open World Space Shooter.
+Ein 2D Open World Space Shooter.
 
 ## Features
 - Start Scene, Win / Lose Scene
@@ -17,4 +17,5 @@ Ein 3d Open World Space Shooter.
 - Tutorial
 - Minibosse
 - Mehr Bosse (abhängig von Difficulty)
-
+- Storyline
+- Planeten
