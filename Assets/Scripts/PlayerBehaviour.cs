@@ -86,4 +86,11 @@ public class PlayerBehaviour : MonoBehaviour
                            cachedTransform.TransformDirection(shootPointOffset + Vector3.up * _halfProjectileHeight);
         Instantiate(projectilePrefab, position, cachedTransform.rotation);
     }
+
+
+    public float SpeedMultiplier
+    {
+        get => movementSettings.speedMultiplier;
+        set => movementSettings.speedMultiplier = value;
+    }
 }
