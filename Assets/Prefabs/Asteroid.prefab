@@ -120,4 +120,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSpeed: 30
   maxSpeed: 50
-  _speedMultiplier: 1
+  speedMultiplier: 1
+  maxLifeTime: 10
