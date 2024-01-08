@@ -14,7 +14,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Serializable] private class MovementSettings
     {
-        public float speedBase = 20f;
+        public float speedBase = 25f;
         public float speedMultiplier = 1f;
         public float rotationFactor = 3.5f;
     }
