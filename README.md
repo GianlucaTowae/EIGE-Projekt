@@ -20,7 +20,7 @@ Ein 2D Open World Space Shooter.
 - Storyline
 - Planeten
 
-# Abilities Ideen
+### Abilities Ideen
 passiv:
 - mehrfach schuss
 - weitere waffenarten zb weirde zielsuchende rakten bei jedem x-ten schuss (könnt auch aktiv sein)
