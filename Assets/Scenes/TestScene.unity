@@ -550,6 +550,41 @@ MonoBehaviour:
             m_StringArgument: speeed
             m_BoolArgument: 0
           m_CallState: 2
+    probabilityFactor: 1
+  - sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    action:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1326298238}
+          m_TargetAssemblyTypeName: LevelUpCanvas, Assembly-CSharp
+          m_MethodName: Say
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: damage
+            m_BoolArgument: 0
+          m_CallState: 2
+    probabilityFactor: 0.2
+  - sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    action:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1326298238}
+          m_TargetAssemblyTypeName: LevelUpCanvas, Assembly-CSharp
+          m_MethodName: Say
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: health
+            m_BoolArgument: 0
+          m_CallState: 2
+    probabilityFactor: 1
   upgradePrefab: {fileID: 7141055664410059507, guid: 6a7dae6e8ab02c34d90914d09d5b7351, type: 3}
   amountOfOptions: 3
   padding: 150
