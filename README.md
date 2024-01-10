@@ -19,3 +19,15 @@ Ein 2D Open World Space Shooter.
 - Mehr Bosse (abhängig von Difficulty)
 - Storyline
 - Planeten
+
+# Abilities Ideen
+passiv:
+- mehrfach schuss
+- weitere waffenarten zb weirde zielsuchende rakten bei jedem x-ten schuss (könnt auch aktiv sein)
+- ...
+
+aktiv:
+- unsterblichkeit
+- speedboost
+- schnelles autofire
+- ...
