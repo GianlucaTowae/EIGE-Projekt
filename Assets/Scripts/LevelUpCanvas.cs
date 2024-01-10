@@ -11,6 +11,7 @@ public class LevelUpCanvas : MonoBehaviour
     {
         public Sprite sprite;
         public UnityEvent action;
+        public float probabilityFactor = 1f;
     }
 
     [SerializeField] private Upgrade[] upgrades;
@@ -41,6 +42,8 @@ public class LevelUpCanvas : MonoBehaviour
             _options[i].transform.position = postion;
             postion.x += 0.5f * prefabWidth;
         }
+
+        _canvas.enabled = false;
     }
 
     private void Update()
@@ -66,14 +69,19 @@ public class LevelUpCanvas : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     public void Show()
     {
-        for (int i = 0; i < _options.Length; i++)
+        foreach (GameObject option in _options)
         {
-            int index = Random.Range(0, upgrades.Length);
-            _options[i].GetComponent<Image>().sprite = upgrades[index].sprite;
-            _options[i].GetComponent<Button>().onClick.RemoveAllListeners();
-            _options[i].GetComponent<Button>().onClick.AddListener(delegate { upgrades[index].action?.Invoke(); });
-            _options[i].GetComponent<Button>().onClick.AddListener(delegate { Hide(); });
+            int index;
+            do
+            {
+                index = Random.Range(0, upgrades.Length);
+            } while (Random.value > upgrades[index].probabilityFactor);
+            option.GetComponent<Image>().sprite = upgrades[index].sprite;
+            option.GetComponent<Button>().onClick.RemoveAllListeners();
+            option.GetComponent<Button>().onClick.AddListener(delegate { upgrades[index].action?.Invoke(); });
+            option.GetComponent<Button>().onClick.AddListener(delegate { Hide(); });
         }
+
         _canvas.enabled = true;
     }
 
