@@ -26,12 +26,12 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private GameObject cannon;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Vector3 shootPointOffset;
-    [SerializeField] private Vector3 shootPointOffsett;
     [SerializeField] private float shootCooldownSec;
     [SerializeField] private int startHealth = 5;
     [SerializeField] private float multiShotCooldownMilliSec = 62.5f;
-    private int _health;
     #endregion
+
+    private int _health;
 
     public static int multiShot;
     public static int shieldHealth;

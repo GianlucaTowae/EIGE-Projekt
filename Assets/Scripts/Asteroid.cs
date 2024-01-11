@@ -4,17 +4,17 @@ using Random = UnityEngine.Random;
 
 public class Asteroid : MonoBehaviour
 {
-    [SerializeField] private float minSpeed = 30f, maxSpeed = 50f;
-    private float _speedBase;
-    [SerializeField] private float speedMultiplier = 1f;
-    private float _currentLifetTime = 0f;
     [SerializeField] private float maxLifeTime = 10f;
+    private float _currentLifeTime = 0f;
+
+    private float _speedBase;
+    private float _speedMultiplier;
+
     private Renderer _renderer;
     private Rigidbody _rigidbody;
 
     void Start()
     {
-        _speedBase = Random.Range(minSpeed, maxSpeed);
         _renderer = GetComponent<Renderer>();
         _rigidbody = GetComponent<Rigidbody>();
     }
@@ -23,9 +23,9 @@ public class Asteroid : MonoBehaviour
     {
         if(!_renderer.isVisible)
         {
-            _currentLifetTime += Time.deltaTime;
+            _currentLifeTime += Time.deltaTime;
         }
-        if(_currentLifetTime > maxLifeTime) 
+        if(_currentLifeTime > maxLifeTime)
         {
             Destroy(gameObject);
         }
@@ -33,7 +33,7 @@ public class Asteroid : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rigidbody.velocity = transform.TransformDirection(Vector3.back * (_speedBase * speedMultiplier));
+        _rigidbody.velocity = transform.TransformDirection(Vector3.back * (_speedBase * _speedMultiplier));
     }
 
     private void OnTriggerEnter(Collider other)
@@ -45,5 +45,11 @@ public class Asteroid : MonoBehaviour
     private void Explode()
     {
         Destroy(gameObject);
+    }
+
+    public void SetSpeed(float speed, float speedMultiplier)
+    {
+        _speedBase = speed;
+        _speedMultiplier = speedMultiplier;
     }
 }

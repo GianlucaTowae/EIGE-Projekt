@@ -4,8 +4,20 @@ using Random = UnityEngine.Random;
 public class AsteroidSpawner : MonoBehaviour
 {
     [SerializeField] private float maxAngleOffset = 30f;
-    [SerializeField] private int minAmount = 3, maxAmount = 7;
-    [SerializeField] private float minDistribution = 30f, maxDistribution = 60f;
+
+    [SerializeField] private Vector2 asteroidSpeed = new(30f, 50f);
+    [SerializeField] private float speedMultiplier = 1f;
+
+    [SerializeField] private Vector2Int clusterSize = new(3, 7);
+    [SerializeField] private Vector2Int targetingClusterSize = new(1, 3);
+
+    [SerializeField] private float minDistribution = 60f, maxDistribution = 120f;
+    [SerializeField] private float targetingClusterDistribution = 100f;
+
+    [SerializeField] private Vector2 spawningIntervalSingle = new(0.5f, 2f);
+    [SerializeField] private Vector2 spawningIntervalCluster = new(4f, 5f);
+    [SerializeField] private Vector2 spawningIntervalTargetingCluster = new(3f, 6f);
+    private float _singleCooldown, _clusterCooldown, _targetingClusterCooldown;
 
     [SerializeField] private GameObject asteroidPrefab;
 
@@ -18,22 +30,37 @@ public class AsteroidSpawner : MonoBehaviour
         _halfAsteroidWidth = asteroidPrefab.GetComponent<Renderer>().bounds.size.y / 2;
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-            SpawnRandomCluster();
-        if (Input.GetKeyDown(KeyCode.E))
+        _singleCooldown -= Time.deltaTime;
+        _clusterCooldown -= Time.deltaTime;
+        _targetingClusterCooldown -= Time.deltaTime;
+
+        if (_singleCooldown <= 0f)
+        {
             SpawnRandomAsteroid();
+            _singleCooldown = Random.Range(spawningIntervalSingle.x, spawningIntervalSingle.y);
+        }
+        if (_clusterCooldown <= 0f)
+        {
+            SpawnRandomCluster();
+            _clusterCooldown = Random.Range(spawningIntervalCluster.x, spawningIntervalCluster.y);
+        }
+        if (_targetingClusterCooldown <= 0f)
+        {
+            SpawnTargetingCluster();
+            _targetingClusterCooldown = Random.Range(spawningIntervalTargetingCluster.x, spawningIntervalTargetingCluster.y);
+        }
     }
 
-    public void SpawnRandomCluster()
+    private void SpawnRandomCluster()
     {
-        int randomAmount = Random.Range(minAmount, maxAmount);
+        int randomAmount = Random.Range(clusterSize.x, clusterSize.y);
         float randomDistribution = Random.Range(minDistribution, maxDistribution);
         SpawnRandomCluster(randomAmount, randomDistribution);
     }
 
-    public void SpawnRandomAsteroid()
+    private void SpawnRandomAsteroid()
     {
         SpawnRandomCluster(1, 0f);
     }
@@ -44,7 +71,7 @@ public class AsteroidSpawner : MonoBehaviour
 
         Vector2 randomScreenPosition = new Vector2(Random.Range(0, _mainCamera.pixelWidth),
             Random.Range(0, _mainCamera.pixelHeight));
-        if (Random.value > 0.5f)
+        if (Random.value > (float) _mainCamera.pixelWidth / (_mainCamera.pixelWidth + _mainCamera.pixelHeight))
             randomScreenPosition.x = Random.value > 0.5f ? 0 : _mainCamera.pixelWidth;
         else
             randomScreenPosition.y = Random.value > 0.5f ? 0 : _mainCamera.pixelHeight;
@@ -56,10 +83,31 @@ public class AsteroidSpawner : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(randomPosition - cachedPosition);
         rotation *= Quaternion.Euler(Vector3.right * Random.Range(-maxAngleOffset, maxAngleOffset));
 
-        SpawnCluster(randomPosition, rotation, amount, distribution);
+        float speed = Random.Range(asteroidSpeed.x, asteroidSpeed.y);
+
+        SpawnCluster(randomPosition, rotation, amount, distribution, speed);
     }
 
-    private void SpawnCluster(Vector3 clusterPosition, Quaternion rotation, int amount, float distribution)
+    private void SpawnTargetingCluster()
+    {
+        Vector3 shipPosition = transform.position;
+        Vector3 cameraPosition = _mainCamera.ScreenToWorldPoint(Vector3.zero);
+        cameraPosition.z = 0;
+
+        float distance = Vector3.Distance(shipPosition, cameraPosition);
+        Vector3 position = shipPosition + transform.TransformDirection(Vector3.up * distance);
+
+        Quaternion rotation = Quaternion.LookRotation(position - shipPosition);
+
+        int amount = Random.Range(targetingClusterSize.x, targetingClusterSize.y);
+
+        float speed = Random.Range(asteroidSpeed.x, asteroidSpeed.y);
+
+        SpawnCluster(position, rotation, amount, targetingClusterDistribution, speed);
+    }
+
+    // ReSharper disable Unity.PerformanceAnalysis
+    private void SpawnCluster(Vector3 clusterPosition, Quaternion rotation, int amount, float distribution, float speed)
     {
         Vector3 cachedPosition = transform.position;
 
@@ -68,7 +116,9 @@ public class AsteroidSpawner : MonoBehaviour
             Vector3 position = clusterPosition + Random.insideUnitSphere * distribution;
             position.z = cachedPosition.z;
 
-            Instantiate(asteroidPrefab, position, rotation);
+            Asteroid asteroidScript = Instantiate(asteroidPrefab, position, rotation).GetComponent<Asteroid>();
+
+            asteroidScript.SetSpeed(speed, speedMultiplier);
         }
     }
 }
