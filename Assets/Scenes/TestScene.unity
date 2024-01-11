@@ -221,7 +221,6 @@ MonoBehaviour:
   shootPointOffset: {x: 0, y: 3.9, z: 0}
   shootPointOffsett: {x: 0, y: 0, z: 0}
   shootCooldownSec: 0.2
-  statistics: {fileID: 796450522}
   startHealth: 5
   doubleShotCooldownMilliSec: 75
 --- !u!64 &598448386
@@ -315,7 +314,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 6.17, y: 6.07, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &796450520
 GameObject:
@@ -328,7 +327,6 @@ GameObject:
   - component: {fileID: 796450521}
   - component: {fileID: 796450524}
   - component: {fileID: 796450523}
-  - component: {fileID: 796450522}
   m_Layer: 5
   m_Name: Statistics
   m_TagString: Untagged
@@ -355,18 +353,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &796450522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 796450520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 852614b5f643484088b388dbf146baf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &796450523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,9 +587,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1256614732}
   - component: {fileID: 1256614731}
+  - component: {fileID: 1256614733}
   m_Layer: 0
-  m_Name: AbilitySpawner
-  m_TagString: AbSp
+  m_Name: Scripts
+  m_TagString: Scripts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -636,6 +623,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1256614733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256614730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 852614b5f643484088b388dbf146baf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StatCanvas: {fileID: 796450520}
 --- !u!1 &1326298233
 GameObject:
   m_ObjectHideFlags: 0
