@@ -1,17 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class AbilityScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private GameObject abilityCanvas;
     private Camera _mainCamera;
     private StatisticsDisplay statistics;
     [SerializeField] private GameObject AbilityGameObjectPrefab;
+    public bool currentlySelecting;//dont allow colliding w/ abilities while selecting
 
     void Start()
     {
+        currentlySelecting = false;
+        abilityCanvas.SetActive(false);
         _mainCamera = Camera.main;
 
         GameObject scripts = GameObject.FindGameObjectWithTag("Scripts");
@@ -32,11 +36,34 @@ public class AbilityScript : MonoBehaviour
 
         Instantiate(AbilityGameObjectPrefab, pos, Quaternion.identity);
     }
-    public void doubleShot(){
-        PlayerBehaviour.doubleShot = true;
+    public void pickedUpAbility(){
+        abilityCanvas.SetActive(true);
+        currentlySelecting = true;
+        StartCoroutine(waitForKeyPress());
     }
-    public void Shield(int numHitsAbsorbed){
+    private void multiShot(){
+        PlayerBehaviour.multiShot++;
+        abilityCanvas.SetActive(false);
+        currentlySelecting = false;
+    }
+    private void Shield(int numHitsAbsorbed){
         PlayerBehaviour.shieldHealth += numHitsAbsorbed;
         statistics.SetStatistic(StatisticsDisplay.Statistics.SHIELD, PlayerBehaviour.shieldHealth);
+        abilityCanvas.SetActive(false);
+        currentlySelecting = false;
+    }
+
+    private IEnumerator waitForKeyPress(){
+        while(true){
+            if (Input.GetKeyDown("f")){
+                multiShot();
+                break;
+            }
+            else if(Input.GetKeyDown("g")){
+                Shield(3);
+                break;
+            }
+            else yield return null;
+        }
     }
 }

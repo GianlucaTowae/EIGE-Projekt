@@ -29,11 +29,11 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private Vector3 shootPointOffsett;
     [SerializeField] private float shootCooldownSec;
     [SerializeField] private int startHealth = 5;
-    [SerializeField] private int doubleShotCooldownMilliSec = 75;
+    [SerializeField] private float multiShotCooldownMilliSec = 62.5f;
     private int _health;
     #endregion
 
-    public static bool doubleShot;
+    public static int multiShot;
     public static int shieldHealth;
 
     private float _inputHorizontal, _inputVertical;
@@ -54,7 +54,7 @@ public class PlayerBehaviour : MonoBehaviour
     }
     void Awake()
     {
-        doubleShot = false;
+        multiShot = 0;
         shieldHealth = 0;
         
         _rigidbody = GetComponent<Rigidbody>();
@@ -101,26 +101,28 @@ public class PlayerBehaviour : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(cannon.transform.position + shootPointOffset, 0.2f);
     }
-    private bool secondShot;
+    private bool multiShotFire;
     private void Shoot()
     {
-        if (!secondShot&&currentShootCooldown > 0) return;
+        if (!multiShotFire&&currentShootCooldown > 0) return;
         currentShootCooldown = shootCooldownSec;
         // TODO: Sound
         Transform cachedTransform = cannon.transform;
         Vector3 position = cachedTransform.position +
                            cachedTransform.TransformDirection(shootPointOffset + Vector3.up * _halfProjectileHeight);
         Instantiate(projectilePrefab, position, cachedTransform.rotation);
-        if (doubleShot && !secondShot){
-            StartCoroutine(waitAndShoot(doubleShotCooldownMilliSec));
+        if (!multiShotFire){
+            StartCoroutine(waitAndShoot(multiShotCooldownMilliSec));
         }
     }
-    private IEnumerator waitAndShoot(int milliSeconds)
+    private IEnumerator waitAndShoot(float milliSeconds)
     {
-        yield return new WaitForSeconds((float) milliSeconds / 1000);
-        secondShot = true;
-        Shoot();
-        secondShot = false;
+        multiShotFire = true;
+        for (int i = 0; i < multiShot; i++){
+            yield return new WaitForSeconds((float) milliSeconds / 1000);
+            Shoot();
+        }
+        multiShotFire = false;
         
     }
     
@@ -154,8 +156,9 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if(other.CompareTag("PlayerProjectile")) return;
         if(other.CompareTag("Ability")){
+            if (_abilityScript.currentlySelecting) return;//check seperat vom if dadrüber, weil sonst das else leben abzieht
             Destroy(other.gameObject);
-            _abilityScript.Shield(5);
+            _abilityScript.pickedUpAbility();
         }
         else
         {
