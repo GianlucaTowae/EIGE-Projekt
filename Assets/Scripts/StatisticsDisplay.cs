@@ -40,7 +40,6 @@ public class StatisticsDisplay : MonoBehaviour
 
     public void SetStatistic(Statistics type, int value)
     {
-        Debug.Log("222222");
         _values[type] = value;
         UpdateDisplayText();
     }
