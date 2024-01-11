@@ -221,6 +221,8 @@ MonoBehaviour:
   shootPointOffset: {x: 0, y: 3.9, z: 0}
   statistics: {fileID: 796450522}
   startHealth: 5
+  shootPointOffsett: {x: 0, y: 0, z: 0}
+  shootCooldownSec: 0.2
 --- !u!64 &598448386
 MeshCollider:
   m_ObjectHideFlags: 0

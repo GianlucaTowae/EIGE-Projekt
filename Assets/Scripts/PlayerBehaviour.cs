@@ -27,6 +27,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private GameObject cannon;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Vector3 shootPointOffset;
+    [SerializeField] private Vector3 shootPointOffsett;
+    [SerializeField] private float shootCooldownSec;
 
     [SerializeField] private StatisticsDisplay statistics;
     [SerializeField] private int startHealth = 5;
@@ -44,6 +46,7 @@ public class PlayerBehaviour : MonoBehaviour
     private float _halfProjectileHeight;
 
     private Rigidbody _rigidbody;
+    private float currentShootCooldown;
 
     void Awake()
     {
@@ -59,6 +62,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+        currentShootCooldown -= Time.deltaTime;
         // Inputs
         _inputHorizontal = Input.GetAxis(controls.horizontalAxis);
         _inputVertical = Input.GetAxis(controls.verticalAxis);
@@ -98,13 +102,15 @@ public class PlayerBehaviour : MonoBehaviour
     private bool secondShot;
     private void Shoot()
     {
+        if (!secondShot&&currentShootCooldown > 0) return;
+        currentShootCooldown = shootCooldownSec;
         // TODO: Sound
         Transform cachedTransform = cannon.transform;
         Vector3 position = cachedTransform.position +
                            cachedTransform.TransformDirection(shootPointOffset + Vector3.up * _halfProjectileHeight);
         Instantiate(projectilePrefab, position, cachedTransform.rotation);
         if (doubleShot && !secondShot){
-            StartCoroutine(waitAnsShoot(200));
+            StartCoroutine(waitAnsShoot(100));
         }
     }
     private IEnumerator waitAnsShoot(int milliSeconds)
