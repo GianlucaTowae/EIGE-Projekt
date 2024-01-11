@@ -61,8 +61,12 @@ public class StatisticsDisplay : MonoBehaviour
 
         sb.Append(nameof(Statistics.HEALTH).ToLower().FirstCharacterToUpper());
         sb.Append(": ");
-        sb.Append(new String('\u2665', _values[Statistics.HEALTH]));
+        for (int i = 0; i <  _values[Statistics.HEALTH]; i++)
+        {
+            sb.Append('\u2665');
+        }
         sb.AppendLine();
+
         if(_values[Statistics.SHIELD] > 0){
             sb.Append(nameof(Statistics.SHIELD).ToLower().FirstCharacterToUpper());
             sb.Append(": ");

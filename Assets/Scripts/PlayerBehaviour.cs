@@ -130,7 +130,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void IncreaseSpeed(float percentage)
     {
         movementSettings.speedMultiplier += percentage;
-        statistics.SetStatistic(StatisticsDisplay.Statistics.SPEED, (int) movementSettings.speedMultiplier * 100);
+        statistics.SetStatistic(StatisticsDisplay.Statistics.SPEED, (int) Math.Round(movementSettings.speedMultiplier * 100));
     }
 
     public void SetHealth(int amount)
@@ -148,6 +148,8 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else{
             _health--;
+            if (_health <= 0)
+                LoseGame();
             statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
         }
     }
@@ -163,8 +165,6 @@ public class PlayerBehaviour : MonoBehaviour
         else
         {
             DecreaseHealth();
-            if (_health <= 0)
-                LoseGame();
         }
     }
 
