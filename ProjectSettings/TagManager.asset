@@ -6,6 +6,8 @@ TagManager:
   tags:
   - PlayerProjectile
   - Destroyable
+  - AbSp
+  - Ability
   layers:
   - Default
   - TransparentFX

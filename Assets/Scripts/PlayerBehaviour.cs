@@ -1,6 +1,7 @@
 using System;
+using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
-
 public class PlayerBehaviour : MonoBehaviour
 {
     #region Serialized
@@ -25,6 +26,10 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private Vector3 shootPointOffset;
     #endregion
 
+    private GameObject _abilityScript;
+
+    public static bool doubleShot;
+
     private float _inputHorizontal, _inputVertical;
     private bool _inputShoot;
     private Vector3 _mousePos;
@@ -35,6 +40,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Awake()
     {
+        doubleShot = false;
+
+        _abilityScript = GameObject.FindGameObjectWithTag("AbSp"); //das wirkt dumm
+        _abilityScript.GetComponent<AbilityScript>().lalalla(); //this is tmp
+        
         _rigidbody = GetComponent<Rigidbody>();
         _halfProjectileHeight = projectilePrefab.GetComponent<Renderer>().bounds.size.y / 2;
     }
@@ -77,7 +87,7 @@ public class PlayerBehaviour : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(cannon.transform.position + shootPointOffset, 0.2f);
     }
-
+    private bool secondShot;
     private void Shoot()
     {
         // TODO: Sound
@@ -85,12 +95,32 @@ public class PlayerBehaviour : MonoBehaviour
         Vector3 position = cachedTransform.position +
                            cachedTransform.TransformDirection(shootPointOffset + Vector3.up * _halfProjectileHeight);
         Instantiate(projectilePrefab, position, cachedTransform.rotation);
+        if (doubleShot && !secondShot){
+            StartCoroutine(waitAnsShoot(200));
+        }
     }
+    private IEnumerator waitAnsShoot(int milliSeconds)
+    {
+        yield return new WaitForSeconds((float) milliSeconds / 1000);
+        secondShot = true;
+        Shoot();
+        secondShot = false;
+        
+    }
+    
 
 
     public float SpeedMultiplier
     {
         get => movementSettings.speedMultiplier;
         set => movementSettings.speedMultiplier = value;
+    }
+
+    void OnTriggerEnter(Collider other){
+        if(other.CompareTag("Ability")){
+            Debug.Log("kjshdfsdjkhf");
+            Destroy(other.gameObject);
+            _abilityScript.GetComponent<AbilityScript>().doubleShot();
+        }
     }
 }
