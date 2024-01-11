@@ -10,11 +10,13 @@ public class Asteroid : MonoBehaviour
     private float _currentLifetTime = 0f;
     [SerializeField] private float maxLifeTime = 10f;
     private Renderer _renderer;
+    private Rigidbody _rigidbody;
 
     void Start()
     {
         _speedBase = Random.Range(minSpeed, maxSpeed);
         _renderer = GetComponent<Renderer>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -27,6 +29,21 @@ public class Asteroid : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        transform.Translate(Vector3.back * (_speedBase * speedMultiplier * Time.deltaTime));
+    }
+
+    private void FixedUpdate()
+    {
+        _rigidbody.velocity = transform.TransformDirection(Vector3.back * (_speedBase * speedMultiplier));
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Asteroid"))
+            Explode();
+    }
+
+    private void Explode()
+    {
+        Destroy(gameObject);
     }
 }

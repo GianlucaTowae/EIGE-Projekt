@@ -19,11 +19,10 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) 
     {
-        if(other.CompareTag("Destroyable"))
+        if(other.CompareTag("Asteroid"))
         {
             Destroy(gameObject);
-            Destroy(other.gameObject);
-            //increase score/xp
+            // TODO: increase score/xp
         }
     }
 }

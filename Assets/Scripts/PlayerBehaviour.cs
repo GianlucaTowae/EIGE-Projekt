@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+
 public class PlayerBehaviour : MonoBehaviour
 {
     #region Serialized
@@ -24,6 +27,10 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private GameObject cannon;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Vector3 shootPointOffset;
+
+    [SerializeField] private StatisticsDisplay statistics;
+    [SerializeField] private int startHealth = 5;
+    private int _health;
     #endregion
 
     private GameObject _abilityScript;
@@ -47,6 +54,7 @@ public class PlayerBehaviour : MonoBehaviour
         
         _rigidbody = GetComponent<Rigidbody>();
         _halfProjectileHeight = projectilePrefab.GetComponent<Renderer>().bounds.size.y / 2;
+        _health = startHealth;
     }
 
     void Update()
@@ -109,18 +117,41 @@ public class PlayerBehaviour : MonoBehaviour
     }
     
 
-
-    public float SpeedMultiplier
+    public void IncreaseSpeed(float percentage)
     {
-        get => movementSettings.speedMultiplier;
-        set => movementSettings.speedMultiplier = value;
+        movementSettings.speedMultiplier += percentage;
+        statistics.SetStatistic(StatisticsDisplay.Statistics.SPEED, (int) movementSettings.speedMultiplier * 100);
     }
 
-    void OnTriggerEnter(Collider other){
+    public void SetHealth(int amount)
+    {
+        _health = amount;
+        statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
+    }
+
+    public void DecreaseHealth()
+    {
+        _health--;
+        statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
         if(other.CompareTag("Ability")){
             Debug.Log("kjshdfsdjkhf");
             Destroy(other.gameObject);
             _abilityScript.GetComponent<AbilityScript>().doubleShot();
         }
+        else
+        {
+            DecreaseHealth();
+            if (_health <= 0)
+                LoseGame();
+        }
+    }
+
+    private void LoseGame()
+    {
+        SceneManager.LoadScene(2);
     }
 }

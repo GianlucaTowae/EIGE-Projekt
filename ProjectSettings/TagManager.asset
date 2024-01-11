@@ -5,9 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlayerProjectile
-  - Destroyable
   - AbSp
   - Ability
+  - Asteroid
   layers:
   - Default
   - TransparentFX

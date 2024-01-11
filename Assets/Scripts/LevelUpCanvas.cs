@@ -19,13 +19,11 @@ public class LevelUpCanvas : MonoBehaviour
     [SerializeField] private int amountOfOptions = 3;
     [SerializeField] private float padding;
 
-    private Canvas _canvas;
+    private GameObject _stripe;
     private GameObject[] _options;
 
     private void Awake()
     {
-        _canvas = GetComponent<Canvas>();
-
         RectTransform stripeTransform = GetComponentsInChildren<RectTransform>()[1];
         Vector3 postion = stripeTransform.position;
         Rect chachedRect = stripeTransform.rect;
@@ -43,7 +41,8 @@ public class LevelUpCanvas : MonoBehaviour
             postion.x += 0.5f * prefabWidth;
         }
 
-        _canvas.enabled = false;
+        _stripe = stripeTransform.gameObject;
+        Hide();
     }
 
     private void Update()
@@ -55,7 +54,7 @@ public class LevelUpCanvas : MonoBehaviour
 
     private void Toggle()
     {
-        if (_canvas.enabled)
+        if (_stripe.activeSelf)
             Hide();
         else
             Show();
@@ -63,7 +62,11 @@ public class LevelUpCanvas : MonoBehaviour
 
     private void Hide()
     {
-        _canvas.enabled = false;
+        foreach (GameObject obj in _options)
+        {
+            obj.SetActive(false);
+        }
+        _stripe.SetActive(false);
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
@@ -82,7 +85,11 @@ public class LevelUpCanvas : MonoBehaviour
             option.GetComponent<Button>().onClick.AddListener(delegate { Hide(); });
         }
 
-        _canvas.enabled = true;
+        foreach (GameObject obj in _options)
+        {
+            obj.SetActive(true);
+        }
+        _stripe.SetActive(true);
     }
 
     // for testing
