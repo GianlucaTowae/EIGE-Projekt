@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -29,15 +28,13 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private Vector3 shootPointOffset;
     [SerializeField] private Vector3 shootPointOffsett;
     [SerializeField] private float shootCooldownSec;
-
-    [SerializeField] private StatisticsDisplay statistics;
     [SerializeField] private int startHealth = 5;
+    [SerializeField] private int doubleShotCooldownMilliSec = 75;
     private int _health;
     #endregion
 
-    private GameObject _abilityScript;
-
     public static bool doubleShot;
+    public static int shieldHealth;
 
     private float _inputHorizontal, _inputVertical;
     private bool _inputShoot;
@@ -47,13 +44,18 @@ public class PlayerBehaviour : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private float currentShootCooldown;
+    private AbilityScript _abilityScript;
+    private StatisticsDisplay statistics;
 
+    void Start(){
+        GameObject scripts = GameObject.FindGameObjectWithTag("Scripts");
+        _abilityScript = scripts.GetComponent<AbilityScript>();
+        statistics = scripts.GetComponent<StatisticsDisplay>();
+    }
     void Awake()
     {
         doubleShot = false;
-
-        _abilityScript = GameObject.FindGameObjectWithTag("AbSp"); //das wirkt dumm
-        _abilityScript.GetComponent<AbilityScript>().lalalla(); //this is tmp
+        shieldHealth = 0;
         
         _rigidbody = GetComponent<Rigidbody>();
         _halfProjectileHeight = projectilePrefab.GetComponent<Renderer>().bounds.size.y / 2;
@@ -110,10 +112,10 @@ public class PlayerBehaviour : MonoBehaviour
                            cachedTransform.TransformDirection(shootPointOffset + Vector3.up * _halfProjectileHeight);
         Instantiate(projectilePrefab, position, cachedTransform.rotation);
         if (doubleShot && !secondShot){
-            StartCoroutine(waitAnsShoot(100));
+            StartCoroutine(waitAndShoot(doubleShotCooldownMilliSec));
         }
     }
-    private IEnumerator waitAnsShoot(int milliSeconds)
+    private IEnumerator waitAndShoot(int milliSeconds)
     {
         yield return new WaitForSeconds((float) milliSeconds / 1000);
         secondShot = true;
@@ -137,16 +139,23 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void DecreaseHealth()
     {
-        _health--;
-        statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
+        
+        if (shieldHealth > 0){
+            shieldHealth--;
+            statistics.SetStatistic(StatisticsDisplay.Statistics.SHIELD, shieldHealth);
+        }
+        else{
+            _health--;
+            statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.CompareTag("PlayerProjectile")) return;
         if(other.CompareTag("Ability")){
-            Debug.Log("kjshdfsdjkhf");
             Destroy(other.gameObject);
-            _abilityScript.GetComponent<AbilityScript>().doubleShot();
+            _abilityScript.Shield(5);
         }
         else
         {

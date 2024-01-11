@@ -7,11 +7,15 @@ public class AbilityScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private Camera _mainCamera;
+    private StatisticsDisplay statistics;
     [SerializeField] private GameObject AbilityGameObjectPrefab;
 
     void Start()
     {
         _mainCamera = Camera.main;
+
+        GameObject scripts = GameObject.FindGameObjectWithTag("Scripts");
+        statistics = scripts.GetComponent<StatisticsDisplay>();
     }
 
     // Update is called once per frame
@@ -28,10 +32,11 @@ public class AbilityScript : MonoBehaviour
 
         Instantiate(AbilityGameObjectPrefab, pos, Quaternion.identity);
     }
-    public void lalalla(){
-        Debug.Log("YOOOOO");//tmp
-    }
     public void doubleShot(){
         PlayerBehaviour.doubleShot = true;
+    }
+    public void Shield(int numHitsAbsorbed){
+        PlayerBehaviour.shieldHealth += numHitsAbsorbed;
+        statistics.SetStatistic(StatisticsDisplay.Statistics.SHIELD, PlayerBehaviour.shieldHealth);
     }
 }

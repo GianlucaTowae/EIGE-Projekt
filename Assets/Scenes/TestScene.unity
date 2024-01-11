@@ -219,10 +219,11 @@ MonoBehaviour:
   cannon: {fileID: 2029052352}
   projectilePrefab: {fileID: 7879199403385778015, guid: 2ac7a42d99295df499d48a3f2d4db940, type: 3}
   shootPointOffset: {x: 0, y: 3.9, z: 0}
-  statistics: {fileID: 796450522}
-  startHealth: 5
   shootPointOffsett: {x: 0, y: 0, z: 0}
   shootCooldownSec: 0.2
+  statistics: {fileID: 796450522}
+  startHealth: 5
+  doubleShotCooldownMilliSec: 75
 --- !u!64 &598448386
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -238,7 +239,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 5
@@ -310,7 +311,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

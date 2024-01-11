@@ -7,11 +7,13 @@ using UnityEngine;
 
 public class StatisticsDisplay : MonoBehaviour
 {
+    [SerializeField] private GameObject StatCanvas;
     public enum Statistics
     {
         HEALTH,
         DAMAGE,
-        SPEED
+        SPEED,
+        SHIELD,
     }
 
     private Dictionary<Statistics, int> _values;
@@ -20,12 +22,13 @@ public class StatisticsDisplay : MonoBehaviour
 
     private void Awake()
     {
-        _textField = GetComponent<TMP_Text>();
+        _textField = StatCanvas.GetComponent<TMP_Text>();
         _values = new Dictionary<Statistics, int>
         {
             { Statistics.SPEED, 100 },
             { Statistics.DAMAGE, 100 },
-            { Statistics.HEALTH, 5 }
+            { Statistics.HEALTH, 5 },
+            { Statistics.SHIELD, 0},
         };
         UpdateDisplayText();
     }
@@ -37,6 +40,7 @@ public class StatisticsDisplay : MonoBehaviour
 
     public void SetStatistic(Statistics type, int value)
     {
+        Debug.Log("222222");
         _values[type] = value;
         UpdateDisplayText();
     }
@@ -60,6 +64,12 @@ public class StatisticsDisplay : MonoBehaviour
         sb.Append(": ");
         sb.Append(new String('\u2665', _values[Statistics.HEALTH]));
         sb.AppendLine();
+        if(_values[Statistics.SHIELD] > 0){
+            sb.Append(nameof(Statistics.SHIELD).ToLower().FirstCharacterToUpper());
+            sb.Append(": ");
+            sb.Append(new String('\u2665', _values[Statistics.SHIELD]));
+            sb.AppendLine();
+        }
 
         return sb.ToString();
     }
