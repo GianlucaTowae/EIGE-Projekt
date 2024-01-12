@@ -74,7 +74,6 @@ public class PlayerBehaviour : MonoBehaviour
         // Cannon Rotation
         _mousePos.z = cannon.transform.position.z;
         cannon.transform.LookAt(_mousePos);
-        cannon.transform.Rotate(Vector3.right * 90f);
 
         // Shoot Projectile
         if (_inputShoot)
@@ -108,6 +107,7 @@ public class PlayerBehaviour : MonoBehaviour
         currentShootCooldown = shootCooldownSec;
         // TODO: Sound
         Transform cachedTransform = cannon.transform;
+        cachedTransform.Rotate(90f, 0f, 0f);
         Vector3 position = cachedTransform.position +
                            cachedTransform.TransformDirection(shootPointOffset + Vector3.up * _halfProjectileHeight);
         Instantiate(projectilePrefab, position, cachedTransform.rotation);
