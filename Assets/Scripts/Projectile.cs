@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float speedMultiplier= 1f;
     [SerializeField] private float damageBase = 1f;
     [SerializeField] private float damageMultiplier= 1f;
+    [SerializeField] private ParticleSystem explosion;
 
     void Update()
     {
@@ -22,6 +23,7 @@ public class Projectile : MonoBehaviour
         if(other.CompareTag("Asteroid"))
         {
             Destroy(gameObject);
+            Instantiate(explosion, other.transform.position, Quaternion.identity);
             // TODO: increase score/xp
         }
     }

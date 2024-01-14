@@ -124,3 +124,4 @@ MonoBehaviour:
   speedMultiplier: 1
   damageBase: 1
   damageMultiplier: 1
+  explosion: {fileID: 235758606614901165, guid: 0848318ec4b66fd48a95e7a774ad4d8f, type: 3}
