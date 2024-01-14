@@ -94,7 +94,7 @@ public class AsteroidSpawner : MonoBehaviour
         Vector3 cameraPosition = _mainCamera.ScreenToWorldPoint(Vector3.zero);
         cameraPosition.z = 0;
 
-        float distance = Vector3.Distance(shipPosition, cameraPosition);
+        float distance = Vector3.Distance(shipPosition, cameraPosition)  + targetingClusterDistribution + _halfAsteroidWidth;
         Vector3 position = shipPosition + transform.TransformDirection(Vector3.up * distance);
 
         Quaternion rotation = Quaternion.LookRotation(position - shipPosition);
