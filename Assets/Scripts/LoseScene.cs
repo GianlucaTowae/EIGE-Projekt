@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +14,7 @@ public class LoseScene : MonoBehaviour
     void Update()
     {
         if (_waited && Input.GetKeyDown(KeyCode.Space))
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("StartScene");
     }
 
     private IEnumerator WaitTime()

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class PlayerBehaviour : MonoBehaviour
         public string horizontalAxis = "Horizontal";
         public string verticalAxis = "Vertical";
         public KeyCode shootKey = KeyCode.Space;
+        public KeyCode shootKey2 = KeyCode.Mouse0;
     }
     [SerializeField] private Controls controls;
 
@@ -68,7 +68,7 @@ public class PlayerBehaviour : MonoBehaviour
         // Inputs
         _inputHorizontal = Input.GetAxis(controls.horizontalAxis);
         _inputVertical = Input.GetAxis(controls.verticalAxis);
-        _inputShoot = Input.GetKeyDown(controls.shootKey);
+        _inputShoot = Input.GetKeyDown(controls.shootKey) || Input.GetKeyDown(controls.shootKey2);
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         // Cannon Rotation
@@ -115,6 +115,7 @@ public class PlayerBehaviour : MonoBehaviour
             StartCoroutine(waitAndShoot(multiShotCooldownMilliSec));
         }
     }
+
     private IEnumerator waitAndShoot(float milliSeconds)
     {
         multiShotFire = true;
@@ -125,7 +126,6 @@ public class PlayerBehaviour : MonoBehaviour
         multiShotFire = false;
         
     }
-    
 
     public void IncreaseSpeed(float percentage)
     {
@@ -170,6 +170,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void LoseGame()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene("LoseScene");
     }
 }

@@ -42,6 +42,23 @@ public class StatisticsDisplay : MonoBehaviour
     {
         _values[type] = value;
         UpdateDisplayText();
+        switch (type)
+        {
+            case Statistics.HEALTH:
+                StaticValues.health = value;
+                break;
+            case Statistics.DAMAGE:
+                StaticValues.damage = value;
+                break;
+            case Statistics.SPEED:
+                StaticValues.speed = value;
+                break;
+            case Statistics.SHIELD:
+                StaticValues.shield = value;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(type), type, null);
+        }
     }
 
     public override string ToString()
