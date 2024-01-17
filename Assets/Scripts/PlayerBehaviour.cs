@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -37,9 +39,15 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private ParticleSystem exhaustLeft;
     [SerializeField] private ParticleSystem exhaustRight;
 
+    [SerializeField] private RectTransform xpBarTransform;
+    [SerializeField] private TMP_Text scoreLevelLabel;
+    [SerializeField] private LevelUpPopup levelUpPopup;
+    [SerializeField] private int xpNeededPerLevel = 20;
     [SerializeField] private int startHealth = 5;
     #endregion
 
+    private int _score;
+    private int _level;
     private int _health;
     public static int shieldHealth;
 
@@ -130,9 +138,9 @@ public class PlayerBehaviour : MonoBehaviour
         else
         {
             DecreaseHealth();
+            Destroy(other.gameObject);
         }
     }
-
 
     private bool multiShotFire;
     private void Shoot()
@@ -185,6 +193,20 @@ public class PlayerBehaviour : MonoBehaviour
             if (_health <= 0)
                 LoseGame();
             _statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
+        }
+    }
+
+    public void IncreaseScore(int amount)
+    {
+        _score += amount;
+        bool levelUp = _score / xpNeededPerLevel > 0;
+        _score %= xpNeededPerLevel;
+        xpBarTransform.localScale = new Vector3((float) _score / xpNeededPerLevel, 1f, 1f);
+        if (levelUp)
+        {
+            _level++;
+            scoreLevelLabel.text = _level.ToString();
+            levelUpPopup.Show();
         }
     }
 

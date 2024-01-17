@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 public class Asteroid : MonoBehaviour
 {
     [SerializeField] private float maxLifeTime = 10f;
+
     private float _currentLifeTime = 0f;
 
     private float _speedBase;
@@ -34,17 +35,6 @@ public class Asteroid : MonoBehaviour
     private void FixedUpdate()
     {
         _rigidbody.velocity = transform.TransformDirection(Vector3.back * (_speedBase * _speedMultiplier));
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Asteroid"))
-            Explode();
-    }
-
-    private void Explode()
-    {
-        Destroy(gameObject);
     }
 
     public void SetSpeed(float speed, float speedMultiplier)

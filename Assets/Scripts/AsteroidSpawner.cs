@@ -20,6 +20,7 @@ public class AsteroidSpawner : MonoBehaviour
     private float _singleCooldown, _clusterCooldown, _targetingClusterCooldown;
 
     [SerializeField] private GameObject asteroidPrefab;
+    [SerializeField] private GameObject interceptingEnemyPrefab;
 
     private float _halfAsteroidWidth;
     private Camera _mainCamera;
@@ -32,6 +33,13 @@ public class AsteroidSpawner : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+            Instantiate(interceptingEnemyPrefab, mousePos, Quaternion.identity);
+        }
+
         _singleCooldown -= Time.deltaTime;
         _clusterCooldown -= Time.deltaTime;
         _targetingClusterCooldown -= Time.deltaTime;

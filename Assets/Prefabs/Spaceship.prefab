@@ -543,6 +543,10 @@ MonoBehaviour:
     multiShotCooldownMilliSec: 62.5
   exhaustLeft: {fileID: 5330901724625697458}
   exhaustRight: {fileID: 7519456992286523075}
+  xpBarTransform: {fileID: 0}
+  scoreLevelLabel: {fileID: 0}
+  levelUpPopup: {fileID: 0}
+  xpNeededPerLevel: 20
   startHealth: 5
 --- !u!114 &5766351132109974640
 MonoBehaviour:
@@ -568,6 +572,7 @@ MonoBehaviour:
   spawningIntervalCluster: {x: 5, y: 7}
   spawningIntervalTargetingCluster: {x: 2, y: 4}
   asteroidPrefab: {fileID: 7848130990533232882, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
+  interceptingEnemyPrefab: {fileID: 4300808163934362815, guid: d4d5bd1a1def6cb4b927834339d45ed5, type: 3}
 --- !u!54 &6528837475284078956
 Rigidbody:
   m_ObjectHideFlags: 0

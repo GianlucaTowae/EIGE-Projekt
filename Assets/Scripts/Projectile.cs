@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    [SerializeField] private int asteroidXP = 1;
+
     [SerializeField] private float speedBase = 100f;
     [SerializeField] private float speedMultiplier= 1f;
     [SerializeField] private float damageBase = 1f;
@@ -24,7 +26,8 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
             Instantiate(explosion, other.transform.position, Quaternion.identity);
-            // TODO: increase score/xp
+            Destroy(other.gameObject);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(asteroidXP);
         }
     }
 }
