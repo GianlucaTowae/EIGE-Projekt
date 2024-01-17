@@ -44,6 +44,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private LevelUpPopup levelUpPopup;
     [SerializeField] private int xpNeededPerLevel = 20;
     [SerializeField] private int startHealth = 5;
+    [SerializeField] private StatisticsDisplay statistics;
+    [SerializeField] private AbilityScript _abilityScript;
     #endregion
 
     private int _score;
@@ -60,20 +62,14 @@ public class PlayerBehaviour : MonoBehaviour
     private Vector3 _mousePos;
 
     private Rigidbody _rigidbody;
-    private AbilityScript _abilityScript;
-    private StatisticsDisplay _statistics;
 
     void Awake()
     {
         multiShot = 0;
         shieldHealth = 0;
-
-        GameObject scripts = GameObject.FindGameObjectWithTag("Scripts");
         
         _rigidbody = GetComponent<Rigidbody>();
         _halfProjectileHeight = shooting.projectilePrefab.GetComponent<Renderer>().bounds.size.y / 2;
-        _abilityScript = scripts.GetComponent<AbilityScript>();
-        _statistics = scripts.GetComponent<StatisticsDisplay>();
         _health = startHealth;
     }
 
@@ -172,28 +168,29 @@ public class PlayerBehaviour : MonoBehaviour
     public void IncreaseSpeed(float percentage)
     {
         movementSettings.speedMultiplier += percentage;
-        _statistics.SetStatistic(StatisticsDisplay.Statistics.SPEED, (int) Math.Round(movementSettings.speedMultiplier * 100));
+        statistics.SetStatistic(StatisticsDisplay.Statistics.SPEED, (int) Math.Round(movementSettings.speedMultiplier * 100));
     }
 
     public void SetHealth(int amount)
     {
         _health = amount;
-        _statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
+        statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
     }
 
     public void DecreaseHealth()
     {
         
+        /*OLD:
         if (shieldHealth > 0){
             shieldHealth--;
-            _statistics.SetStatistic(StatisticsDisplay.Statistics.SHIELD, shieldHealth);
+            statistics.SetStatistic(StatisticsDisplay.Statistics.SHIELD, shieldHealth);
         }
-        else{
+        else{*/
             _health--;
             if (_health <= 0)
                 LoseGame();
-            _statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
-        }
+            statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
+        //}
     }
 
     public void IncreaseScore(int amount)

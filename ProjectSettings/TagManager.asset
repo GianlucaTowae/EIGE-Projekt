@@ -8,7 +8,7 @@ TagManager:
   - AbSp
   - Ability
   - Asteroid
-  - Scripts
+  - Statistic
   layers:
   - Default
   - TransparentFX

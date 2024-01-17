@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class AbilityScript : MonoBehaviour
 {
-    [SerializeField] private GameObject abilityCanvas;
     private Camera _mainCamera;
     private StatisticsDisplay statistics;
     [SerializeField] private GameObject AbilityGameObjectPrefab;
@@ -15,10 +14,10 @@ public class AbilityScript : MonoBehaviour
     void Start()
     {
         currentlySelecting = false;
-        abilityCanvas.SetActive(false);
+        //abilityCanvas.SetActive(false);
         _mainCamera = Camera.main;
 
-        GameObject scripts = GameObject.FindGameObjectWithTag("Scripts");
+        GameObject scripts = GameObject.FindGameObjectWithTag("Statistic");
         statistics = scripts.GetComponent<StatisticsDisplay>();
     }
 
@@ -37,19 +36,19 @@ public class AbilityScript : MonoBehaviour
         Instantiate(AbilityGameObjectPrefab, pos, Quaternion.identity);
     }
     public void pickedUpAbility(){
-        abilityCanvas.SetActive(true);
+        //abilityCanvas.SetActive(true);
         currentlySelecting = true;
         StartCoroutine(waitForKeyPress());
     }
     private void multiShot(){
         PlayerBehaviour.multiShot++;
-        abilityCanvas.SetActive(false);
+        //abilityCanvas.SetActive(false);
         currentlySelecting = false;
     }
     private void Shield(int numHitsAbsorbed){
         PlayerBehaviour.shieldHealth += numHitsAbsorbed;
-        statistics.SetStatistic(StatisticsDisplay.Statistics.SHIELD, PlayerBehaviour.shieldHealth);
-        abilityCanvas.SetActive(false);
+        // statistics.SetStatistic(StatisticsDisplay.Statistics.SHIELD, PlayerBehaviour.shieldHealth);
+        //abilityCanvas.SetActive(false);
         currentlySelecting = false;
     }
 
