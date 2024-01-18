@@ -6,22 +6,34 @@ using UnityEngine;
 
 public class AbilityScript : MonoBehaviour
 {
+    [SerializeField] private float respawnInvincibleDurationSec = 3f;
+    [SerializeField] private float shieldInvincibleDurationSec = 10f;
+    [SerializeField] private float piercingDurationSec = 5f;
+    [SerializeField] private float doubleShotDurationSec = 5f;
+    [SerializeField] private float doubleShotDelaySec = 0.2f;
+    [SerializeField] private float XPMultiplierDurationSec = 10f;
+    [SerializeField] private int XPMultiplierVal = 10;
+    [SerializeField] private float respawnBlinkingDelaySec = 0.1f;
+
+    
+    
+    //---
     private Camera _mainCamera;
-    private StatisticsDisplay statistics;
     [SerializeField] private GameObject AbilityGameObjectPrefab;
-    public bool currentlySelecting;//dont allow colliding w/ abilities while selecting
+    [SerializeField] private Projectile projectile;
+    private PlayerBehaviour player;
+    
 
-    void Start()
+    void Awake()
     {
-        currentlySelecting = false;
-        //abilityCanvas.SetActive(false);
-        _mainCamera = Camera.main;
+        player = GetComponentInParent<PlayerBehaviour>();
 
-        GameObject scripts = GameObject.FindGameObjectWithTag("Statistic");
-        statistics = scripts.GetComponent<StatisticsDisplay>();
+        player.blinkingDelay = this.respawnBlinkingDelaySec;
+        player.doubleShotDelay = this.doubleShotDelaySec;
+        player.respawnInvincibleDur = this.respawnInvincibleDurationSec;
+        _mainCamera = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -36,33 +48,59 @@ public class AbilityScript : MonoBehaviour
         Instantiate(AbilityGameObjectPrefab, pos, Quaternion.identity);
     }
     public void pickedUpAbility(){
+        //TODO if not already: pause all timers on levelpopup
+        guradianAngle();
         //abilityCanvas.SetActive(true);
-        currentlySelecting = true;
-        StartCoroutine(waitForKeyPress());
+        //currentlySelecting = true;
     }
-    private void multiShot(){
-        PlayerBehaviour.multiShot++;
-        //abilityCanvas.SetActive(false);
-        currentlySelecting = false;
-    }
-    private void Shield(int numHitsAbsorbed){
-        PlayerBehaviour.shieldHealth += numHitsAbsorbed;
-        // statistics.SetStatistic(StatisticsDisplay.Statistics.SHIELD, PlayerBehaviour.shieldHealth);
-        //abilityCanvas.SetActive(false);
-        currentlySelecting = false;
-    }
+    public void repairKit(){
+        //player.SetHealth(...)
+    }   
+    public void guradianAngle(){
+        player.res = true;
+    }   
+    public void shield(){
+        StartCoroutine(InvincibilityOnShield());
+    } 
+    public void piercingShots(){
+        StartCoroutine(PiercingDuration());
+    } 
+    public void searchingProjectiles(){
+        //TODO
+    } 
+    public void doubleShot(){
+        StartCoroutine(DoubleShotDuration());
+    } 
+    public void XPMultiplier(){
+        StartCoroutine(XPMultiplierDuration());
+    } 
+    public void sabotage(){
+        
+    } 
+    public void overcharge(){
 
-    private IEnumerator waitForKeyPress(){
-        while(true){
-            if (Input.GetKeyDown("f")){
-                multiShot();
-                break;
-            }
-            else if(Input.GetKeyDown("g")){
-                Shield(3);
-                break;
-            }
-            else yield return null;
-        }
+    }
+    private IEnumerator InvincibilityOnShield(){
+        player.invincible = true;
+        yield return new WaitForSeconds(shieldInvincibleDurationSec);
+        player.invincible = false;
+    }
+    private IEnumerator PiercingDuration()
+    {
+        projectile.piercing = true;
+        yield return new WaitForSeconds(piercingDurationSec);
+        projectile.piercing = false;
+    }
+    private IEnumerator DoubleShotDuration()
+    {
+        player.doubleShot = true;
+        yield return new WaitForSeconds(piercingDurationSec);
+        player.doubleShot = false;
+    }
+    private IEnumerator XPMultiplierDuration()
+    {
+        player.XPMultiplier = this.XPMultiplierVal;
+        yield return new WaitForSeconds(XPMultiplierDurationSec);
+        player.XPMultiplier = 1;
     }
 }

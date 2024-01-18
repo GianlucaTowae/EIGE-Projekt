@@ -371,8 +371,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 614e7d462623f489eaadb6905f82a9d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawnInvincibleDurationSec: 5
+  shieldInvincibleDurationSec: 10
+  piercingDurationSec: 10
+  doubleShotDurationSec: 5
+  doubleShotDelaySec: 0.085
+  XPMultiplierDurationSec: 10
+  XPMultiplierVal: 10
   AbilityGameObjectPrefab: {fileID: 6996250151499186873, guid: f8b68a0aa8bf945db9ea95ab6d2a645b, type: 3}
-  currentlySelecting: 0
+  projectile: {fileID: 1118582059033922905, guid: 2ac7a42d99295df499d48a3f2d4db940, type: 3}
 --- !u!1 &796450520
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,6 +1330,10 @@ PrefabInstance:
     - target: {fileID: 7615548928418279767, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: m_Name
       value: Spaceship
+      objectReference: {fileID: 0}
+    - target: {fileID: 7615548928418279767, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
