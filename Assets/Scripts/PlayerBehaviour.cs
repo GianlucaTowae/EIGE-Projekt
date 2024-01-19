@@ -33,9 +33,11 @@ public class PlayerBehaviour : MonoBehaviour
     {
         public GameObject cannon;
         public GameObject projectilePrefab;
+        public ParticleSystem shootingBurst;
         public Vector3 shootPointOffset;
         public float shootCooldownSec = 0.2f;
-        public ParticleSystem shootingBurst;
+        public float damageBase = 1f;
+        public float damageMultiplier = 1f;
     }
     [SerializeField] private Shooting shooting;
 
@@ -53,6 +55,7 @@ public class PlayerBehaviour : MonoBehaviour
     private int _score;
     private int _level;
     private int _health;
+    private int _maxHealth;
     private float currentShootCooldown;
     private float _halfProjectileHeight;
 
@@ -84,7 +87,7 @@ public class PlayerBehaviour : MonoBehaviour
         
         _halfProjectileHeight = shooting.projectilePrefab.GetComponent<Renderer>().bounds.size.y / 2;
 
-        _health = startHealth;
+        _health = _maxHealth = startHealth;
         shooting.shootingBurst = shooting.cannon.GetComponentInChildren<ParticleSystem>();
 
         _rigidbody = GetComponent<Rigidbody>();
@@ -193,32 +196,19 @@ public class PlayerBehaviour : MonoBehaviour
         statistics.SetStatistic(StatisticsDisplay.Statistics.SPEED, (int) Math.Round(movementSettings.speedMultiplier * 100));
     }
 
-    public void SetHealth(int amount)
-    {
-        _health = amount;
-        statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
-    }
-
-    public void DecreaseHealth()
+    private void DecreaseHealth()
     {
         if (invincible) return;
-        /*OLD:
-        if (shieldHealth > 0){
-            shieldHealth--;
-            statistics.SetStatistic(StatisticsDisplay.Statistics.SHIELD, shieldHealth);
-        }
-        else{*/
-            _health--;
-            if (_health <= 0){
-                if (!res) LoseGame();
-                else{
-                    _health = 5; //TODO make it max health
-                    res = false;
-                    StartCoroutine(InvincibilityOnRes());
-                }
+        _health--;
+        if (_health <= 0){
+            if (!res) LoseGame();
+            else{
+                _health = _maxHealth;
+                res = false;
+                StartCoroutine(InvincibilityOnRes());
             }
-            statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
-        //}
+        }
+        statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
     }
 
     public void IncreaseScore(int amount)
@@ -272,5 +262,22 @@ public class PlayerBehaviour : MonoBehaviour
             invincible = false;
             yield break;
         }
+    }
+
+    public float DamageBase => shooting.damageBase;
+    public float DamageMultiplier => shooting.damageMultiplier;
+
+    public void IncreaseDamage(float amount)
+    {
+        shooting.damageMultiplier += amount;
+        statistics.SetStatistic(StatisticsDisplay.Statistics.DAMAGE, (int) Math.Round(movementSettings.speedMultiplier * 10));
+    }
+
+    public void IncreaseMaxHealth(int amount)
+    {
+        _maxHealth += amount;
+        statistics.SetStatistic(StatisticsDisplay.Statistics.MAX_HEALTH, _maxHealth);
+        _health += amount;
+        statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
     }
 }

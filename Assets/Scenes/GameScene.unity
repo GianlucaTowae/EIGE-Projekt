@@ -387,8 +387,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Statistics
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6c5c71e521da7384bb2983da684b80bf, type: 2}
+  m_sharedMaterial: {fileID: 2978216443195209875, guid: 6c5c71e521da7384bb2983da684b80bf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -812,43 +812,39 @@ MonoBehaviour:
             m_StringArgument: speeed
             m_BoolArgument: 0
           m_CallState: 2
-    probabilityFactor: 1
   - sprite: {fileID: 21300000, guid: 38571688cf7a58041a8e6acb7194cbfe, type: 3}
     action:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1326298238}
-          m_TargetAssemblyTypeName: LevelUpCanvas, Assembly-CSharp
-          m_MethodName: Say
-          m_Mode: 5
+        - m_Target: {fileID: 84221050008490754}
+          m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
+          m_MethodName: IncreaseDamage
+          m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
+            m_IntArgument: 2
+            m_FloatArgument: 0.2
             m_StringArgument: Damage
             m_BoolArgument: 0
           m_CallState: 2
-    probabilityFactor: 0.2
   - sprite: {fileID: 21300000, guid: 6cec516a83e2d1a4aa3b635e4e23eecd, type: 3}
     action:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1326298238}
-          m_TargetAssemblyTypeName: LevelUpCanvas, Assembly-CSharp
-          m_MethodName: Say
-          m_Mode: 5
+        - m_Target: {fileID: 84221050008490754}
+          m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
+          m_MethodName: IncreaseMaxHealth
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: more max health
             m_BoolArgument: 0
           m_CallState: 2
-    probabilityFactor: 1
   upgradePrefab: {fileID: 7141055664410059507, guid: 6a7dae6e8ab02c34d90914d09d5b7351, type: 3}
-  amountOfOptions: 3
   padding: 150
 --- !u!1 &1427681834
 GameObject:
@@ -1722,12 +1718,12 @@ GameObject:
   - component: {fileID: 2081291785}
   - component: {fileID: 2081291784}
   m_Layer: 5
-  m_Name: Image
+  m_Name: LevelUpStripe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2081291783
 RectTransform:
   m_ObjectHideFlags: 0

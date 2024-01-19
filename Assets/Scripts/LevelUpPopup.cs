@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,12 +12,10 @@ public class LevelUpPopup : MonoBehaviour
     {
         public Sprite sprite;
         public UnityEvent action;
-        public float probabilityFactor = 1f;
     }
 
     [SerializeField] private Upgrade[] upgrades;
     [SerializeField] private GameObject upgradePrefab;
-    [SerializeField] private int amountOfOptions = 3;
     [SerializeField] private float padding;
 
     private GameObject _stripe;
@@ -27,35 +26,46 @@ public class LevelUpPopup : MonoBehaviour
 
     private void Awake()
     {
-        RectTransform stripeTransform = GetComponentsInChildren<RectTransform>()[1];
-        Vector3 postion = stripeTransform.position;
-        Rect chachedRect = stripeTransform.rect;
+        int amountOfOptions = upgrades.Length;
+
+        float screenWidth = GetComponent<RectTransform>().rect.width;
+        float screenHeight = GetComponent<RectTransform>().rect.height;
         float prefabWidth = upgradePrefab.GetComponent<RectTransform>().rect.width;
-        postion.x -= chachedRect.width / 2;
-        float distance = (chachedRect.width - 2 * padding - amountOfOptions * prefabWidth) / (amountOfOptions + 1);
+        Vector3 postion = new Vector3(0f, screenHeight / 2, 0f);
+        float distance = (screenWidth - 2 * padding - amountOfOptions * prefabWidth) / (amountOfOptions + 1);
         postion.x += padding;
 
         _options = new GameObject[amountOfOptions];
         _buttons = new Button[amountOfOptions];
-        for (int i = 0; i < _options.Length; i++)
+        for (int i = 0; i < amountOfOptions; i++)
         {
+            // Instantiate
             _options[i] = Instantiate(upgradePrefab, transform);
+
+            // Position
             postion.x += distance + 0.5f * prefabWidth;
             _options[i].transform.position = postion;
             postion.x += 0.5f * prefabWidth;
 
+            // Set image
+            _options[i].GetComponent<Image>().sprite = upgrades[i].sprite;
+
+            // Set action
             _buttons[i] = _options[i].GetComponent<Button>();
+            // Takes last state of i otherwise, which causes an IndexOutOfRangeException
+            int index = i;
+            _buttons[i].onClick.AddListener(delegate { upgrades[index].action?.Invoke(); });
+            _buttons[i].onClick.AddListener(Hide);
         }
 
-        _stripe = stripeTransform.gameObject;
+        _stripe = transform.GetChild(0).gameObject;
         Hide();
     }
 
     private void Update()
     {
-        // For testing
         if (Input.GetKeyDown(KeyCode.H))
-            Toggle();
+            Show();
 
         if (!_active)
             return;
@@ -65,14 +75,6 @@ public class LevelUpPopup : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
                 _buttons[i].onClick.Invoke();
         }
-    }
-
-    private void Toggle()
-    {
-        if (_active)
-            Hide();
-        else
-            Show();
     }
 
     private void Hide()
@@ -90,19 +92,6 @@ public class LevelUpPopup : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     public void Show()
     {
-        for (int i = 0; i < _options.Length; i++)
-        {
-            int index;
-            do
-            {
-                index = Random.Range(0, upgrades.Length);
-            } while (Random.value > upgrades[index].probabilityFactor);
-            _options[i].GetComponent<Image>().sprite = upgrades[index].sprite;
-            _buttons[i].onClick.RemoveAllListeners();
-            _buttons[i].onClick.AddListener(delegate { upgrades[index].action?.Invoke(); });
-            _buttons[i].onClick.AddListener(delegate { Hide(); });
-        }
-
         foreach (GameObject obj in _options)
         {
             obj.SetActive(true);
@@ -114,7 +103,7 @@ public class LevelUpPopup : MonoBehaviour
     }
 
     // for testing
-    public void Say(string text)
+    private void Say(string text)
     {
         Debug.Log(text);
     }

@@ -10,6 +10,7 @@ public class StatisticsDisplay : MonoBehaviour
     public enum Statistics
     {
         HEALTH,
+        MAX_HEALTH,
         DAMAGE,
         SPEED,
     }
@@ -26,6 +27,7 @@ public class StatisticsDisplay : MonoBehaviour
             { Statistics.SPEED, 100 },
             { Statistics.DAMAGE, 100 },
             { Statistics.HEALTH, 5 },
+            { Statistics.MAX_HEALTH, 5 },
         };
         UpdateDisplayText();
     }
@@ -41,17 +43,15 @@ public class StatisticsDisplay : MonoBehaviour
         UpdateDisplayText();
         switch (type)
         {
-            case Statistics.HEALTH:
-                StaticValues.health = value;
-                break;
             case Statistics.DAMAGE:
                 StaticValues.damage = value;
                 break;
             case Statistics.SPEED:
                 StaticValues.speed = value;
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            case Statistics.MAX_HEALTH:
+                StaticValues.maxHealth = value;
+                break;
         }
     }
 
@@ -72,9 +72,12 @@ public class StatisticsDisplay : MonoBehaviour
 
         sb.Append(nameof(Statistics.HEALTH).ToLower().FirstCharacterToUpper());
         sb.Append(": ");
-        for (int i = 0; i <  _values[Statistics.HEALTH]; i++)
+        for (int i = 0; i <  _values[Statistics.MAX_HEALTH]; i++)
         {
-            sb.Append('\u2665');
+            if (i < _values[Statistics.HEALTH])
+                sb.Append('\u2665');
+            else
+                sb.Append('\u2661');
         }
         sb.AppendLine();
 
