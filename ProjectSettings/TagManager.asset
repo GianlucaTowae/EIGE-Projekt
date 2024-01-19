@@ -9,6 +9,7 @@ TagManager:
   - Ability
   - Asteroid
   - Statistic
+  - Planet
   layers:
   - Default
   - TransparentFX

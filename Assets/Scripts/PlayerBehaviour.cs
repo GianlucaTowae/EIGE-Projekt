@@ -45,10 +45,9 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private RectTransform xpBarTransform;
     [SerializeField] private TMP_Text scoreLevelLabel;
     [SerializeField] private LevelUpPopup levelUpPopup;
-    [SerializeField] private int xpNeededPerLevel = 20;
+    [SerializeField] private int xpNeededPerLevel = 40;
     [SerializeField] private int startHealth = 5;
     [SerializeField] private StatisticsDisplay statistics;
-    [SerializeField] private AbilityScript _abilityScript;
     #endregion
 
     private int _score;
@@ -62,6 +61,7 @@ public class PlayerBehaviour : MonoBehaviour
     private Vector3 _mousePos;
 
     private Rigidbody _rigidbody;
+    private AbilityScript _abilityScript;
 
     //ablity:
     [HideInInspector] public bool doubleShot;
@@ -82,10 +82,13 @@ public class PlayerBehaviour : MonoBehaviour
         XPMultiplier = 1;
         respawnDurLeft = -1;
         
-        _rigidbody = GetComponent<Rigidbody>();
         _halfProjectileHeight = shooting.projectilePrefab.GetComponent<Renderer>().bounds.size.y / 2;
+
         _health = startHealth;
         shooting.shootingBurst = shooting.cannon.GetComponentInChildren<ParticleSystem>();
+
+        _rigidbody = GetComponent<Rigidbody>();
+        _abilityScript = GetComponent<AbilityScript>();
     }
 
     void Update()

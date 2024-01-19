@@ -480,6 +480,7 @@ GameObject:
   - component: {fileID: 6498729833354813685}
   - component: {fileID: 2272990106634674714}
   - component: {fileID: 5766351132109974640}
+  - component: {fileID: 6310752498994466909}
   - component: {fileID: 6528837475284078956}
   m_Layer: 0
   m_Name: Spaceship
@@ -540,14 +541,21 @@ MonoBehaviour:
     projectilePrefab: {fileID: 7879199403385778015, guid: 2ac7a42d99295df499d48a3f2d4db940, type: 3}
     shootPointOffset: {x: 0, y: 3.03, z: 0}
     shootCooldownSec: 0.2
-    multiShotCooldownMilliSec: 62.5
   exhaustLeft: {fileID: 5330901724625697458}
   exhaustRight: {fileID: 7519456992286523075}
   xpBarTransform: {fileID: 0}
   scoreLevelLabel: {fileID: 0}
   levelUpPopup: {fileID: 0}
-  xpNeededPerLevel: 20
+  xpNeededPerLevel: 40
   startHealth: 5
+  statistics: {fileID: 0}
+  doubleShot: 0
+  doubleShotDelay: 0
+  res: 0
+  XPMultiplier: 0
+  invincible: 0
+  respawnInvincibleDur: 0
+  blinkingDelay: 0
 --- !u!114 &5766351132109974640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,7 +563,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7615548928418279767}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6aabdc39c3dd72f44877e54ca0a8c176, type: 3}
   m_Name: 
@@ -571,8 +579,35 @@ MonoBehaviour:
   spawningIntervalSingle: {x: 0.5, y: 1}
   spawningIntervalCluster: {x: 5, y: 7}
   spawningIntervalTargetingCluster: {x: 2, y: 4}
+  spawningIntervalPlanet: {x: 20, y: 30}
+  asteroidStartTime: 2
+  interceptingStartTime: 3
+  planetStartTime: 4
   asteroidPrefab: {fileID: 7848130990533232882, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
+  planetPrefab: {fileID: 3601891274649543117, guid: af4f06f9dc14bc543be77b72b09bc76d, type: 3}
   interceptingEnemyPrefab: {fileID: 4300808163934362815, guid: d4d5bd1a1def6cb4b927834339d45ed5, type: 3}
+--- !u!114 &6310752498994466909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7615548928418279767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 614e7d462623f489eaadb6905f82a9d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respawnInvincibleDurationSec: 5
+  shieldInvincibleDurationSec: 10
+  piercingDurationSec: 10
+  doubleShotDurationSec: 5
+  doubleShotDelaySec: 0.085
+  XPMultiplierDurationSec: 10
+  XPMultiplierVal: 10
+  respawnBlinkingDelaySec: 0.1
+  AbilityGameObjectPrefab: {fileID: 6996250151499186873, guid: f8b68a0aa8bf945db9ea95ab6d2a645b, type: 3}
+  projectile: {fileID: 1118582059033922905, guid: 2ac7a42d99295df499d48a3f2d4db940, type: 3}
 --- !u!54 &6528837475284078956
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -597,7 +632,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 56
   m_CollisionDetection: 0
 --- !u!1 &7671582275955883390
@@ -760,7 +795,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4036324337123086459, guid: 37fe87a7565944043b62be2b74271567, type: 3}
       propertyPath: m_Name
-      value: Exhaust 1
+      value: Exhaust Left
       objectReference: {fileID: 0}
     - target: {fileID: 8293393499031820601, guid: 37fe87a7565944043b62be2b74271567, type: 3}
       propertyPath: m_LocalPosition.x
@@ -889,7 +924,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4036324337123086459, guid: 37fe87a7565944043b62be2b74271567, type: 3}
       propertyPath: m_Name
-      value: Exhaust 2
+      value: Exhaust Right
       objectReference: {fileID: 0}
     - target: {fileID: 8293393499031820601, guid: 37fe87a7565944043b62be2b74271567, type: 3}
       propertyPath: m_LocalPosition.x

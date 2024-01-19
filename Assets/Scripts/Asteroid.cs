@@ -1,12 +1,14 @@
-using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Asteroid : MonoBehaviour
 {
-    [SerializeField] private float maxLifeTime = 10f;
+    [SerializeField] private float maxLifeTime = 3f;
+    [SerializeField] private float hp = 1.5f;
+    [SerializeField] private int xp = 1;
 
-    private float _currentLifeTime = 0f;
+    [SerializeField] private ParticleSystem explosion;
+
+    private float _currentLifeTime;
 
     private float _speedBase;
     private float _speedMultiplier;
@@ -26,6 +28,10 @@ public class Asteroid : MonoBehaviour
         {
             _currentLifeTime += Time.deltaTime;
         }
+        else
+        {
+            _currentLifeTime = 0f;
+        }
         if(_currentLifeTime > maxLifeTime)
         {
             Destroy(gameObject);
@@ -41,5 +47,16 @@ public class Asteroid : MonoBehaviour
     {
         _speedBase = speed;
         _speedMultiplier = speedMultiplier;
+    }
+
+    public void Damage(float amt)
+    {
+        hp -= amt;
+        if (hp <= 0)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(xp);
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
 }

@@ -2,13 +2,10 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private int asteroidXP = 1;
-
     [SerializeField] private float speedBase = 100f;
-    [SerializeField] private float speedMultiplier= 1f;
+    [SerializeField] private float speedMultiplier = 1f;
     [SerializeField] private float damageBase = 1f;
-    [SerializeField] private float damageMultiplier= 1f;
-    [SerializeField] private ParticleSystem explosion;
+    [SerializeField] private float damageMultiplier = 1f;
     [HideInInspector] public bool piercing;
 
     void Update()
@@ -26,9 +23,12 @@ public class Projectile : MonoBehaviour
         if(other.CompareTag("Asteroid"))
         {
             if(!piercing) Destroy(gameObject);
-            Instantiate(explosion, other.transform.position, Quaternion.identity);
-            Destroy(other.gameObject);
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(asteroidXP);
+            other.GetComponent<Asteroid>().Damage(damageBase * damageMultiplier);
+        }
+        else if(other.CompareTag("Planet"))
+        {
+            if(!piercing) Destroy(gameObject);
+            other.GetComponent<Planet>().Damage(damageBase * damageMultiplier);
         }
     }
 }
