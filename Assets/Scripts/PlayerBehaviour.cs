@@ -35,6 +35,7 @@ public class PlayerBehaviour : MonoBehaviour
         public GameObject projectilePrefab;
         public Vector3 shootPointOffset;
         public float shootCooldownSec = 0.2f;
+        public ParticleSystem shootingBurst;
     }
     [SerializeField] private Shooting shooting;
 
@@ -84,6 +85,7 @@ public class PlayerBehaviour : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _halfProjectileHeight = shooting.projectilePrefab.GetComponent<Renderer>().bounds.size.y / 2;
         _health = startHealth;
+        shooting.shootingBurst = shooting.cannon.GetComponentInChildren<ParticleSystem>();
     }
 
     void Update()
@@ -102,7 +104,10 @@ public class PlayerBehaviour : MonoBehaviour
         currentShootCooldown -= Time.deltaTime;
         if (_inputShoot)
             Shoot();
-        if(invincible) respawnDurLeft -= Time.deltaTime;
+
+        // Abilities
+        if(invincible) 
+            respawnDurLeft -= Time.deltaTime;
     }
 
     void FixedUpdate()
@@ -161,6 +166,7 @@ public class PlayerBehaviour : MonoBehaviour
         Vector3 position = cachedTransform.position +
                            cachedTransform.TransformDirection(shooting.shootPointOffset + Vector3.up * _halfProjectileHeight);
         Instantiate(shooting.projectilePrefab, position, cachedTransform.rotation);
+        shooting.shootingBurst.Play();
         if (doubleShot){
             StartCoroutine(waitAndShoot());
         }
@@ -175,7 +181,7 @@ public class PlayerBehaviour : MonoBehaviour
         Vector3 position = cachedTransform.position +
                            cachedTransform.TransformDirection(shooting.shootPointOffset + Vector3.up * _halfProjectileHeight);
         Instantiate(shooting.projectilePrefab, position, cachedTransform.rotation);
-        
+        shooting.shootingBurst.Play();
     }
 
     public void IncreaseSpeed(float percentage)
@@ -230,6 +236,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         SceneManager.LoadScene("LoseScene");
     }
+    
     private IEnumerator InvincibilityOnRes()
     {
         invincible = true;
