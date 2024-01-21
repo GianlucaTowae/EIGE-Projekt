@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 /*
@@ -13,6 +15,7 @@ public class Boss : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject bossProjectilePrefab;
     // Change with "Drag" in Rigidbody for smooth stop
+    [SerializeField] private float startHP = 100f;
     [SerializeField] private float speed = 150f;
     [SerializeField] private float maxDistance = 150f;
     [SerializeField] private float rotationSpeed = 1f;
@@ -22,17 +25,20 @@ public class Boss : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private Beam _beam;
+    private Transform _center;
     private float _shootCooldown;
     private bool _still;
+    private float _hp;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.angularDrag = 0f;
         _rigidbody.angularVelocity = Vector3.forward * rotationSpeed;
-        _shootCooldown = shootInterval;
         _beam = GetComponentInChildren<Beam>();
-        Physics.queriesHitTriggers = true;
+        _center = transform.GetChild(0);
+        _shootCooldown = shootInterval;
+        _hp = startHP;
     }
 
     private void Update()
@@ -62,9 +68,7 @@ public class Boss : MonoBehaviour
     {
         _still = true;
         _rigidbody.angularVelocity = Vector3.zero;
-        Quaternion rotation = Quaternion.LookRotation(player.transform.position - transform.position)
-                              * Quaternion.Euler(90f, 0f, 90f);
-        transform.rotation = rotation;
+        transform.LookAt(player.transform, Vector3.forward);
         _beam.Play();
         yield return new WaitForSeconds(pauseTimeWhileBeam);
         _rigidbody.angularVelocity = Vector3.forward * rotationSpeed;
@@ -88,5 +92,19 @@ public class Boss : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(transform.position + Vector3.up * initialProjectileDistance, 1f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // TODO: Fix circling
+        if (other.CompareTag("Asteroid"))
+            other.GetComponent<Asteroid>().CircleBoss(_center);
+    }
+
+    public void Damage(float amount)
+    {
+        _hp -= amount;
+        if (_hp < 0f)
+            SceneManager.LoadScene("WinScene");
     }
 }

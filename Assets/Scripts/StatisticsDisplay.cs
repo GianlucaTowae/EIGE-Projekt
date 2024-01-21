@@ -25,7 +25,7 @@ public class StatisticsDisplay : MonoBehaviour
         _values = new Dictionary<Statistics, int>
         {
             { Statistics.SPEED, 100 },
-            { Statistics.DAMAGE, 100 },
+            { Statistics.DAMAGE, 10 },
             { Statistics.HEALTH, 5 },
             { Statistics.MAX_HEALTH, 5 },
         };

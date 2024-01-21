@@ -89,7 +89,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLifeTime: 3
   hp: 1.5
+  xp: 1
   explosion: {fileID: 235758606614901165, guid: 0848318ec4b66fd48a95e7a774ad4d8f, type: 3}
+  circleSpeed: -100
+  circleDistance: 30
 --- !u!54 &7155575228375185601
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -52,6 +52,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private StatisticsDisplay statistics;
 
     [SerializeField] private int bossBeamDamage = 3;
+
+    [SerializeField] private bool invincibleForTesting;
     #endregion
 
     private int _score;
@@ -141,7 +143,7 @@ public class PlayerBehaviour : MonoBehaviour
         float difference = Math.Abs(oldRotationZ - _rigidbody.rotation.eulerAngles.z);
         if (angle < 0 && difference > 1.5f && !invincible)
             exhaustLeft.Play();
-        else if (angle > 0 && difference > 1.5f &&!invincible)
+        else if (angle > 0 && difference > 1.5f && !invincible)
             exhaustRight.Play();
     }
 
@@ -227,7 +229,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void DecreaseHealth(int amount)
     {
-        if (invincible) return;
+        if (invincible || invincibleForTesting) return;
         _health -= amount;
         if (_health <= 0){
             if (!res) LoseGame();
@@ -299,7 +301,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void IncreaseDamage(float amount)
     {
         shooting.damageMultiplier += amount;
-        statistics.SetStatistic(StatisticsDisplay.Statistics.DAMAGE, (int) Math.Round(movementSettings.speedMultiplier * 10));
+        statistics.SetStatistic(StatisticsDisplay.Statistics.DAMAGE, (int) Math.Round(shooting.damageMultiplier * 10));
     }
 
     public void IncreaseMaxHealth(int amount)

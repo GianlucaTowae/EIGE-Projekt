@@ -37,5 +37,10 @@ public class Projectile : MonoBehaviour
             if(!piercing) Destroy(gameObject);
             other.GetComponent<Planet>().Damage(_damageBase * _damageMultiplier);
         }
+        else if(other.CompareTag("Boss"))
+        {
+            if(!piercing) Destroy(gameObject);
+            other.GetComponent<Boss>().Damage(_damageBase * _damageMultiplier);
+        }
     }
 }
