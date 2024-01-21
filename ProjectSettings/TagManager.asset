@@ -10,6 +10,9 @@ TagManager:
   - Asteroid
   - Statistic
   - Planet
+  - Boss
+  - BossProjectile
+  - BossBeam
   layers:
   - Default
   - TransparentFX

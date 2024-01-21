@@ -39,6 +39,9 @@ public class StatisticsDisplay : MonoBehaviour
 
     public void SetStatistic(Statistics type, int value)
     {
+        if (_values == null)
+            return;
+
         _values[type] = value;
         UpdateDisplayText();
         switch (type)

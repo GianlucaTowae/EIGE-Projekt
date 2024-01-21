@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -25,6 +23,8 @@ public class PlayerBehaviour : MonoBehaviour
         public float speedBase = 25f;
         public float speedMultiplier = 1f;
         public float rotationFactor = 3.5f;
+        public float shoveFactor = 10f;
+        public float immobileAfterHitTime = 1f;
     }
     [SerializeField] private MovementSettings movementSettings;
 
@@ -50,6 +50,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private int xpNeededPerLevel = 40;
     [SerializeField] private int startHealth = 5;
     [SerializeField] private StatisticsDisplay statistics;
+
+    [SerializeField] private int bossBeamDamage = 3;
     #endregion
 
     private int _score;
@@ -58,6 +60,8 @@ public class PlayerBehaviour : MonoBehaviour
     private int _maxHealth;
     private float currentShootCooldown;
     private float _halfProjectileHeight;
+
+    private bool immobileAfterHit;
 
     private float _inputHorizontal, _inputVertical;
     private bool _inputShoot;
@@ -75,7 +79,6 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public float respawnInvincibleDur;
     [HideInInspector] public float blinkingDelay;
     private float respawnDurLeft;
-    
 
     void Awake()
     {
@@ -119,8 +122,11 @@ public class PlayerBehaviour : MonoBehaviour
     void FixedUpdate()
     {
         // Movement
-        _rigidbody.velocity = transform.TransformDirection(
-            Vector3.up * (movementSettings.speedBase * movementSettings.speedMultiplier));
+        if (!immobileAfterHit)
+        {
+            _rigidbody.velocity = transform.TransformDirection(
+                Vector3.up * (movementSettings.speedBase * movementSettings.speedMultiplier));
+        }
 
         // Rotation
         float oldRotationZ = _rigidbody.rotation.eulerAngles.z;
@@ -150,16 +156,34 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PlayerProjectile")) return;
-        if(other.CompareTag("Ability")){
-            Destroy(other.gameObject);
-            _abilityScript.pickedUpAbility();
-        }
-        else
+        switch (other.transform.tag)
         {
-            DecreaseHealth();
-            Destroy(other.gameObject);
+            case "Ability":
+                Destroy(other.gameObject);
+                _abilityScript.pickedUpAbility();
+                break;
+            case "Asteroid":
+            case "BossProjectile":
+                DecreaseHealth();
+                Destroy(other.gameObject);
+                break;
+            case "Boss":
+            case "Planet":
+                DecreaseHealth();
+                _rigidbody.velocity = (transform.position - other.transform.position) * movementSettings.shoveFactor;
+                StartCoroutine(ImmobileAfterHit());
+                break;
+            case "BossBeam":
+                DecreaseHealth(bossBeamDamage);
+                break;
         }
+    }
+
+    private IEnumerator ImmobileAfterHit()
+    {
+        immobileAfterHit = true;
+        yield return new WaitForSeconds(movementSettings.immobileAfterHitTime);
+        immobileAfterHit = false;
     }
 
     private void Shoot()
@@ -198,8 +222,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void DecreaseHealth()
     {
+        DecreaseHealth(1);
+    }
+
+    private void DecreaseHealth(int amount)
+    {
         if (invincible) return;
-        _health--;
+        _health -= amount;
         if (_health <= 0){
             if (!res) LoseGame();
             else{
