@@ -13,6 +13,7 @@ TagManager:
   - Boss
   - BossProjectile
   - BossBeam
+  - InterceptingEnemy
   layers:
   - Default
   - TransparentFX

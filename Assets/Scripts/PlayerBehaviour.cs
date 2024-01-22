@@ -52,6 +52,7 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private StatisticsDisplay statistics;
 
     [SerializeField] private int bossBeamDamage = 3;
+    [SerializeField] private int interceptingEnemyDamage = 2;
 
     [SerializeField] private bool invincibleForTesting;
     #endregion
@@ -97,6 +98,8 @@ public class PlayerBehaviour : MonoBehaviour
 
         _rigidbody = GetComponent<Rigidbody>();
         _abilityScript = GetComponent<AbilityScript>();
+
+        IncreaseScore(0);
     }
 
     void Update()
@@ -167,6 +170,10 @@ public class PlayerBehaviour : MonoBehaviour
             case "Asteroid":
             case "BossProjectile":
                 DecreaseHealth();
+                Destroy(other.gameObject);
+                break;
+            case "InterceptingEnemy":
+                DecreaseHealth(interceptingEnemyDamage);
                 Destroy(other.gameObject);
                 break;
             case "Boss":

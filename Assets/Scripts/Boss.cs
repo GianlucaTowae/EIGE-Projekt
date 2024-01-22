@@ -96,7 +96,6 @@ public class Boss : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // TODO: Fix circling
         if (other.CompareTag("Asteroid"))
             other.GetComponent<Asteroid>().CircleBoss(_center);
     }

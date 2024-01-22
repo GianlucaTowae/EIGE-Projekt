@@ -44,18 +44,6 @@ public class StatisticsDisplay : MonoBehaviour
 
         _values[type] = value;
         UpdateDisplayText();
-        switch (type)
-        {
-            case Statistics.DAMAGE:
-                StaticValues.damage = value;
-                break;
-            case Statistics.SPEED:
-                StaticValues.speed = value;
-                break;
-            case Statistics.MAX_HEALTH:
-                StaticValues.maxHealth = value;
-                break;
-        }
     }
 
     public override string ToString()

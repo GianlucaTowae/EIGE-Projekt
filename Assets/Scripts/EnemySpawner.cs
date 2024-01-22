@@ -17,6 +17,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Vector2 spawningIntervalSingle = new(0.5f, 2f);
     [SerializeField] private Vector2 spawningIntervalCluster = new(4f, 5f);
     [SerializeField] private Vector2 spawningIntervalTargetingCluster = new(3f, 6f);
+    [SerializeField] private Vector2 spawningIntervalIntercepting = new(7f, 10f);
     [SerializeField] private Vector2 spawningIntervalPlanet = new(20f, 30f);
 
     [SerializeField] private float asteroidStartTime = 2f;
@@ -28,7 +29,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject interceptingEnemyPrefab;
 
     private float _singleCooldown, _clusterCooldown, _targetingClusterCooldown, _interceptingCooldown, _planetCooldown;
-    private float _halfAsteroidWidth, _halfPlanetWidth;
+    private float _halfAsteroidWidth, _halfPlanetWidth, _halfInterceptingWidth;
     private Camera _mainCamera;
     private float _screenCircleRadius;
 
@@ -41,6 +42,7 @@ public class EnemySpawner : MonoBehaviour
         _mainCamera = Camera.main;
         _halfAsteroidWidth = asteroidPrefab.GetComponent<Renderer>().bounds.size.y / 2;
         _halfPlanetWidth = planetPrefab.GetComponent<Renderer>().bounds.size.y / 2;
+        _halfInterceptingWidth = interceptingEnemyPrefab.GetComponentInChildren<Renderer>().bounds.size.x / 2;
 
         Vector3 shipPosition = transform.position;
         Vector3 cameraPosition = _mainCamera.ScreenToWorldPoint(Vector3.zero);
@@ -80,11 +82,35 @@ public class EnemySpawner : MonoBehaviour
             _targetingClusterCooldown = Random.Range(spawningIntervalTargetingCluster.x, spawningIntervalTargetingCluster.y);
         }
 
+        if (_interceptingCooldown <= 0f)
+        {
+            SpawnIntercepting();
+            _interceptingCooldown = Random.Range(spawningIntervalIntercepting.x, spawningIntervalIntercepting.y);
+        }
+
         if (_planetCooldown <= 0f)
         {
             SpawnRandomPlanet();
             _planetCooldown = Random.Range(spawningIntervalPlanet.x, spawningIntervalPlanet.y);
         }
+    }
+
+    private void SpawnIntercepting()
+    {
+        Vector3 cachedPosition = transform.position;
+
+        Vector2 randomScreenPosition = new Vector2(Random.Range(0, _mainCamera.pixelWidth),
+            Random.Range(0, _mainCamera.pixelHeight));
+        if (Random.value > (float) _mainCamera.pixelWidth / (_mainCamera.pixelWidth + _mainCamera.pixelHeight))
+            randomScreenPosition.x = Random.value > 0.5f ? 0 : _mainCamera.pixelWidth;
+        else
+            randomScreenPosition.y = Random.value > 0.5f ? 0 : _mainCamera.pixelHeight;
+
+        Vector3 randomPosition = _mainCamera.ScreenToWorldPoint(randomScreenPosition);
+        randomPosition -= (cachedPosition - randomPosition).normalized * _halfInterceptingWidth;
+        randomPosition.z = cachedPosition.z;
+
+        Instantiate(interceptingEnemyPrefab, randomPosition, Quaternion.identity);
     }
 
     private void SpawnRandomPlanet()

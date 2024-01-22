@@ -544,7 +544,7 @@ MonoBehaviour:
   shooting:
     cannon: {fileID: 1645415847955012194}
     projectilePrefab: {fileID: 7879199403385778015, guid: 2ac7a42d99295df499d48a3f2d4db940, type: 3}
-    shootingBurst: {fileID: 0}
+    shootingBurst: {fileID: 5340562555444602087, guid: 3fe68362cee2a5d468ca23cb1aefafa1, type: 3}
     shootPointOffset: {x: 0, y: 1, z: 0}
     shootCooldownSec: 0.2
     damageBase: 1
@@ -558,6 +558,7 @@ MonoBehaviour:
   startHealth: 5
   statistics: {fileID: 0}
   bossBeamDamage: 3
+  interceptingEnemyDamage: 2
   invincibleForTesting: 0
   doubleShot: 0
   doubleShotDelay: 0
@@ -589,13 +590,14 @@ MonoBehaviour:
   spawningIntervalSingle: {x: 0.5, y: 1}
   spawningIntervalCluster: {x: 5, y: 7}
   spawningIntervalTargetingCluster: {x: 2, y: 4}
+  spawningIntervalIntercepting: {x: 7, y: 10}
   spawningIntervalPlanet: {x: 20, y: 30}
   asteroidStartTime: 2
   interceptingStartTime: 3
   planetStartTime: 30
   asteroidPrefab: {fileID: 7848130990533232882, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
   planetPrefab: {fileID: 3601891274649543117, guid: af4f06f9dc14bc543be77b72b09bc76d, type: 3}
-  interceptingEnemyPrefab: {fileID: 4300808163934362815, guid: d4d5bd1a1def6cb4b927834339d45ed5, type: 3}
+  interceptingEnemyPrefab: {fileID: 8696158645519250426, guid: d4d5bd1a1def6cb4b927834339d45ed5, type: 3}
 --- !u!114 &6310752498994466909
 MonoBehaviour:
   m_ObjectHideFlags: 0
