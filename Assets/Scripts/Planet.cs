@@ -37,10 +37,13 @@ public class Planet : MonoBehaviour
     {
         hp -= amt;
         if (hp <= 0)
-        {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(xp);
-            // TODO: Particle System
-            Destroy(gameObject);
-        }
+            Explode();
+    }
+
+    public void Explode()
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(xp);
+        // TODO: Particle System
+        Destroy(gameObject);
     }
 }

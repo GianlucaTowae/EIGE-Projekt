@@ -584,9 +584,9 @@ MonoBehaviour:
   speedMultiplier: 1
   clusterSize: {x: 2, y: 4}
   targetingClusterSize: {x: 3, y: 5}
-  minDistribution: 60
-  maxDistribution: 120
+  clusterDistribution: {x: 60, y: 120}
   targetingClusterDistribution: 100
+  bossSpawningDistance: 500
   spawningIntervalSingle: {x: 0.5, y: 1}
   spawningIntervalCluster: {x: 5, y: 7}
   spawningIntervalTargetingCluster: {x: 2, y: 4}
@@ -595,9 +595,11 @@ MonoBehaviour:
   asteroidStartTime: 2
   interceptingStartTime: 3
   planetStartTime: 30
+  timeUntilBossSpawn: 600
   asteroidPrefab: {fileID: 7848130990533232882, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
   planetPrefab: {fileID: 3601891274649543117, guid: af4f06f9dc14bc543be77b72b09bc76d, type: 3}
   interceptingEnemyPrefab: {fileID: 8696158645519250426, guid: d4d5bd1a1def6cb4b927834339d45ed5, type: 3}
+  bossPrefab: {fileID: 44471173188300722, guid: 1b1207d6d1f884a49921be331eec0048, type: 3}
 --- !u!114 &6310752498994466909
 MonoBehaviour:
   m_ObjectHideFlags: 0
