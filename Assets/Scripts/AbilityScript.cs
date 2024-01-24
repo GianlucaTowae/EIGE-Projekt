@@ -61,6 +61,13 @@ public class AbilityScript : MonoBehaviour
     private int sum = 0;
     private EnemySpawner enemySpawner;
     private float currentCooldown;
+    private bool shieldIsActive;
+    private bool piercingShotsIsActive;
+    private bool searchingProjectilesIsActive;
+    private bool doubleShotIsActive;
+    private bool XPMultiplierIsActive;
+    private bool sabotageIsActive;
+    private bool overchargeIsActive;
     void Start(){
         var ls = OverchargeObj.GetComponentInChildren<Transform>().localScale;//sadjf
         ls.x = ls.z = overchargeScale;
@@ -104,7 +111,7 @@ public class AbilityScript : MonoBehaviour
             currentCooldown = UnityEngine.Random.Range(abilitySpawnrateBoundSec.x,abilitySpawnrateBoundSec.y);
         }
         if (Input.GetKeyDown(KeyCode.R))//TODO Remove
-            searchingProjectiles();
+            SpawnAbilityPickUp();
     }
     private void SpawnAbilityPickUp(){
         float x_pos = UnityEngine.Random.Range(0, _mainCamera.pixelWidth);
@@ -154,11 +161,22 @@ public class AbilityScript : MonoBehaviour
     }   
     public void guradianAngle(){
         player.res = true;
-        player.guardianAngleUI = abilityUIscript.Add(AbilityUI.AbilityName.GuardianAngle);
+        player.guardianAngleUI = abilityUIscript.Add(AbilityUI.AbilityName.GuardianAngle).Item1;
     }   
+    private GameObject currentShieldUI;
+    private Coroutine currentShieldCoRO;
     public void shield(){//TODO: reset cooldown on multiple pickup
-        abilityUIscript.Add(AbilityUI.AbilityName.Shield, shieldInvincibleDurationSec);
-        StartCoroutine(InvincibilityOnShield());
+        if (!shieldIsActive){
+            shieldIsActive = true;
+            (currentShieldUI, currentShieldCoRO) = abilityUIscript.Add(AbilityUI.AbilityName.Shield, shieldInvincibleDurationSec);
+            StartCoroutine(InvincibilityOnShield());
+        }
+        else{
+            abilityUIscript.stopCooldown(currentShieldCoRO,currentShieldUI);
+            StopCoroutine(InvincibilityOnShield());
+            (currentShieldUI, currentShieldCoRO) = abilityUIscript.Add(AbilityUI.AbilityName.Shield, shieldInvincibleDurationSec);
+            StartCoroutine(InvincibilityOnShield());
+        }
     } 
     public void piercingShots(){
         abilityUIscript.Add(AbilityUI.AbilityName.PiercingShots, piercingDurationSec);
@@ -195,6 +213,7 @@ public class AbilityScript : MonoBehaviour
         player.invincible = true;
         yield return new WaitForSeconds(shieldInvincibleDurationSec);
         player.invincible = false;
+        shieldIsActive = false;
     }
     private IEnumerator PiercingDuration()
     {

@@ -34,7 +34,7 @@ public class AbilityUI : MonoBehaviour
         if (Input.GetKeyDown("j")) Add(AbilityName.GuardianAngle, 3);
         if (Input.GetKeyDown("k")) clear();
     }
-    private GameObject Draw(Sprite s, float cooldownDurationInSec){
+    private (GameObject,Coroutine) Draw(Sprite s, float cooldownDurationInSec){
         //create image with sprite as child
         Image newImg = new GameObject().AddComponent<Image>();
         newImg.transform.SetParent(this.transform);
@@ -46,31 +46,37 @@ public class AbilityUI : MonoBehaviour
         float width = GetComponent<RectTransform>().sizeDelta.x;
         newImg.rectTransform.sizeDelta = new Vector2(width, ratio*width);
 
-
+        Coroutine correspondingCooldownCoRo = null;
         if(cooldownDurationInSec > 0)
-            DrawCooldownOverlay(newImg, cooldownDurationInSec);
+            correspondingCooldownCoRo = DrawCooldownOverlay(newImg, cooldownDurationInSec);
         
-        return newImg.gameObject;
+        return (newImg.gameObject,correspondingCooldownCoRo);
     }
     
-    public GameObject Add(AbilityName an){
+    public (GameObject,Coroutine) Add(AbilityName an){
         return Add(an, -1);//Add ability w//o cooldown
     }
-    public GameObject Add(AbilityName an, float cooldownDurationInSec){
+    public (GameObject,Coroutine) Add(AbilityName an, float cooldownDurationInSec){
         if (!sprites.ContainsKey(an)) {
             Debug.Log("Add error");
-            return null;
+            return (null,null);
         }
         return Draw(sprites[an], cooldownDurationInSec);
     }
 
     public void clear(){
+        StopAllCoroutines();
         foreach (Transform child in transform){
             Destroy(child.GameObject());
         }
     }
 
-    private void DrawCooldownOverlay(Image ability, float cooldownDurationInSec){
+    public void stopCooldown(Coroutine c, GameObject g){
+        StopCoroutine(c);
+        Destroy(g);
+    }
+
+    private Coroutine DrawCooldownOverlay(Image ability, float cooldownDurationInSec){
         //create cooldown overlay image as child
         Image cooldown = new GameObject().AddComponent<Image>();
         cooldown.transform.SetParent(ability.transform);
@@ -84,7 +90,7 @@ public class AbilityUI : MonoBehaviour
         cooldown.type = Image.Type.Filled;
         cooldown.fillOrigin = (int)Image.Origin360.Top;
         cooldown.fillAmount = 0;
-        StartCoroutine(cooldownIEnum(cooldown ,cooldownDurationInSec));
+        return StartCoroutine(cooldownIEnum(cooldown ,cooldownDurationInSec));
     }
     private IEnumerator cooldownIEnum(Image img, float cooldownDurationInSec){
         while (img.fillAmount < 1) {

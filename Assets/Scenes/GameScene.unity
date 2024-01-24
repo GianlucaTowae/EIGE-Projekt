@@ -5459,23 +5459,23 @@ MonoBehaviour:
   cooldownOpacity: 0.3
   snArr:
   - name: 0
-    sprite: {fileID: 21300000, guid: 973e227db14184dfab3f07ea4250d69b, type: 3}
+    sprite: {fileID: 21300000, guid: a93288e80ac74491ba619018e0eb19fb, type: 3}
   - name: 1
-    sprite: {fileID: 21300000, guid: 32edf192afec0460e9427a5a8938fc3c, type: 3}
+    sprite: {fileID: 21300000, guid: cc3d42f9ad394452badfbc38054e3687, type: 3}
   - name: 2
-    sprite: {fileID: 21300000, guid: 6990c99fc0b1b4094a258e3460b00104, type: 3}
+    sprite: {fileID: 21300000, guid: 28f8f2a2f7e0a47919f94cfcf85946c6, type: 3}
   - name: 3
-    sprite: {fileID: 21300000, guid: dcb86284363374979b0b1f25fb36ed72, type: 3}
+    sprite: {fileID: 21300000, guid: 2707736095ba34fdc833a702e7962e55, type: 3}
   - name: 4
-    sprite: {fileID: 21300000, guid: aebb9bce1dd324f34acc26184df7a909, type: 3}
+    sprite: {fileID: 21300000, guid: 356e9d5924339462faa2245610639c14, type: 3}
   - name: 5
-    sprite: {fileID: 21300000, guid: e8c4e4be950bc469b97c05f8f879a62e, type: 3}
+    sprite: {fileID: 21300000, guid: 2b2462a3ec6dc46b482fffbbcbb7d75a, type: 3}
   - name: 6
-    sprite: {fileID: 21300000, guid: 86d5cc00717fe469389c79dbeab97592, type: 3}
+    sprite: {fileID: 21300000, guid: 072c0eca06257404aaddefbaf1a4070c, type: 3}
   - name: 7
-    sprite: {fileID: 21300000, guid: 53e06f6bad11347bb9930fe949234427, type: 3}
+    sprite: {fileID: 21300000, guid: 7c91cbf803cc14b7197984c986f2c193, type: 3}
   - name: 8
-    sprite: {fileID: 21300000, guid: e388ec1a50c844f8db0011e8c1b2b28f, type: 3}
+    sprite: {fileID: 21300000, guid: ac867cc9097f742b9b9d01f5663776a7, type: 3}
 --- !u!114 &948917473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7204,24 +7204,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 739940018}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
+      propertyPath: XPMultiplierVal
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityUIscript
       value: 
       objectReference: {fileID: 948917472}
+    - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
+      propertyPath: overchargeScale
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: sabotageDurationSec
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: overchargeDurationSec
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: displayRKitPickedUpSec
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
+      propertyPath: overchargeDamagePerTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityPrefabs.Array.size
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
+      propertyPath: overchargeTimeBetweenDamageSec
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: sabotageRelativeSpawnrate0_to_1
@@ -7297,11 +7313,11 @@ PrefabInstance:
       objectReference: {fileID: 4832975519876199098, guid: e4438d9b7383146f49a61673a1d2c699, type: 3}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityPrefabs.Array.data[0].probability
-      value: 25
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityPrefabs.Array.data[1].probability
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityPrefabs.Array.data[2].probability
@@ -7309,7 +7325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityPrefabs.Array.data[3].probability
-      value: 5
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityPrefabs.Array.data[4].probability
@@ -7317,7 +7333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityPrefabs.Array.data[5].probability
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityPrefabs.Array.data[6].probability

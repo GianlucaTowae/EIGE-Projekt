@@ -21,9 +21,12 @@ public class Asteroid : MonoBehaviour
     private Rigidbody _rigidbody;
     private bool _circleBoss;
     private Transform _circleCenter;
+    private static PlayerBehaviour pb = null;
 
     void Awake()
     {
+        if (pb == null)
+            pb = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
         _renderer = GetComponent<Renderer>();
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.drag = 0f;
@@ -63,7 +66,7 @@ public class Asteroid : MonoBehaviour
         hp -= amt;
         if (hp <= 0)
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(xp);
+            pb.IncreaseScore(xp);
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
