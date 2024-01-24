@@ -10,6 +10,10 @@ TagManager:
   - Asteroid
   - Statistic
   - Planet
+  - Boss
+  - BossProjectile
+  - BossBeam
+  - InterceptingEnemy
   - Overcharge
   layers:
   - Default

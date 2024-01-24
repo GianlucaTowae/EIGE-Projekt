@@ -1,21 +1,28 @@
+using System;
 using UnityEngine;
 
 public class InterceptingEnemy : MonoBehaviour
 {
+    [SerializeField] private float startHealth = 1f;
+    [SerializeField] private int xp = 1;
     [SerializeField] private float speedBase = 25f;
     [SerializeField] private float speedMultiplier = 1f;
 
     private Rigidbody _playerRigidbody;
     private Rigidbody _rigidbody;
+    private float _hp;
 
     void Awake()
     {
         _playerRigidbody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
         _rigidbody = GetComponent<Rigidbody>();
+        _hp = startHealth;
     }
 
     void FixedUpdate()
     {
+        _rigidbody.velocity = transform.TransformDirection(Vector3.left * (speedBase * speedMultiplier));
+
         Vector3 playerVelocity = _playerRigidbody.velocity;
         Vector3 playerPosition = _playerRigidbody.position;
 
@@ -23,10 +30,22 @@ public class InterceptingEnemy : MonoBehaviour
         float distance = Vector3.Distance(playerPosition, _rigidbody.position);
         float expectedTravelTime = distance / relativeVelocity.magnitude;
         Vector3 predictedMeetingPoint = playerPosition + expectedTravelTime * playerVelocity;
-        Vector3 direction = (predictedMeetingPoint - _rigidbody.position).normalized;
 
-        transform.LookAt(predictedMeetingPoint, Vector3.back);
-        transform.Rotate(Vector3.right * 90f);
-        _rigidbody.velocity = transform.TransformDirection(Vector3.up * (speedBase * speedMultiplier));
+        Debug.DrawLine(transform.position, predictedMeetingPoint);
+
+        Vector3 direction = predictedMeetingPoint - transform.position;
+        Quaternion rotation = Quaternion.FromToRotation(-transform.right, direction);
+        transform.rotation *= rotation;
+    }
+
+    public void Damage(float amt)
+    {
+        _hp -= amt;
+        if (_hp <= 0)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(2);
+            // TODO: Explosion
+            Destroy(gameObject);
+        }
     }
 }

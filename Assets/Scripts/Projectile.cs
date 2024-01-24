@@ -64,6 +64,16 @@ public class Projectile : MonoBehaviour
             if(!piercing) Destroy(gameObject);
             other.GetComponent<Planet>().Damage(_damageBase * _damageMultiplier);
         }
+        else if(other.CompareTag("InterceptingEnemy"))
+        {
+            if(!piercing) Destroy(gameObject);
+            other.GetComponent<InterceptingEnemy>().Damage(_damageBase * _damageMultiplier);
+        }
+        else if(other.CompareTag("Boss"))
+        {
+            if(!piercing) Destroy(gameObject);
+            other.GetComponent<Boss>().Damage(_damageBase * _damageMultiplier);
+        }
     }
     //ABILITIES
     [HideInInspector] public Material material;

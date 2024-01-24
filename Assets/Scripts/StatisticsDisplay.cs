@@ -25,7 +25,7 @@ public class StatisticsDisplay : MonoBehaviour
         _values = new Dictionary<Statistics, int>
         {
             { Statistics.SPEED, 100 },
-            { Statistics.DAMAGE, 100 },
+            { Statistics.DAMAGE, 10 },
             { Statistics.HEALTH, 5 },
             { Statistics.MAX_HEALTH, 5 },
         };
@@ -39,20 +39,11 @@ public class StatisticsDisplay : MonoBehaviour
 
     public void SetStatistic(Statistics type, int value)
     {
+        if (_values == null)
+            return;
+
         _values[type] = value;
         UpdateDisplayText();
-        switch (type)
-        {
-            case Statistics.DAMAGE:
-                StaticValues.damage = value;
-                break;
-            case Statistics.SPEED:
-                StaticValues.speed = value;
-                break;
-            case Statistics.MAX_HEALTH:
-                StaticValues.maxHealth = value;
-                break;
-        }
     }
 
     public override string ToString()

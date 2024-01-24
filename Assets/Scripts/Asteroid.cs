@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Asteroid : MonoBehaviour
@@ -8,6 +9,9 @@ public class Asteroid : MonoBehaviour
 
     [SerializeField] private ParticleSystem explosion;
 
+    [SerializeField] private float circleSpeed = 1f;
+    [SerializeField] private float circleDistance = 20f;
+
     private float _currentLifeTime;
 
     private float _speedBase;
@@ -15,15 +19,24 @@ public class Asteroid : MonoBehaviour
 
     private Renderer _renderer;
     private Rigidbody _rigidbody;
+    private bool _circleBoss;
+    private Transform _circleCenter;
 
-    void Start()
+    void Awake()
     {
         _renderer = GetComponent<Renderer>();
         _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody.drag = 0f;
     }
 
     void Update()
     {
+        if (_circleBoss)
+        {
+            transform.RotateAround(_circleCenter.position, Vector3.forward, circleSpeed * Time.deltaTime);
+            return;
+        }
+
         if(!_renderer.isVisible)
         {
             _currentLifeTime += Time.deltaTime;
@@ -38,15 +51,11 @@ public class Asteroid : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        _rigidbody.velocity = transform.TransformDirection(Vector3.back * (_speedBase * _speedMultiplier));
-    }
-
     public void SetSpeed(float speed, float speedMultiplier)
     {
         _speedBase = speed;
         _speedMultiplier = speedMultiplier;
+        _rigidbody.velocity = transform.TransformDirection(Vector3.back * (_speedBase * _speedMultiplier));
     }
 
     public void Damage(float amt)
@@ -58,5 +67,17 @@ public class Asteroid : MonoBehaviour
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
+    }
+
+    public void CircleBoss(Transform circleCenter)
+    {
+        _circleCenter = circleCenter;
+        _circleBoss = true;
+        _rigidbody.isKinematic = true;
+        Vector3 circleCenterPosition = _circleCenter.position;
+        Vector3 transformPosition = transform.position;
+        float distance = Vector3.Distance(circleCenterPosition, transformPosition);
+        transform.position += (_circleCenter.position - transformPosition).normalized * (distance - circleDistance);
+        transform.SetParent(circleCenter);
     }
 }

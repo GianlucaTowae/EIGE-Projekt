@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -25,6 +23,8 @@ public class PlayerBehaviour : MonoBehaviour
         public float speedBase = 25f;
         public float speedMultiplier = 1f;
         public float rotationFactor = 3.5f;
+        public float shoveFactor = 10f;
+        public float immobileAfterHitTime = 1f;
     }
     [SerializeField] private MovementSettings movementSettings;
 
@@ -50,6 +50,11 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private int xpNeededPerLevel = 40;
     [SerializeField] private int startHealth = 5;
     [SerializeField] private StatisticsDisplay statistics;
+
+    [SerializeField] private int bossBeamDamage = 3;
+    [SerializeField] private int interceptingEnemyDamage = 2;
+
+    [SerializeField] private bool invincibleForTesting;
     #endregion
 
     private int _score;
@@ -58,6 +63,8 @@ public class PlayerBehaviour : MonoBehaviour
     private int _maxHealth;
     private float currentShootCooldown;
     private float _halfProjectileHeight;
+
+    private bool immobileAfterHit;
 
     private float _inputHorizontal, _inputVertical;
     private bool _inputShoot;
@@ -77,7 +84,6 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public float blinkingDelay;
     [HideInInspector] public GameObject guardianAngleUI;
     private float respawnDurLeft;
-    
 
     void Awake()
     {
@@ -95,6 +101,8 @@ public class PlayerBehaviour : MonoBehaviour
 
         _rigidbody = GetComponent<Rigidbody>();
         _abilityScript = GetComponent<AbilityScript>();
+
+        IncreaseScore(0);
     }
 
     void Update()
@@ -122,8 +130,11 @@ public class PlayerBehaviour : MonoBehaviour
     void FixedUpdate()
     {
         // Movement
-        _rigidbody.velocity = transform.TransformDirection(
-            Vector3.up * (movementSettings.speedBase * movementSettings.speedMultiplier));
+        if (!immobileAfterHit)
+        {
+            _rigidbody.velocity = transform.TransformDirection(
+                Vector3.up * (movementSettings.speedBase * movementSettings.speedMultiplier));
+        }
 
         // Rotation
         float oldRotationZ = _rigidbody.rotation.eulerAngles.z;
@@ -138,7 +149,7 @@ public class PlayerBehaviour : MonoBehaviour
         float difference = Math.Abs(oldRotationZ - _rigidbody.rotation.eulerAngles.z);
         if (angle < 0 && difference > 1.5f && !invincible)
             exhaustLeft.Play();
-        else if (angle > 0 && difference > 1.5f &&!invincible)
+        else if (angle > 0 && difference > 1.5f && !invincible)
             exhaustRight.Play();
     }
 
@@ -153,17 +164,39 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PlayerProjectile")||other.CompareTag("Overcharge")) return;
-        if(other.CompareTag("Ability")){
-            if(res && other.name.ToLower().Contains("guardianangle")) return;
-            Destroy(other.gameObject);
-            _abilityScript.pickedUpAbility(other.gameObject);
-        }
-        else
+        switch (other.transform.tag)
         {
-            DecreaseHealth();
-            Destroy(other.gameObject);
+            case "Ability":
+                if(res && other.name.ToLower().Contains("guardianangle")) return;
+                Destroy(other.gameObject);
+                _abilityScript.pickedUpAbility(other.gameObject);
+                break;
+            case "Asteroid":
+            case "BossProjectile":
+                DecreaseHealth();
+                Destroy(other.gameObject);
+                break;
+            case "InterceptingEnemy":
+                DecreaseHealth(interceptingEnemyDamage);
+                Destroy(other.gameObject);
+                break;
+            case "Boss":
+            case "Planet":
+                DecreaseHealth();
+                _rigidbody.velocity = (transform.position - other.transform.position) * movementSettings.shoveFactor;
+                StartCoroutine(ImmobileAfterHit());
+                break;
+            case "BossBeam":
+                DecreaseHealth(bossBeamDamage);
+                break;
         }
+    }
+
+    private IEnumerator ImmobileAfterHit()
+    {
+        immobileAfterHit = true;
+        yield return new WaitForSeconds(movementSettings.immobileAfterHitTime);
+        immobileAfterHit = false;
     }
 
     private void Shoot()
@@ -202,8 +235,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void DecreaseHealth()
     {
-        if (invincible) return;
-        _health--;
+        DecreaseHealth(1);
+    }
+
+    private void DecreaseHealth(int amount)
+    {
+        if (invincible || invincibleForTesting) return;
+        _health -= amount;
         if (_health <= 0){
             if (!res) LoseGame();
             else{
@@ -282,7 +320,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void IncreaseDamage(float amount)
     {
         shooting.damageMultiplier += amount;
-        statistics.SetStatistic(StatisticsDisplay.Statistics.DAMAGE, (int) Math.Round(movementSettings.speedMultiplier * 10));
+        statistics.SetStatistic(StatisticsDisplay.Statistics.DAMAGE, (int) Math.Round(shooting.damageMultiplier * 10));
     }
 
     public void IncreaseMaxHealth(int amount)
