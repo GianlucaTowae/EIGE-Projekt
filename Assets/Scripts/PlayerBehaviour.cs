@@ -78,8 +78,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public float doubleShotDelay;
     [HideInInspector] public bool res;
     [HideInInspector] public int XPMultiplier;
-    //[HideInInspector] public bool invincible;
-    public bool invincible;//REVERSE TO ABOVE
+    [HideInInspector] public bool invincible;
     [HideInInspector] public float respawnInvincibleDur;
     [HideInInspector] public float blinkingDelay;
     [HideInInspector] public GameObject guardianAngleUI;
