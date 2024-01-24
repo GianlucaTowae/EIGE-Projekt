@@ -104,7 +104,7 @@ public class AbilityScript : MonoBehaviour
             currentCooldown = UnityEngine.Random.Range(abilitySpawnrateBoundSec.x,abilitySpawnrateBoundSec.y);
         }
         if (Input.GetKeyDown(KeyCode.R))//TODO Remove
-            SpawnAbilityPickUp();
+            searchingProjectiles();
     }
     private void SpawnAbilityPickUp(){
         float x_pos = UnityEngine.Random.Range(0, _mainCamera.pixelWidth);

@@ -7144,6 +7144,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 588564386}
     - target: {fileID: 2272990106634674714, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
+      propertyPath: invincibleForTesting
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272990106634674714, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: shooting.shootCooldownSec
       value: 0.2
       objectReference: {fileID: 0}
@@ -7371,9 +7375,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spaceship
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5304486574745269759, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 783738426903966402, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2053134783}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
 --- !u!4 &4940552930423656941 stripped

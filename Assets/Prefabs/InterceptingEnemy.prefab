@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 5284373738747913497}
   - component: {fileID: 6182555821071788196}
   - component: {fileID: 6403230417090883084}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InterceptingEnemy
   m_TagString: InterceptingEnemy
   m_Icon: {fileID: 0}
@@ -263,5 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac637900fa0453449dc367488db0e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startHealth: 1
+  xp: 1
   speedBase: 50
   speedMultiplier: 1

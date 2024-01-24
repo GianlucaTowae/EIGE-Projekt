@@ -91,7 +91,6 @@ public class Projectile : MonoBehaviour
         bool first = true;
         foreach (Collider c in colliders){
             if(exclude != null && c.gameObject == exclude) continue;
-            if (!c.CompareTag("Planet") && !c.CompareTag("Asteroid")) continue;
             Vector3 toTarget = (c.transform.position - transform.position).normalized;
             if (Vector3.Angle(transform.up, toTarget) < FOVinDeg / 2){
                 if (first) {
@@ -106,11 +105,16 @@ public class Projectile : MonoBehaviour
         }
         if (closestInView != null){
             targetGO = closestInView.gameObject;
-
-            Vector3 relativeVelocity = transform.up * (speedBase * speedMultiplier) - closestInView.GetComponent<Rigidbody>().velocity;
+            Vector3 relativeVelocity;
+            Rigidbody targetRB;
+            if(closestInView.CompareTag("BossCenter"))
+                targetRB = closestInView.GetComponentInParent<Rigidbody>();
+            else    
+                targetRB = closestInView.GetComponent<Rigidbody>();
+            relativeVelocity = transform.up * (speedBase * speedMultiplier) - targetRB.velocity;
             var distance = Vector3.Distance(closestInView.position, transform.position);
             var timeToClose = distance / relativeVelocity.magnitude;
-            Vector3 aim = closestInView.position + timeToClose * closestInView.GetComponent<Rigidbody>().velocity;
+            Vector3 aim = closestInView.position + timeToClose * targetRB.velocity;
             return aim;
         }
         return Vector3.zero;
