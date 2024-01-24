@@ -53,6 +53,10 @@ PrefabInstance:
       value: Asteroid
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7c852a2ef6f285843a9bb5748be62987, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7c852a2ef6f285843a9bb5748be62987, type: 3}
       propertyPath: m_TagString
       value: Asteroid
       objectReference: {fileID: 0}
@@ -89,6 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLifeTime: 3
   hp: 1.5
+  xp: 1
   explosion: {fileID: 235758606614901165, guid: 0848318ec4b66fd48a95e7a774ad4d8f, type: 3}
 --- !u!54 &7155575228375185601
 Rigidbody:

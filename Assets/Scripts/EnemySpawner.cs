@@ -14,10 +14,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float minDistribution = 60f, maxDistribution = 120f;
     [SerializeField] private float targetingClusterDistribution = 100f;
 
-    [SerializeField] private Vector2 spawningIntervalSingle = new(0.5f, 2f);
-    [SerializeField] private Vector2 spawningIntervalCluster = new(4f, 5f);
-    [SerializeField] private Vector2 spawningIntervalTargetingCluster = new(3f, 6f);
-    [SerializeField] private Vector2 spawningIntervalPlanet = new(20f, 30f);
+    public Vector2 spawningIntervalSingle = new(0.5f, 2f);
+    public Vector2 spawningIntervalCluster = new(4f, 5f);
+    public Vector2 spawningIntervalTargetingCluster = new(3f, 6f);
+    public Vector2 spawningIntervalPlanet = new(20f, 30f);
 
     [SerializeField] private float asteroidStartTime = 2f;
     [SerializeField] private float interceptingStartTime = 2f;
@@ -27,7 +27,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject planetPrefab;
     [SerializeField] private GameObject interceptingEnemyPrefab;
 
-    private float _singleCooldown, _clusterCooldown, _targetingClusterCooldown, _interceptingCooldown, _planetCooldown;
+    [HideInInspector] public float _singleCooldown, _clusterCooldown, _targetingClusterCooldown, _interceptingCooldown, _planetCooldown;
     private float _halfAsteroidWidth, _halfPlanetWidth;
     private Camera _mainCamera;
     private float _screenCircleRadius;
@@ -57,6 +57,9 @@ public class EnemySpawner : MonoBehaviour
             mousePos.z = 0;
             Instantiate(interceptingEnemyPrefab, mousePos, Quaternion.identity);
         }
+        if (Input.GetKeyDown(KeyCode.B)){
+            SpawnRandomAsteroid();
+        }
 
         _singleCooldown -= Time.deltaTime;
         _clusterCooldown -= Time.deltaTime;
@@ -66,7 +69,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (_singleCooldown <= 0f)
         {
-            SpawnRandomAsteroid();
+            SpawnRandomAsteroid();//RMEOVE "//"!!
             _singleCooldown = Random.Range(spawningIntervalSingle.x, spawningIntervalSingle.y);
         }
         if (_clusterCooldown <= 0f)

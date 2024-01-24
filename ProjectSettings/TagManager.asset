@@ -10,6 +10,7 @@ TagManager:
   - Asteroid
   - Statistic
   - Planet
+  - Overcharge
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - NoLight
   - Water
   - UI
-  - 
+  - Enemies
   - 
   - 
   - 

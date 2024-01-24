@@ -71,9 +71,11 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public float doubleShotDelay;
     [HideInInspector] public bool res;
     [HideInInspector] public int XPMultiplier;
-    [HideInInspector] public bool invincible;
+    //[HideInInspector] public bool invincible;
+    public bool invincible;//REVERSE TO ABOVE
     [HideInInspector] public float respawnInvincibleDur;
     [HideInInspector] public float blinkingDelay;
+    [HideInInspector] public GameObject guardianAngleUI;
     private float respawnDurLeft;
     
 
@@ -84,6 +86,7 @@ public class PlayerBehaviour : MonoBehaviour
         doubleShot = false;
         XPMultiplier = 1;
         respawnDurLeft = -1;
+        guardianAngleUI = null;
         
         _halfProjectileHeight = shooting.projectilePrefab.GetComponent<Renderer>().bounds.size.y / 2;
 
@@ -150,10 +153,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PlayerProjectile")) return;
+        if(other.CompareTag("PlayerProjectile")||other.CompareTag("Overcharge")) return;
         if(other.CompareTag("Ability")){
+            if(res && other.name.ToLower().Contains("guardianangle")) return;
             Destroy(other.gameObject);
-            _abilityScript.pickedUpAbility();
+            _abilityScript.pickedUpAbility(other.gameObject);
         }
         else
         {
@@ -204,7 +208,6 @@ public class PlayerBehaviour : MonoBehaviour
             if (!res) LoseGame();
             else{
                 _health = _maxHealth;
-                res = false;
                 StartCoroutine(InvincibilityOnRes());
             }
         }
@@ -244,24 +247,33 @@ public class PlayerBehaviour : MonoBehaviour
             if (ps != null && ps != exhaustLeft && ps != exhaustRight) AllPS.Add(ps);
         }
         
+        int count = 0;
         while(respawnDurLeft > 0){
+            count++;
             if (AllMesh.Count > 0 && AllMesh.First().enabled){
                 foreach(MeshRenderer mr in AllMesh) mr.enabled = false;
                 foreach(ParticleSystem ps in AllPS) ps.Clear();
                 foreach(ParticleSystem ps in AllPS) ps.Stop();
+                if (guardianAngleUI.activeInHierarchy && count >= 2){
+                    guardianAngleUI.SetActive(false);
+                    count=0;
+                }
             }
             else{
                 foreach(MeshRenderer mr in AllMesh) mr.enabled = true;
                 foreach(ParticleSystem ps in AllPS) ps.Play();
+                if (!guardianAngleUI.activeInHierarchy && count >= 2){
+                    guardianAngleUI.SetActive(true);
+                    count=0;
+                }
             }
             yield return new WaitForSeconds(blinkingDelay);
         }
-        if (respawnDurLeft < 0) {
-            foreach(MeshRenderer mr in AllMesh) mr.enabled = true;
-            foreach(ParticleSystem ps in AllPS) ps.Play();
-            invincible = false;
-            yield break;
-        }
+        foreach(MeshRenderer mr in AllMesh) mr.enabled = true;
+        foreach(ParticleSystem ps in AllPS) ps.Play();
+        invincible = false;
+        Destroy(guardianAngleUI);
+        res = false;
     }
 
     public float DamageBase => shooting.damageBase;
@@ -278,6 +290,11 @@ public class PlayerBehaviour : MonoBehaviour
         _maxHealth += amount;
         statistics.SetStatistic(StatisticsDisplay.Statistics.MAX_HEALTH, _maxHealth);
         _health += amount;
+        statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
+    }
+
+    public void Heal(){
+        _health = _maxHealth;
         statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
     }
 }
