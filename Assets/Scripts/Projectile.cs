@@ -28,7 +28,7 @@ public class Projectile : MonoBehaviour
     {
         transform.Translate(Vector3.up * (speedBase * speedMultiplier * Time.deltaTime));
 
-        if (homInActive){//`?????
+        if (homInActive){
             if(!hitTarget && Vector3.Distance(transform.position, target) < 20f){
                     Debug.Log("close enough");
                     Vector3 lookTo = target - transform.position;
@@ -86,8 +86,6 @@ public class Projectile : MonoBehaviour
     private bool hitTarget;
     private float rotatePerTime;
     private Vector3 getTarget(GameObject exclude){
-        range = 200f;//TMP SETI IN ABSCRIPT
-        FOVinDeg = 90;//TMP SETI IN ABSCRIPT
         Collider[] colliders = Physics.OverlapSphere(transform.position, range, LayerMask.GetMask("Enemies"));
         Transform closestInView = null;
         bool first = true;
@@ -110,7 +108,6 @@ public class Projectile : MonoBehaviour
             targetGO = closestInView.gameObject;
 
             Vector3 relativeVelocity = transform.up * (speedBase * speedMultiplier) - closestInView.GetComponent<Rigidbody>().velocity;
-            //Debug.Log(closestInView.GetComponent<Rigidbody>().velocity+ " --- "+ transform.up * (speedBase * speedMultiplier) + " --- " + relativeVelocity);
             var distance = Vector3.Distance(closestInView.position, transform.position);
             var timeToClose = distance / relativeVelocity.magnitude;
             Vector3 aim = closestInView.position + timeToClose * closestInView.GetComponent<Rigidbody>().velocity;
@@ -121,15 +118,10 @@ public class Projectile : MonoBehaviour
     private float HomeIn(Vector3 pos){
         if (pos == null || pos == Vector3.zero) return .0f;
         float angle = Vector3.SignedAngle(pos-transform.position, transform.up, Vector3.back);
-        rotatePerTime = 1f;//TODO SET SOMEWHERE!!
+        rotatePerTime = 1f;
         if (transform.right.z<0){ 
             rotatePerTime*=-1;
         }
-        //Debug.Log(Mathf.Sin(0*Mathf.Deg2Rad)+"----"+Mathf.Sin(90*Mathf.Deg2Rad)+""+Mathf.Sin(180*Mathf.Deg2Rad)+""+Mathf.Sin(270*Mathf.Deg2Rad));
-        //if (Mathf.Abs(angle) >= 170)
-        //    editRotate = 15f;
-        //if(Mathf.Abs(angle) < editRotate)
-        //    editRotate = angle;
         if(angle <0){
             rotatePerTime *= -1;
         }
@@ -137,21 +129,6 @@ public class Projectile : MonoBehaviour
         if (Mathf.Abs(angle) > 3)
             transform.Rotate(Vector3.right, rotatePerTime);
         var angleDebugNew = Vector3.SignedAngle(pos-transform.position, transform.up, Vector3.back);
-       // Debug.Log(angle + " adjusted by: "+editRotate +" to "+ angleDebugNew+ debugBool1 + debugBool2 +":"+Mathf.Sin(transform.rotation.eulerAngles.y*Mathf.Deg2Rad));
         return angle;
-    }
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        if (target != null){
-            //Gizmos.DrawLine(transform.position, target);
-            //target = getTarget();
-            //HomeIn(target);
-            //Gizmos.DrawLine(transform.position, target);
-            //Gizmos.DrawLine(start+transform.position, start);
-            //if(targetGO != null)
-            //Gizmos.DrawLine(transform.position, targetGO.transform.position-transform.position);
-            Gizmos.DrawSphere(target, 5f);
-        }
     }
 }

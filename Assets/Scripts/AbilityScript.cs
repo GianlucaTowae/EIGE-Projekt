@@ -104,7 +104,7 @@ public class AbilityScript : MonoBehaviour
             currentCooldown = UnityEngine.Random.Range(abilitySpawnrateBoundSec.x,abilitySpawnrateBoundSec.y);
         }
         if (Input.GetKeyDown(KeyCode.R))//TODO Remove
-            overcharge();
+            SpawnAbilityPickUp();
     }
     private void SpawnAbilityPickUp(){
         float x_pos = UnityEngine.Random.Range(0, _mainCamera.pixelWidth);
@@ -126,8 +126,6 @@ public class AbilityScript : MonoBehaviour
 
     }
     public void pickedUpAbility(GameObject other){
-        //TODO if not already: pause all timers on levelpopup
-        
         if(other.name.ToLower().Contains("repairkit")) repairKit();
         else if(other.name.ToLower().Contains("guardianangle")) guradianAngle();
         else if(other.name.ToLower().Contains("shield")) shield();
@@ -234,7 +232,7 @@ public class AbilityScript : MonoBehaviour
         projectile.material = defProjMat;
 
     }
-    private IEnumerator SabotageDuration()//(überhaupt nicht unnötig aufwendig geschrieben)
+    private IEnumerator SabotageDuration()
     {
         Vector2[] savedValues = new Vector2[]{
             enemySpawner.spawningIntervalSingle,
