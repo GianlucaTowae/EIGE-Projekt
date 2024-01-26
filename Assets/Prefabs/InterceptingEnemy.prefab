@@ -267,4 +267,4 @@ MonoBehaviour:
   xp: 1
   speedBase: 50
   speedMultiplier: 1
-  explosion: {fileID: 6181400955247935441, guid: 67c704515d116554eafa7027d4c4b29d, type: 3}
+  explosion: {fileID: 235758606614901165, guid: 2f2e656e81d36ff47b1a3c16401eb655, type: 3}
