@@ -587,7 +587,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 0, b: 0, a: 1}
-      maxColor: {r: 1, g: 0, b: 0, a: 1}
+      maxColor: {r: 0.7058824, g: 0, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 0.5235849, b: 0.5804298, a: 1}
@@ -5293,7 +5293,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5596491618044218428}
   serializedVersion: 8
-  lengthInSec: 2
+  lengthInSec: 1.25
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -5368,7 +5368,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 1.25
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5475,7 +5475,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 0, b: 0, a: 1}
-      maxColor: {r: 1, g: 0.7122642, b: 0.7122642, a: 1}
+      maxColor: {r: 0.78431374, g: 0.47058824, b: 0.47058824, a: 0.78431374}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 0.5235849, b: 0.5804298, a: 1}

@@ -48,8 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5540f57d3922040438ec486fdb28fabc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xp: 20
   maxLifeTime: 30
   hp: 30
+  explosion: {fileID: 235758606614901165, guid: 0848318ec4b66fd48a95e7a774ad4d8f, type: 3}
 --- !u!33 &685697987728822427
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public class Planet : MonoBehaviour
     [SerializeField] private int xp = 20;
     [SerializeField] private float maxLifeTime = 30f;
     [SerializeField] private float hp = 30f;
+    [SerializeField] private ParticleSystem explosion;
 
     private float _currentLifeTime;
 
@@ -43,7 +44,7 @@ public class Planet : MonoBehaviour
     public void Explode()
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(xp);
-        // TODO: Particle System
+        Instantiate(explosion, transform.position, Quaternion.identity); 
         Destroy(gameObject);
     }
 }
