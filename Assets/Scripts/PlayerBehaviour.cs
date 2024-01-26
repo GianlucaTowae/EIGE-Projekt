@@ -166,18 +166,22 @@ public class PlayerBehaviour : MonoBehaviour
         switch (other.transform.tag)
         {
             case "Ability":
+                Sounds.Play(Sounds.Sound.ABILITY_PICKUP);
                 if(res && other.name.ToLower().Contains("guardianangle")) return;
                 Destroy(other.gameObject);
                 _abilityScript.pickedUpAbility(other.gameObject);
                 break;
             case "Asteroid":
+                DecreaseHealth();
+                other.GetComponent<Asteroid>().Explode();
+                break;
             case "BossProjectile":
                 DecreaseHealth();
                 Destroy(other.gameObject);
                 break;
             case "InterceptingEnemy":
                 DecreaseHealth(interceptingEnemyDamage);
-                Destroy(other.gameObject);
+                other.GetComponent<InterceptingEnemy>().Explode();
                 break;
             case "Boss":
             case "Planet":
@@ -202,7 +206,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if(currentShootCooldown > 0) return;
         currentShootCooldown = shooting.shootCooldownSec;
-        // TODO: Sound
         Transform cachedTransform = shooting.cannon.transform;
         cachedTransform.Rotate(90f, 0f, 0f);
         Vector3 position = cachedTransform.position +
@@ -248,6 +251,7 @@ public class PlayerBehaviour : MonoBehaviour
                 StartCoroutine(InvincibilityOnRes());
             }
         }
+        Sounds.Play(Sounds.Sound.DAMAGE_TAKEN);
         statistics.SetStatistic(StatisticsDisplay.Statistics.HEALTH, _health);
     }
 
@@ -259,6 +263,7 @@ public class PlayerBehaviour : MonoBehaviour
         xpBarTransform.localScale = new Vector3((float) _score / xpNeededPerLevel, 1f, 1f);
         if (levelUp)
         {
+            Sounds.Play(Sounds.Sound.LEVEL_UP);
             _level++;
             scoreLevelLabel.text = _level.ToString();
             levelUpPopup.Show();

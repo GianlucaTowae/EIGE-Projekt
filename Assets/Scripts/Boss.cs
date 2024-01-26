@@ -41,6 +41,7 @@ public class Boss : MonoBehaviour
         _shootCooldown = shootInterval;
         _beamCooldown = Random.Range(beamInterval.x, beamInterval.y);
         _hp = startHp;
+        Sounds.Play(Sounds.Sound.BOSS_SPAWN);
     }
 
     private void Update()
@@ -114,6 +115,7 @@ public class Boss : MonoBehaviour
     public void Damage(float amount)
     {
         _hp -= amount;
+        Sounds.Play(Sounds.Sound.HIT_METAL);
         if (_hp < 0f)
             SceneManager.LoadScene("WinScene");
     }

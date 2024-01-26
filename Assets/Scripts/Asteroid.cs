@@ -66,10 +66,20 @@ public class Asteroid : MonoBehaviour
         hp -= amt;
         if (hp <= 0)
         {
-            pb.IncreaseScore(xp);
-            Instantiate(explosion, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            Explode();
         }
+        else
+        {
+            Sounds.Play(Sounds.Sound.HIT_STONE);
+        }
+    }
+
+    public void Explode()
+    {
+        pb.IncreaseScore(xp);
+        Sounds.Play(Sounds.Sound.ASTEROID_EXPLOSION);
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
     public void CircleBoss(Transform circleCenter)

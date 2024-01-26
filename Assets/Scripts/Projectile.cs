@@ -1,7 +1,5 @@
 using System;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Video;
 
 public class Projectile : MonoBehaviour
 {
@@ -23,7 +21,12 @@ public class Projectile : MonoBehaviour
             start = targetGO.transform.position - transform.position;
         }
     }
-    
+
+    private void Start()
+    {
+        Sounds.Play(Sounds.Sound.PROJECTILE);
+    }
+
     void Update()
     {
         transform.Translate(Vector3.up * (speedBase * speedMultiplier * Time.deltaTime));

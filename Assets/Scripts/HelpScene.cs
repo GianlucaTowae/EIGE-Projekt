@@ -7,13 +7,17 @@ public class HelpScene : MonoBehaviour
     [SerializeField] private GameObject[] pages;
     [SerializeField] private Image next;
     [SerializeField] private Image previous;
+    private Button _buttonNext;
+    private Button _buttonPrevious;
     private int _page;
 
     private void Start()
     {
         SetPage(0);
-        next.GetComponent<Button>().onClick.AddListener(NextPage);
-        previous.GetComponent<Button>().onClick.AddListener(PreviousPage);
+        _buttonPrevious = previous.GetComponent<Button>();
+        _buttonNext = next.GetComponent<Button>();
+        _buttonNext.onClick.AddListener(NextPage);
+        _buttonPrevious.GetComponent<Button>().onClick.AddListener(PreviousPage);
     }
 
     private void Update()
@@ -22,9 +26,9 @@ public class HelpScene : MonoBehaviour
             SceneManager.LoadScene("StartScene");
 
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-            NextPage();
+            _buttonNext.onClick.Invoke();
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-            PreviousPage();
+            _buttonPrevious.onClick.Invoke();
     }
 
     private void PreviousPage()

@@ -17,14 +17,16 @@ public class Beam : MonoBehaviour
 
     public void Play()
     {
-        _preview.Play();
         StartCoroutine(WaitAndPlayLaser(1.5f, 0.5f));
     }
 
     private IEnumerator WaitAndPlayLaser(float prewarmTime, float laserTime)
     {
+        _preview.Play();
+        Sounds.Play(Sounds.Sound.BOSS_BEAM_CHARGE);
         yield return new WaitForSeconds(prewarmTime);
         _laser.Play();
+        Sounds.Play(Sounds.Sound.BOSS_BEAM);
         _collider.enabled = true;
         yield return new WaitForSeconds(laserTime);
         _collider.enabled = false;

@@ -44,10 +44,14 @@ public class InterceptingEnemy : MonoBehaviour
     {
         _hp -= amt;
         if (_hp <= 0)
-        {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(2);
-            Instantiate(explosion, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-        }
+            Explode();
+    }
+
+    public void Explode()
+    {
+        Sounds.Play(Sounds.Sound.HIT_METAL);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(2);
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }

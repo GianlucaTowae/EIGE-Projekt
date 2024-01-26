@@ -2,13 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoseScene : MonoBehaviour
+public class WinScene : MonoBehaviour
 {
     private bool _waited = false;
 
     private void Start()
     {
-        Sounds.Play(Sounds.Sound.LOSE);
+        Sounds.Play(Sounds.Sound.WIN);
         StartCoroutine(WaitTime());
     }
 
