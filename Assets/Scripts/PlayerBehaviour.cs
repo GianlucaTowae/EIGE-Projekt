@@ -47,7 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private RectTransform xpBarTransform;
     [SerializeField] private TMP_Text scoreLevelLabel;
     [SerializeField] private LevelUpPopup levelUpPopup;
-    [SerializeField] private int xpNeededPerLevel = 40;
+    [SerializeField] private int xpNeededPerLevel = 20;
     [SerializeField] private int startHealth = 5;
     [SerializeField] private StatisticsDisplay statistics;
 
@@ -261,6 +261,7 @@ public class PlayerBehaviour : MonoBehaviour
         bool levelUp = _score / xpNeededPerLevel > 0;
         _score %= xpNeededPerLevel;
         xpBarTransform.localScale = new Vector3((float) _score / xpNeededPerLevel, 1f, 1f);
+        //TODO: xp increase by 5 with every level
         if (levelUp)
         {
             Sounds.Play(Sounds.Sound.LEVEL_UP);
