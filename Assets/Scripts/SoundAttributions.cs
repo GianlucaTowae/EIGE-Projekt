@@ -10,7 +10,9 @@ public class SoundAttributions : MonoBehaviour
     private enum License
     {
         CEATIVE_COMMONS_0,
-
+        ATTRIBUTION_3_0,
+        ATTRIBUTION_4_0,
+        ATTRIBUTION_NC_4_0
     }
 
     [Serializable]
@@ -41,8 +43,10 @@ public class SoundAttributions : MonoBehaviour
                       + "\nLICENSED UNDER " + sa.license switch
             {
                 License.CEATIVE_COMMONS_0 => Link("Creative Commons 0", soundAttributions.IndexOf(sa) + "license"),
-                _ => throw new ArgumentOutOfRangeException()
-            };
+                License.ATTRIBUTION_3_0 => Link("Attribution 3.0", soundAttributions.IndexOf(sa) + "license"),
+                License.ATTRIBUTION_4_0 => Link("Attribution 4.0", soundAttributions.IndexOf(sa) + "license"),
+                License.ATTRIBUTION_NC_4_0 => Link("Attribution NonCommercial 4.0", soundAttributions.IndexOf(sa) + "license")
+            } + "\n";
     }
 
     private string Link(string name, string id)
@@ -57,7 +61,6 @@ public class SoundAttributions : MonoBehaviour
             return;
 
         int linkIndex = TMP_TextUtilities.FindIntersectingLink(_text, Input.mousePosition, _camera);
-        Debug.Log(linkIndex);
 
         // No link clicked
         if (linkIndex == -1)
@@ -74,6 +77,9 @@ public class SoundAttributions : MonoBehaviour
         return license switch
         {
             License.CEATIVE_COMMONS_0 => "https://creativecommons.org/publicdomain/zero/1.0/",
+            License.ATTRIBUTION_3_0 => "https://creativecommons.org/licenses/by/3.0/",
+            License.ATTRIBUTION_4_0 => "https://creativecommons.org/licenses/by/4.0/",
+            License.ATTRIBUTION_NC_4_0 => "https://creativecommons.org/licenses/by-nc/4.0/",
             _ => throw new ArgumentOutOfRangeException(nameof(license), license, null)
         };
     }
