@@ -47,14 +47,15 @@ public class AbilityScript : MonoBehaviour
     [SerializeField] private Projectile projectile;
     [SerializeField] private GameObject OverchargeObj;
     [SerializeField] private AbilityUI abilityUIscript;
+    [SerializeField] private GameObject abilityCapsule;
     [Serializable]
     public class AbilityGO {
         public AbilityUI.AbilityName name;
-        public GameObject prefab;
+        public Material prefab;
         public int probability;
     }
     [SerializeField] private AbilityGO[] abilityPrefabs;
-    private Dictionary<AbilityUI.AbilityName, GameObject> prefabMap = new Dictionary<AbilityUI.AbilityName, GameObject>();
+    private Dictionary<AbilityUI.AbilityName, Material> prefabMap = new Dictionary<AbilityUI.AbilityName, Material>();
     private Dictionary<int[], AbilityUI.AbilityName> probMap = new Dictionary<int[], AbilityUI.AbilityName>();
     private PlayerBehaviour player;
     private OverchargeDealDamge oObjScript;
@@ -120,19 +121,29 @@ public class AbilityScript : MonoBehaviour
         pos.z = 0;
 
         int abilityNum = UnityEngine.Random.Range(0, sum);
-        GameObject randomAb;
-
+        Material randomAb;
         foreach (var item in probMap){
             if (item.Key[0] <= abilityNum && item.Key[1] > abilityNum){
                 randomAb = prefabMap[item.Value];
-                randomAb.name = item.Value.ToString();
-                Instantiate(randomAb, pos, Quaternion.identity);
+                UnityEngine.Debug.Log(randomAb);
+                GameObject newBox = Instantiate(abilityCapsule, pos, Quaternion.identity);
+                newBox.transform.Rotate(Vector3.up, -90);
+                UnityEngine.Debug.Log(newBox);
+                foreach (Transform child in newBox.transform){   
+                    if (child.CompareTag("Display")){
+                        UnityEngine.Debug.Log(child);
+                        child.GetComponent<Renderer>().material = randomAb;
+                        break;
+                    }
+                }
+                newBox.name = item.Value.ToString();
                 break;
             }
         }
 
     }
-    public void pickedUpAbility(GameObject other){
+    public void pickedUpAbility(GameObject collided){
+        GameObject other = collided.transform.parent.gameObject;
         if(other.name.ToLower().Contains("repairkit")) repairKit();
         else if(other.name.ToLower().Contains("guardianangle")) guradianAngle();
         else if(other.name.ToLower().Contains("shield")) shield();

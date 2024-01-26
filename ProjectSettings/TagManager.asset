@@ -16,6 +16,7 @@ TagManager:
   - InterceptingEnemy
   - Overcharge
   - BossCenter
+  - Display
   layers:
   - Default
   - TransparentFX

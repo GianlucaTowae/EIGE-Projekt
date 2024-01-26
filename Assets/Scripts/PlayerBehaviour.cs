@@ -168,7 +168,7 @@ public class PlayerBehaviour : MonoBehaviour
             case "Ability":
                 Sounds.Play(Sounds.Sound.ABILITY_PICKUP);
                 if(res && other.name.ToLower().Contains("guardianangle")) return;
-                Destroy(other.gameObject);
+                Destroy(other.transform.parent.gameObject);
                 _abilityScript.pickedUpAbility(other.gameObject);
                 break;
             case "Asteroid":
