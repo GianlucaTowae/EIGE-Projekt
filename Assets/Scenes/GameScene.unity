@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.001961114, g: 0.0019460127, b: 0.001961114, a: 1}
+  m_IndirectSpecularColor: {r: 0.0019611563, g: 0.0019488356, b: 0.0019611563, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5033,63 +5033,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &474087090
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -121.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 93.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7848130990533232882, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_Name
-      value: Asteroid (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
 --- !u!1 &588564384
 GameObject:
   m_ObjectHideFlags: 0
@@ -6236,63 +6179,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654867461}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1820899868
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -420
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -275.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467523584194744904, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7848130990533232882, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
-      propertyPath: m_Name
-      value: Asteroid
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: da3757ebe0df48f49b1ad758ab3d63c6, type: 3}
 --- !u!4 &1909780258 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 783738426903966402, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
@@ -7393,7 +7279,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5304486574745269759, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6679191271260966765, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 783738426903966402, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       insertIndex: -1
@@ -7416,5 +7303,3 @@ SceneRoots:
   - {fileID: 1326298237}
   - {fileID: 250141907}
   - {fileID: 739940019}
-  - {fileID: 1820899868}
-  - {fileID: 474087090}

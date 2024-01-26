@@ -8,6 +8,8 @@ public class InterceptingEnemy : MonoBehaviour
     [SerializeField] private float speedBase = 25f;
     [SerializeField] private float speedMultiplier = 1f;
 
+    [SerializeField] private ParticleSystem explosion;
+
     private Rigidbody _playerRigidbody;
     private Rigidbody _rigidbody;
     private float _hp;
@@ -44,7 +46,7 @@ public class InterceptingEnemy : MonoBehaviour
         if (_hp <= 0)
         {
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(2);
-            // TODO: Explosion
+            Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
