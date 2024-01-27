@@ -77,12 +77,19 @@ public class Asteroid : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Boss"))
-            Explode();
+            ExplodeNoXp();
     }
 
     public void Explode()
     {
         pb.IncreaseScore(xp);
+        Sounds.Play(Sounds.Sound.ASTEROID_EXPLOSION);
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+    }
+
+    private void ExplodeNoXp()
+    {
         Sounds.Play(Sounds.Sound.ASTEROID_EXPLOSION);
         Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);

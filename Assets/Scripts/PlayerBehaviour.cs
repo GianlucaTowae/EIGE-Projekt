@@ -301,7 +301,16 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void LoseGame()
     {
+        SaveScore();
         SceneManager.LoadScene("LoseScene");
+    }
+
+    public void SaveScore()
+    {
+        if (_score > PlayerPrefs.GetInt("highscore"))
+            PlayerPrefs.SetInt("highscore", _score);
+        PlayerPrefs.SetInt("score", _score);
+        PlayerPrefs.Save();
     }
     
     private IEnumerator InvincibilityOnRes()

@@ -2,13 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-/*
- * TODO:
- * - Asteroid Shield
- * - Collision with Planet
- * - Testing
- */
 public class Boss : MonoBehaviour
 {
     [SerializeField] private GameObject player;
@@ -84,7 +77,6 @@ public class Boss : MonoBehaviour
         Vector3 cachedPosition = transform.position;
         float angle = Vector3.SignedAngle(_beam.transform.position - cachedPosition, player.transform.position - cachedPosition, Vector3.forward);
         _beam.transform.RotateAround(cachedPosition, Vector3.forward, angle);
-        // transform.LookAt(player.transform, Vector3.forward);
         _beam.Play();
         yield return new WaitForSeconds(pauseTimeWhileBeam);
         _rigidbody.angularVelocity = Vector3.forward * rotationSpeed;
@@ -132,7 +124,10 @@ public class Boss : MonoBehaviour
 
         Sounds.Play(Sounds.Sound.HIT_METAL);
         if (_hp < 0f)
+        {
+            player.GetComponent<PlayerBehaviour>().SaveScore();
             SceneManager.LoadScene("WinScene");
+        }
     }
 
     public void SetPlayer(GameObject player)

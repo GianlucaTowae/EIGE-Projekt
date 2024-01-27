@@ -6505,6 +6505,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5766351132109974640, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
+      propertyPath: bossSpawnTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: OverchargeObj
       value: 

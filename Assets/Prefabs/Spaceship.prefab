@@ -552,12 +552,13 @@ MonoBehaviour:
   xpBarTransform: {fileID: 0}
   scoreLevelLabel: {fileID: 0}
   levelUpPopup: {fileID: 0}
-  xpNeededPerLevel: 40
+  baseXpPerLevel: 20
+  increasedXpPerLevel: 5
   startHealth: 5
   statistics: {fileID: 0}
   bossBeamDamage: 3
   interceptingEnemyDamage: 2
-  invincibleForTesting: 1
+  invincibleForTesting: 0
   doubleShot: 0
   doubleShotDelay: 0
   res: 0

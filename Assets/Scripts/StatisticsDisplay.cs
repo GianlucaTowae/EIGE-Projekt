@@ -50,17 +50,6 @@ public class StatisticsDisplay : MonoBehaviour
     {
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(nameof(Statistics.SPEED).ToLower().FirstCharacterToUpper());
-        sb.Append(": ");
-        sb.Append(_values[Statistics.SPEED]);
-        sb.Append("%");
-        sb.AppendLine();
-
-        sb.Append(nameof(Statistics.DAMAGE).ToLower().FirstCharacterToUpper());
-        sb.Append(": ");
-        sb.Append(_values[Statistics.DAMAGE]);
-        sb.AppendLine();
-
         sb.Append(nameof(Statistics.HEALTH).ToLower().FirstCharacterToUpper());
         sb.Append(": ");
         for (int i = 0; i <  _values[Statistics.MAX_HEALTH]; i++)
@@ -71,6 +60,16 @@ public class StatisticsDisplay : MonoBehaviour
                 sb.Append('\u2661');
         }
         sb.AppendLine();
+
+        sb.Append(nameof(Statistics.DAMAGE).ToLower().FirstCharacterToUpper());
+        sb.Append(": ");
+        sb.Append(_values[Statistics.DAMAGE]);
+        sb.AppendLine();
+
+        sb.Append(nameof(Statistics.SPEED).ToLower().FirstCharacterToUpper());
+        sb.Append(": ");
+        sb.Append(_values[Statistics.SPEED]);
+        sb.Append("%");
 
         return sb.ToString();
     }

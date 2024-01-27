@@ -45,6 +45,7 @@ public class Sounds : MonoBehaviour
         _staticAudioClips = audioClips;
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public static void Play(Sound sound)
     {
         SingleAudioClip audioClip;
@@ -52,7 +53,7 @@ public class Sounds : MonoBehaviour
         {
             audioClip = _staticAudioClips.First(clip => clip.sound == sound);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             Debug.Log(sound + " isn't loaded");
             return;
