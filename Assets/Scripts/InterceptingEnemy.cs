@@ -50,7 +50,7 @@ public class InterceptingEnemy : MonoBehaviour
     public void Explode()
     {
         Sounds.Play(Sounds.Sound.HIT_METAL);
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(2);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().IncreaseScore(xp);
         Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0019611563, g: 0.0019488356, b: 0.0019611563, a: 1}
+  m_IndirectSpecularColor: {r: 0.001961114, g: 0.0019460127, b: 0.001961114, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6501,6 +6501,10 @@ PrefabInstance:
       propertyPath: bossBar
       value: 
       objectReference: {fileID: 1266210144}
+    - target: {fileID: 5766351132109974640, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: OverchargeObj
       value: 

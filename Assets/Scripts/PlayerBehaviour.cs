@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -47,7 +48,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private RectTransform xpBarTransform;
     [SerializeField] private TMP_Text scoreLevelLabel;
     [SerializeField] private LevelUpPopup levelUpPopup;
-    [SerializeField] private int xpNeededPerLevel = 20;
+    [SerializeField] private int baseXpPerLevel = 20;
+    [SerializeField] private int increasedXpPerLevel = 5;
     [SerializeField] private int startHealth = 5;
     [SerializeField] private StatisticsDisplay statistics;
 
@@ -207,10 +209,10 @@ public class PlayerBehaviour : MonoBehaviour
         if(currentShootCooldown > 0) return;
         currentShootCooldown = shooting.shootCooldownSec;
         Transform cachedTransform = shooting.cannon.transform;
-        cachedTransform.Rotate(90f, 0f, 0f);
+        Quaternion rotation = cachedTransform.rotation * Quaternion.Euler(90f, 0f, 0f);
         Vector3 position = cachedTransform.position +
-                           cachedTransform.TransformDirection(shooting.shootPointOffset + Vector3.up * _halfProjectileHeight);
-        Instantiate(shooting.projectilePrefab, position, cachedTransform.rotation);
+                           rotation * (shooting.shootPointOffset + Vector3.up * _halfProjectileHeight);
+        Instantiate(shooting.projectilePrefab, position, rotation);
         shooting.shootingBurst.Play();
         if (doubleShot){
             StartCoroutine(waitAndShoot());
@@ -257,17 +259,43 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void IncreaseScore(int amount)
     {
+        int oldLevel = _level;
         _score += amount * XPMultiplier;
-        bool levelUp = _score / xpNeededPerLevel > 0;
-        _score %= xpNeededPerLevel;
-        xpBarTransform.localScale = new Vector3((float) _score / xpNeededPerLevel, 1f, 1f);
-        //TODO: xp increase by 5 with every level
-        if (levelUp)
+        _level = CalculateLevel();
+        xpBarTransform.localScale = new Vector3((float) CalculateRemainingXp() / (baseXpPerLevel + _level * increasedXpPerLevel), 1f, 1f);
+        if (_level > oldLevel)
         {
             Sounds.Play(Sounds.Sound.LEVEL_UP);
-            _level++;
             scoreLevelLabel.text = _level.ToString();
             levelUpPopup.Show();
+        }
+    }
+
+    private int CalculateLevel()
+    {
+        int currentXpNeeded = baseXpPerLevel;
+        int currentScore = _score;
+        int level = 0;
+        while (true)
+        {
+            if (currentScore < currentXpNeeded)
+                return level;
+            level++;
+            currentScore -= currentXpNeeded;
+            currentXpNeeded += increasedXpPerLevel;
+        }
+    }
+
+    private int CalculateRemainingXp()
+    {
+        int currentXpNeeded = baseXpPerLevel;
+        int currentScore = _score;
+        while (true)
+        {
+            if (currentScore < currentXpNeeded)
+                return currentScore;
+            currentScore -= currentXpNeeded;
+            currentXpNeeded += increasedXpPerLevel;
         }
     }
 

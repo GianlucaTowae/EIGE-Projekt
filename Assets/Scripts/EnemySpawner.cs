@@ -50,7 +50,7 @@ public class EnemySpawner : MonoBehaviour
         _bossTimer = bossSpawnTime;
 
         _mainCamera = Camera.main;
-        _halfAsteroidWidth = asteroidPrefab.GetComponent<Renderer>().bounds.size.y / 2;
+        _halfAsteroidWidth = asteroidPrefab.GetComponent<Renderer>().bounds.size.y;
         _halfPlanetWidth = planetPrefab.GetComponent<Renderer>().bounds.size.y / 2;
         _halfInterceptingWidth = interceptingEnemyPrefab.GetComponentInChildren<Renderer>().bounds.size.x / 2;
 
@@ -166,6 +166,7 @@ public class EnemySpawner : MonoBehaviour
             randomScreenPosition.y = Random.value > 0.5f ? 0 : _mainCamera.pixelHeight;
 
         Vector3 randomPosition = _mainCamera.ScreenToWorldPoint(randomScreenPosition);
+        randomPosition.z = 0f;
         randomPosition -= (cachedPosition - randomPosition).normalized * (distribution + _halfAsteroidWidth);
         randomPosition.z = cachedPosition.z;
 
