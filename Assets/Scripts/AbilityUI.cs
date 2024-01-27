@@ -71,7 +71,7 @@ public class AbilityUI : MonoBehaviour
         }
     }
 
-    public void stopCooldown(Coroutine c, GameObject g){
+    public void stopCooldown(GameObject g,Coroutine c){
         StopCoroutine(c);
         Destroy(g);
     }

@@ -1,15 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AbilityScript : MonoBehaviour
 {
     //[Header("general")]
-    [SerializeField] private Vector2 abilitySpawnrateBoundSec = new Vector2(10,15);
+    [SerializeField] private float timeTillDespawnSec = 60f;
+    [SerializeField] private float abilityMaxSpawnrateSec = 10f;
     //[Header("RK")]
     [SerializeField] private float displayRKitPickedUpSec = 3f;
     //[Header("GA")]
@@ -61,17 +59,11 @@ public class AbilityScript : MonoBehaviour
     private OverchargeDealDamge oObjScript;
     private int sum = 0;
     private EnemySpawner enemySpawner;
-    private float currentCooldown;
-    private bool shieldIsActive;
-    private bool piercingShotsIsActive;
-    private bool searchingProjectilesIsActive;
-    private bool doubleShotIsActive;
-    private bool XPMultiplierIsActive;
-    private bool sabotageIsActive;
-    private bool overchargeIsActive;
+    private int shieldCount = 0,piercingShotsCount = 0,searchingProjectilesCount = 0,doubleShotCount = 0,XPMultiplierCount = 0,sabotageCount = 0, overchargeCount = 0;
+    private GameObject currentSHUI, currentPSUI, currentSPUI, currentDSUI, currentXPUI, currentSBUI, currentOUI;
+    private Coroutine currentSHCoRo, currentPSCoRo, currentSPCoRo, currentDSCoRo, currentXPCoRo, currentSBCoRo, currentOCoRo;
+
     void Start(){
-        var ls = OverchargeObj.GetComponentInChildren<Transform>().localScale;//sadjf
-        ls.x = ls.z = overchargeScale;
         projectile.material = defProjMat;
         foreach (var pref in abilityPrefabs){
             if (!prefabMap.ContainsKey(pref.name)){
@@ -86,11 +78,14 @@ public class AbilityScript : MonoBehaviour
     }
     void Awake()
     {
-        currentCooldown = UnityEngine.Random.Range(abilitySpawnrateBoundSec.x,abilitySpawnrateBoundSec.y);
+        Transform ls = OverchargeObj.transform.GetChild(0);//sadjf
+        ls.localScale = new Vector3(overchargeScale,5 , overchargeScale);
         onDeath();
         enemySpawner = GetComponent<EnemySpawner>();
         player = GetComponent<PlayerBehaviour>();
         oObjScript = OverchargeObj.GetComponentInChildren<OverchargeDealDamge>();
+        oObjScript.damagePerTime = overchargeDamagePerTime;
+        oObjScript.timeBetweenDamageInSec = overchargeTimeBetweenDamageSec;
 
         player.blinkingDelay = this.respawnBlinkingDelaySec;
         player.doubleShotDelay = this.doubleShotDelaySec;
@@ -100,24 +95,55 @@ public class AbilityScript : MonoBehaviour
         projectile.FOVinDeg = FOVinDegForSP;
         projectile.range = rangeForSP;
         projectile.homInActive = false;
-    }
 
+        StartCoroutine(Spawner());
+    }
+    private IEnumerator Spawner(){
+        for (int i = 1; i <= abilityMaxSpawnrateSec; i++)
+        {
+            Debug.Log(i + " " +((MathF.Pow(i,2)/MathF.Pow(abilityMaxSpawnrateSec+.5f,2))+1-(MathF.Pow(abilityMaxSpawnrateSec,2)/MathF.Pow(abilityMaxSpawnrateSec+.5f,2))));
+        }
+        int current = 0;
+        while (true){
+            if (UnityEngine.Random.Range(0f, 1f) <= (MathF.Pow(current,2)/MathF.Pow(abilityMaxSpawnrateSec+.5f,2))+1-(MathF.Pow(abilityMaxSpawnrateSec,2)/MathF.Pow(abilityMaxSpawnrateSec+.5f,2))){// (x^2)/(max+1^2) + 1 - ((max^2)/(max+1^2))
+                Debug.Log("spawned at "+current);
+                SpawnAbilityPickUp();
+                current = 0;
+            }
+            current++;
+            yield return new WaitForSeconds(1);
+        }
+    }
 
     void Update()
     {
         OverchargeObj.transform.position = player.gameObject.transform.position;
-        currentCooldown -= Time.deltaTime;
-        if (currentCooldown <= 0){
-            SpawnAbilityPickUp();
-            currentCooldown = UnityEngine.Random.Range(abilitySpawnrateBoundSec.x,abilitySpawnrateBoundSec.y);
-        }
         if (Input.GetKeyDown(KeyCode.R))//TODO Remove
             SpawnAbilityPickUp();
     }
     private void SpawnAbilityPickUp(){
-        float x_pos = UnityEngine.Random.Range(0, _mainCamera.pixelWidth);
-        float y_pos = UnityEngine.Random.Range(0, _mainCamera.pixelHeight);
-        Vector3 pos = _mainCamera.ScreenToWorldPoint(new Vector2(x_pos, y_pos));
+        float distanceToScreen = 30f;
+        Vector2 corner = new Vector2(_mainCamera.pixelWidth, _mainCamera.pixelHeight);
+        
+        Vector3 pos;
+        float edge = UnityEngine.Random.Range(0, corner.x*2+corner.y*2);
+        if(edge < corner.x){
+            pos = _mainCamera.ScreenToWorldPoint(new Vector2(edge, 0));
+            pos.y-=distanceToScreen;
+        }
+        else if(edge < corner.x+corner.y){
+            pos = _mainCamera.ScreenToWorldPoint(new Vector2(corner.x, edge-corner.x));
+            pos.x += distanceToScreen;
+        }
+        else if(edge < corner.x*2+corner.y){
+            pos = _mainCamera.ScreenToWorldPoint(new Vector2(edge-(corner.x+corner.y), corner.y));
+            pos.y+=distanceToScreen;
+        }
+        else{
+            pos = _mainCamera.ScreenToWorldPoint(new Vector2(0, edge-(2*corner.x+corner.y)));
+            pos.x -= distanceToScreen;
+        }
+
         pos.z = 0;
 
         int abilityNum = UnityEngine.Random.Range(0, sum);
@@ -125,13 +151,11 @@ public class AbilityScript : MonoBehaviour
         foreach (var item in probMap){
             if (item.Key[0] <= abilityNum && item.Key[1] > abilityNum){
                 randomAb = prefabMap[item.Value];
-                UnityEngine.Debug.Log(randomAb);
                 GameObject newBox = Instantiate(abilityCapsule, pos, Quaternion.identity);
                 newBox.transform.Rotate(Vector3.up, -90);
-                UnityEngine.Debug.Log(newBox);
+                newBox.GetComponent<Despawner>().timeTillDeath = timeTillDespawnSec;
                 foreach (Transform child in newBox.transform){   
                     if (child.CompareTag("Display")){
-                        UnityEngine.Debug.Log(child);
                         child.GetComponent<Renderer>().material = randomAb;
                         break;
                     }
@@ -165,57 +189,79 @@ public class AbilityScript : MonoBehaviour
     }
 
 
-
     public void repairKit(){
         abilityUIscript.Add(AbilityUI.AbilityName.RepairKit, displayRKitPickedUpSec);//einf auch kurz zeigen oder hier das ui abänderen??
         player.Heal();
     }   
     public void guradianAngle(){
+        if(player.res) return;
         player.res = true;
         player.guardianAngleUI = abilityUIscript.Add(AbilityUI.AbilityName.GuardianAngle).Item1;
     }   
-    private GameObject currentShieldUI;
-    private Coroutine currentShieldCoRO;
+    
     public void shield(){//TODO: reset cooldown on multiple pickup
-        if (!shieldIsActive){
-            shieldIsActive = true;
-            (currentShieldUI, currentShieldCoRO) = abilityUIscript.Add(AbilityUI.AbilityName.Shield, shieldInvincibleDurationSec);
-            StartCoroutine(InvincibilityOnShield());
+        shieldCount++;
+        if (shieldCount > 1){//ggf.: reset cooldown UI
+            abilityUIscript.stopCooldown(currentSHUI, currentSHCoRo);
         }
-        else{
-            abilityUIscript.stopCooldown(currentShieldCoRO,currentShieldUI);
-            StopCoroutine(InvincibilityOnShield());
-            (currentShieldUI, currentShieldCoRO) = abilityUIscript.Add(AbilityUI.AbilityName.Shield, shieldInvincibleDurationSec);
-            StartCoroutine(InvincibilityOnShield());
-        }
+        (currentSHUI, currentSHCoRo) = abilityUIscript.Add(AbilityUI.AbilityName.Shield, shieldInvincibleDurationSec);
+        StartCoroutine(InvincibilityOnShield());
+
     } 
     public void piercingShots(){
-        abilityUIscript.Add(AbilityUI.AbilityName.PiercingShots, piercingDurationSec);
+        piercingShotsCount++;
+        if(piercingShotsCount > 1){//ggf.: reset cooldown UI
+            abilityUIscript.stopCooldown(currentPSUI, currentPSCoRo);
+        }
+        (currentPSUI, currentPSCoRo) = abilityUIscript.Add(AbilityUI.AbilityName.PiercingShots, piercingDurationSec);
         StartCoroutine(PiercingDuration());
+        
     } 
     public void searchingProjectiles(){
-        abilityUIscript.Add(AbilityUI.AbilityName.SearchingProjectiles, SPDurInSec);
+        searchingProjectilesCount++;
+        if(searchingProjectilesCount > 1){//ggf.: reset cooldown UI
+            abilityUIscript.stopCooldown(currentSPUI, currentSPCoRo);
+        }
+        (currentSPUI, currentSPCoRo) = abilityUIscript.Add(AbilityUI.AbilityName.SearchingProjectiles, SPDurInSec);
         StartCoroutine(searchingProjectileDuration());
+        
     } 
     public void doubleShot(){
-        abilityUIscript.Add(AbilityUI.AbilityName.DoubleShot, doubleShotDurationSec);
+        doubleShotCount++;
+        if(doubleShotCount > 1){//ggf.: reset cooldown UI
+            abilityUIscript.stopCooldown(currentDSUI, currentDSCoRo);
+        }
+        (currentDSUI, currentDSCoRo) = abilityUIscript.Add(AbilityUI.AbilityName.DoubleShot, doubleShotDurationSec);
         StartCoroutine(DoubleShotDuration());
+        
     } 
     public void XPMultiplier(){
-        abilityUIscript.Add(AbilityUI.AbilityName.XPMultiplier, XPMultiplierDurationSec);
+        XPMultiplierCount++;
+        if(XPMultiplierCount > 1){//ggf.: reset cooldown UI
+            abilityUIscript.stopCooldown(currentXPUI, currentXPCoRo);
+        }
+        (currentXPUI, currentXPCoRo) = abilityUIscript.Add(AbilityUI.AbilityName.XPMultiplier, XPMultiplierDurationSec);
         StartCoroutine(XPMultiplierDuration());
+        
     } 
     public void sabotage(){
-        abilityUIscript.Add(AbilityUI.AbilityName.Sabotage, sabotageDurationSec);
+        sabotageCount++;
+        if(sabotageCount > 1){//ggf.: reset cooldown UI
+            abilityUIscript.stopCooldown(currentSBUI, currentSBCoRo);
+        }
+        (currentSBUI, currentSBCoRo) = abilityUIscript.Add(AbilityUI.AbilityName.Sabotage, sabotageDurationSec);
         StartCoroutine(SabotageDuration());
+        
     } 
     public void overcharge(){
-        abilityUIscript.Add(AbilityUI.AbilityName.Overcharge, overchargeDurationSec);
-        
-        oObjScript.damagePerTime = overchargeDamagePerTime;
-        oObjScript.timeBetweenDamageInSec = overchargeTimeBetweenDamageSec;
         oObjScript.Activate();
+        overchargeCount++;
+        if(overchargeCount > 1){//ggf.: reset cooldown UI
+            abilityUIscript.stopCooldown(currentOUI, currentOCoRo);
+        }
+        (currentOUI, currentOCoRo) = abilityUIscript.Add(AbilityUI.AbilityName.Overcharge, overchargeDurationSec);
         StartCoroutine(OverchargeDuration());
+        
     }
 
     //IENUMS--------------
@@ -223,14 +269,17 @@ public class AbilityScript : MonoBehaviour
     private IEnumerator InvincibilityOnShield(){
         player.invincible = true;
         yield return new WaitForSeconds(shieldInvincibleDurationSec);
+        if(shieldCount-- > 1) 
+            yield break;
         player.invincible = false;
-        shieldIsActive = false;
     }
     private IEnumerator PiercingDuration()
     {
         projectile.piercing = true;
         projectile.material = PSMat;
         yield return new WaitForSeconds(piercingDurationSec);
+        if(piercingShotsCount-- > 1)
+            yield break;
         projectile.piercing = false;
         projectile.material = defProjMat;
     }
@@ -239,6 +288,8 @@ public class AbilityScript : MonoBehaviour
         player.doubleShot = true;
         projectile.material = DSMat;
         yield return new WaitForSeconds(doubleShotDurationSec);
+        if(doubleShotCount-- > 1) 
+            yield break;
         player.doubleShot = false;
         projectile.material = defProjMat;
     }
@@ -246,11 +297,15 @@ public class AbilityScript : MonoBehaviour
     {
         player.XPMultiplier = this.XPMultiplierVal;
         yield return new WaitForSeconds(XPMultiplierDurationSec);
+        if(XPMultiplierCount-- > 1)
+            yield break;
         player.XPMultiplier = 1;
     }
     private IEnumerator OverchargeDuration()
     {
         yield return new WaitForSeconds(overchargeDurationSec);
+        if(overchargeCount-- > 1) 
+            yield break;
         oObjScript.Deactivate();
     }
     private IEnumerator searchingProjectileDuration()
@@ -258,6 +313,8 @@ public class AbilityScript : MonoBehaviour
         projectile.material = SPMat;
         projectile.homInActive = true;
         yield return new WaitForSeconds(SPDurInSec);
+        if (searchingProjectilesCount-- > 1) 
+            yield break;
         projectile.homInActive = false;
         projectile.material = defProjMat;
 
@@ -277,11 +334,15 @@ public class AbilityScript : MonoBehaviour
         enemySpawner._interceptingCooldown, 
         enemySpawner._planetCooldown};
         
-        enemySpawner.spawningIntervalSingle *= 1/sabotageRelativeSpawnrate0_to_1;
-        enemySpawner.spawningIntervalCluster *= 1/sabotageRelativeSpawnrate0_to_1;
-        enemySpawner.spawningIntervalTargetingCluster *= 1/sabotageRelativeSpawnrate0_to_1;
-        enemySpawner.spawningIntervalPlanet *= 1/sabotageRelativeSpawnrate0_to_1;
+        if(sabotageCount > 1) {
+            enemySpawner.spawningIntervalSingle *= 1/sabotageRelativeSpawnrate0_to_1;
+            enemySpawner.spawningIntervalCluster *= 1/sabotageRelativeSpawnrate0_to_1;
+            enemySpawner.spawningIntervalTargetingCluster *= 1/sabotageRelativeSpawnrate0_to_1;
+            enemySpawner.spawningIntervalPlanet *= 1/sabotageRelativeSpawnrate0_to_1;
+        }
         yield return new WaitForSeconds(sabotageDurationSec);
+        if(sabotageCount-- > 1) 
+            yield break;
         enemySpawner.spawningIntervalSingle = savedValues[0];
         enemySpawner.spawningIntervalCluster = savedValues[1];
         enemySpawner.spawningIntervalTargetingCluster = savedValues[2];

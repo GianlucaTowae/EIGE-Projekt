@@ -33,8 +33,7 @@ public class Projectile : MonoBehaviour
 
         if (homInActive){
             if(!hitTarget && Vector3.Distance(transform.position, target) < 20f){
-                    Debug.Log("close enough");
-                    Vector3 lookTo = target - transform.position;
+                    Vector3 lookTo = (target - transform.position).normalized;
                     transform.up = new Vector3(lookTo.x, lookTo.y, 0f);//maybe this bad
                     hitTarget = true;
                 }
@@ -135,7 +134,6 @@ public class Projectile : MonoBehaviour
         
         if (Mathf.Abs(angle) > 3)
             transform.Rotate(Vector3.right, rotatePerTime);
-        var angleDebugNew = Vector3.SignedAngle(pos-transform.position, transform.up, Vector3.back);
         return angle;
     }
 }
