@@ -47,7 +47,16 @@ public class Sounds : MonoBehaviour
 
     public static void Play(Sound sound)
     {
-        SingleAudioClip audioClip = _staticAudioClips.First(clip => clip.sound == sound);
+        SingleAudioClip audioClip;
+        try
+        {
+            audioClip = _staticAudioClips.First(clip => clip.sound == sound);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(sound + " isn't loaded");
+            return;
+        }
         _audioSource.PlayOneShot(audioClip.clip, audioClip.volume);
     }
 

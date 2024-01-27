@@ -45,7 +45,8 @@ public class SoundAttributions : MonoBehaviour
                 License.CEATIVE_COMMONS_0 => Link("Creative Commons 0", soundAttributions.IndexOf(sa) + "license"),
                 License.ATTRIBUTION_3_0 => Link("Attribution 3.0", soundAttributions.IndexOf(sa) + "license"),
                 License.ATTRIBUTION_4_0 => Link("Attribution 4.0", soundAttributions.IndexOf(sa) + "license"),
-                License.ATTRIBUTION_NC_4_0 => Link("Attribution NonCommercial 4.0", soundAttributions.IndexOf(sa) + "license")
+                License.ATTRIBUTION_NC_4_0 => Link("Attribution NonCommercial 4.0", soundAttributions.IndexOf(sa) + "license"),
+                _ => throw new ArgumentOutOfRangeException()
             } + "\n";
     }
 

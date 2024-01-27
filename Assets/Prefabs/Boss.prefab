@@ -56,10 +56,11 @@ MonoBehaviour:
   speed: 150
   maxDistance: 100
   rotationSpeed: 1
-  shootInterval: 3
-  pauseTimeWhileBeam: 4
+  pauseTimeWhileBeam: 3
   initialProjectileDistance: 15
+  shootInterval: 3
   beamInterval: {x: 10, y: 20}
+  harderShootInterval: 1
 --- !u!54 &8093274653321549440
 Rigidbody:
   m_ObjectHideFlags: 0

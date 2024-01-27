@@ -74,6 +74,12 @@ public class Asteroid : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Boss"))
+            Explode();
+    }
+
     public void Explode()
     {
         pb.IncreaseScore(xp);

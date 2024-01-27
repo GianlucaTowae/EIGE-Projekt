@@ -18,10 +18,11 @@ public class Boss : MonoBehaviour
     [SerializeField] private float speed = 150f;
     [SerializeField] private float maxDistance = 150f;
     [SerializeField] private float rotationSpeed = 1f;
-    [SerializeField] private float shootInterval = 3f;
     [SerializeField] private float pauseTimeWhileBeam = 4f;
     [SerializeField] private float initialProjectileDistance = 2f;
+    [SerializeField] private float shootInterval = 3f;
     [SerializeField] private Vector2 beamInterval = new(10f, 20f);
+    [SerializeField] private float harderShootInterval = 1f;
 
     private Rigidbody _rigidbody;
     private Beam _beam;
@@ -30,6 +31,8 @@ public class Boss : MonoBehaviour
     private float _beamCooldown;
     private bool _still;
     private float _hp;
+    private bool _phase2;
+    private bool _phase3;
 
     private void Awake()
     {
@@ -55,7 +58,7 @@ public class Boss : MonoBehaviour
         if (_shootCooldown <= 0f)
         {
             Shoot();
-            _shootCooldown = shootInterval;
+            _shootCooldown = _phase3 ? harderShootInterval : shootInterval;
         }
 
         if (_beamCooldown <= 0f)
@@ -78,7 +81,10 @@ public class Boss : MonoBehaviour
     {
         _still = true;
         _rigidbody.angularVelocity = Vector3.zero;
-        transform.LookAt(player.transform, Vector3.forward);
+        Vector3 cachedPosition = transform.position;
+        float angle = Vector3.SignedAngle(_beam.transform.position - cachedPosition, player.transform.position - cachedPosition, Vector3.forward);
+        _beam.transform.RotateAround(cachedPosition, Vector3.forward, angle);
+        // transform.LookAt(player.transform, Vector3.forward);
         _beam.Play();
         yield return new WaitForSeconds(pauseTimeWhileBeam);
         _rigidbody.angularVelocity = Vector3.forward * rotationSpeed;
@@ -107,7 +113,10 @@ public class Boss : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Asteroid"))
-            other.GetComponent<Asteroid>().CircleBoss(_center);
+        {
+            if (_phase2)
+                other.GetComponent<Asteroid>().CircleBoss(_center);
+        }
         if (other.CompareTag("Planet"))
             other.GetComponent<Planet>().Explode();
     }
@@ -115,6 +124,12 @@ public class Boss : MonoBehaviour
     public void Damage(float amount)
     {
         _hp -= amount;
+
+        if (_hp < startHp / 3 * 2)
+            _phase2 = true;
+        if (_hp < startHp / 3)
+            _phase3 = true;
+
         Sounds.Play(Sounds.Sound.HIT_METAL);
         if (_hp < 0f)
             SceneManager.LoadScene("WinScene");
