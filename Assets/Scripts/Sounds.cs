@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Sounds : MonoBehaviour
 {
@@ -59,10 +58,5 @@ public class Sounds : MonoBehaviour
             return;
         }
         _audioSource.PlayOneShot(audioClip.clip, audioClip.volume);
-    }
-
-    public static void PlayButtonSound()
-    {
-        Play(Sound.BUTTON);
     }
 }

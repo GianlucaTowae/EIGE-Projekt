@@ -180,11 +180,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "ABILITIES\n\tHoming Shot: For 15 seconds projectiles target\n\tenemies
-    nearby\n\tOvercharge: Continuously deal damage to\n\tsurrounding enemies for
-    10 seconds\n\tSabotage: For 10 seconds fewer enemies appear\n\n\tGuardian Angle:
-    The first time your spaceship\n\twould be destroyed, all health points will be
-    \n\trestored instead\n\t\n\n\t"
+  m_text: "ABILITIES\n\tHoming Shot: Projectiles target nearby enemies \n\t[15s]\n\tOvercharge:
+    Periodically deal damage to\n\tsurrounding enemies [10s]\n\tSabotage: Fewer enemies
+    appear [10s]\n\n\tGuardian Angle: The first time your spaceship\n\twould be destroyed,
+    all health points will be \n\trestored instead"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -860,9 +859,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "ABILITIES\n\tRepair Kit: Restore all lost health points\n\n\tXP-Boost:
-    Earn +100% xp for 10 seconds\n\n\tShield: Blocks all incoming damage for \n\t10
-    seconds\t\n\tDouble Shot: For 5 seconds shoot two projectiles\n\tinstead of one\n\tPiercing
-    Shot: Projectiles pierce through enemies\n\tfor 10 seconds\n\n\t"
+    Earn +100% XP [10s]\n\n\tShield: Blocks all incoming damage [10s]\n\t\n\tDouble
+    Shot: Shoot two projectiles\n\tinstead of one [5s]\n\tPiercing Shot: Projectiles
+    pierce through enemies \n\t[10s]\n\n\t"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2651,7 +2650,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1860532751
 RectTransform:
   m_ObjectHideFlags: 0

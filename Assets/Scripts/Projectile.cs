@@ -15,7 +15,7 @@ public class Projectile : MonoBehaviour
         _damageMultiplier = playerBehaviour.DamageMultiplier;
 
         target = getTarget(null);
-        GetComponent<Renderer>().material = material;
+        material = GetComponent<Renderer>().material;
 
         if(target != null && target != Vector3.zero){
             start = targetGO.transform.position - transform.position;

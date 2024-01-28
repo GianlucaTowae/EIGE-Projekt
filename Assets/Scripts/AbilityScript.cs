@@ -98,9 +98,12 @@ public class AbilityScript : MonoBehaviour
 
         StartCoroutine(Spawner());
     }
-
+    // ReSharper disable Unity.PerformanceAnalysis
     private void UpdateProjectileColor()
     {
+        if (projectile.material == null)
+            projectile.material = projectile.GetComponent<Renderer>().sharedMaterial;
+
         if (searchingProjectilesCount > 0)
             projectile.material.color = searchingProjectileColor;
         else if (piercingShotsCount > 0)

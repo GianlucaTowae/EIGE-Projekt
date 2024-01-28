@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,6 +11,11 @@ public class HelpScene : MonoBehaviour
     private Button _buttonNext;
     private Button _buttonPrevious;
     private int _page;
+
+    private void Awake()
+    {
+        Sounds.Play(Sounds.Sound.BUTTON);
+    }
 
     private void Start()
     {

@@ -72,6 +72,10 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
+        // Cheats
+        // if (Input.GetKeyDown(KeyCode.Z))
+        //     _bossTimer -= 100f;
+
         _singleCooldown -= Time.deltaTime;
         _clusterCooldown -= Time.deltaTime;
         _targetingClusterCooldown -= Time.deltaTime;

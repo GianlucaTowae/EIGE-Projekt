@@ -94,7 +94,7 @@ public class PlayerBehaviour : MonoBehaviour
         XPMultiplier = 1;
         respawnDurLeft = -1;
         guardianAngleUI = null;
-        
+
         _halfProjectileHeight = shooting.projectilePrefab.GetComponent<Renderer>().bounds.size.y / 2;
 
         _health = _maxHealth = startHealth;
@@ -108,6 +108,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+        // Cheats
+        // if (Input.GetKeyDown(KeyCode.X))
+        //     IncreaseScore(CalculateNeededXp());
+        // if (Input.GetKeyDown(KeyCode.C))
+        //     invincibleForTesting = !invincibleForTesting;
+
         // Inputs
         _inputHorizontal = Input.GetAxis(controls.horizontalAxis);
         _inputVertical = Input.GetAxis(controls.verticalAxis);
@@ -138,7 +144,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         // Rotation
-        float oldRotationZ = _rigidbody.rotation.eulerAngles.z;
+        Quaternion oldRotation = _rigidbody.rotation;
         Vector2 vector = new Vector2(_inputHorizontal, _inputVertical);
         float angle = Vector2.SignedAngle(Vector2.up, vector);
         _rigidbody.rotation =
@@ -147,10 +153,12 @@ public class PlayerBehaviour : MonoBehaviour
         // Old: _rigidbody.angularVelocity = Vector3.back * (_inputHorizontal * movementSettings.rotationFactor);
 
         // Exhausts
-        float difference = Math.Abs(oldRotationZ - _rigidbody.rotation.eulerAngles.z);
-        if (angle < 0 && difference > 1.5f && !invincible)
+        float difference = oldRotation.eulerAngles.z - _rigidbody.rotation.eulerAngles.z;
+        if (Math.Abs(difference) > 100f)
+            difference = 0f;
+        if (difference > 0 && Math.Abs(difference) > 1f && !invincible)
             exhaustLeft.Play();
-        else if (angle > 0 && difference > 1.5f && !invincible)
+        else if (difference < 0 && Math.Abs(difference) > 1f && !invincible)
             exhaustRight.Play();
     }
 
@@ -294,6 +302,19 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (currentScore < currentXpNeeded)
                 return currentScore;
+            currentScore -= currentXpNeeded;
+            currentXpNeeded += increasedXpPerLevel;
+        }
+    }
+
+    private int CalculateNeededXp()
+    {
+        int currentXpNeeded = baseXpPerLevel;
+        int currentScore = _score;
+        while (true)
+        {
+            if (currentScore < currentXpNeeded)
+                return currentXpNeeded - currentScore;
             currentScore -= currentXpNeeded;
             currentXpNeeded += increasedXpPerLevel;
         }
