@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02c4d1cdc6f7a4e7f8a3ed85fc4e5d05, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -105.576965
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02c4d1cdc6f7a4e7f8a3ed85fc4e5d05, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02c4d1cdc6f7a4e7f8a3ed85fc4e5d05, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -257.489
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02c4d1cdc6f7a4e7f8a3ed85fc4e5d05, type: 3}
       propertyPath: m_LocalRotation.w
@@ -73,8 +73,16 @@ PrefabInstance:
       value: Display
       objectReference: {fileID: 0}
     - target: {fileID: -5568371526223589888, guid: 02c4d1cdc6f7a4e7f8a3ed85fc4e5d05, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5568371526223589888, guid: 02c4d1cdc6f7a4e7f8a3ed85fc4e5d05, type: 3}
       propertyPath: m_TagString
       value: Ability
+      objectReference: {fileID: 0}
+    - target: {fileID: -4292154010595695564, guid: 02c4d1cdc6f7a4e7f8a3ed85fc4e5d05, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.05
       objectReference: {fileID: 0}
     - target: {fileID: -4292154010595695564, guid: 02c4d1cdc6f7a4e7f8a3ed85fc4e5d05, type: 3}
       propertyPath: m_LocalRotation.w
@@ -132,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a40ccb49c4e47c6968379d264b0a91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeTillDeath: 0
 --- !u!1 &7517721931946341882 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5568371526223589888, guid: 02c4d1cdc6f7a4e7f8a3ed85fc4e5d05, type: 3}
@@ -152,7 +161,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5

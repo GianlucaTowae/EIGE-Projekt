@@ -53,7 +53,6 @@ public class LevelUpPopup : MonoBehaviour
             // Set action
             _buttons[i] = _options[i].GetComponent<Button>();
             // Takes last state of i otherwise, which causes an IndexOutOfRangeException
-            // TODO: cap at x
             int index = i;
             _buttons[i].onClick.AddListener(delegate { upgrades[index].action?.Invoke(); });
             _buttons[i].onClick.AddListener(Hide);
@@ -65,10 +64,6 @@ public class LevelUpPopup : MonoBehaviour
 
     private void Update()
     {
-        // TODO: Remove
-        if (Input.GetKeyDown(KeyCode.H))
-            Show();
-
         if (!_active)
             return;
 

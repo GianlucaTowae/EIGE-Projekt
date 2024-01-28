@@ -265,6 +265,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startHealth: 1
   xp: 1
-  speedBase: 50
+  speedBase: 100
   speedMultiplier: 1
   explosion: {fileID: 235758606614901165, guid: 2f2e656e81d36ff47b1a3c16401eb655, type: 3}

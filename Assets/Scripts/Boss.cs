@@ -45,8 +45,11 @@ public class Boss : MonoBehaviour
         if (_still)
             return;
 
-        _shootCooldown -= Time.deltaTime;
-        _beamCooldown -= Time.deltaTime;
+        if (Vector3.Distance(player.transform.position, transform.position) < maxDistance)
+        {
+            _shootCooldown -= Time.deltaTime;
+            _beamCooldown -= Time.deltaTime;
+        }
 
         if (_shootCooldown <= 0f)
         {

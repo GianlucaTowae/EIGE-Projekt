@@ -1,16 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Despawner : MonoBehaviour
 {
     [HideInInspector] public float timeTillDeath;
-    private float curretnTime;
+    private float _timeLeft;
+    private Renderer _renderer;
+
     void Awake(){
-        curretnTime = Time.time;
+        _timeLeft = 10f;
+        _renderer = GetComponentInChildren<Renderer>();
     }
-    void Update(){
-        if(Time.time - curretnTime >= timeTillDeath)
-            Destroy(this.gameObject);
+
+    void Update()
+    {
+        if (_renderer.isVisible)
+            _timeLeft = timeTillDeath;
+        else
+            _timeLeft -= Time.deltaTime;
+
+        if(_timeLeft < 0f)
+            Destroy(gameObject);
     }
 }

@@ -24,6 +24,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Vector2 spawningIntervalIntercepting = new(7f, 10f);
     public Vector2 spawningIntervalPlanet = new(20f, 30f);
 
+    [SerializeField] private float firstPhaseIntervalMultiplier = 0.8f;
+    [SerializeField] private float secondPhaseIntervalMultiplier = 0.5f;
+    [SerializeField] private float secondPhasePercentOfBossTimer = 0.5f;
+
     [SerializeField] private float asteroidStartTime = 2f;
     [SerializeField] private float interceptingStartTime = 2f;
     [SerializeField] private float planetStartTime = 2f;
@@ -41,6 +45,7 @@ public class EnemySpawner : MonoBehaviour
     private float _halfAsteroidWidth, _halfPlanetWidth, _halfInterceptingWidth;
     private Camera _mainCamera;
     private float _screenCircleRadius;
+    private bool _secondPhase;
 
     void Awake()
     {
@@ -73,33 +78,40 @@ public class EnemySpawner : MonoBehaviour
         _interceptingCooldown -= Time.deltaTime;
         _planetCooldown -= Time.deltaTime;
         _bossTimer -= Time.deltaTime;
+        if (_bossTimer < _bossTimer * secondPhasePercentOfBossTimer)
+            _secondPhase = true;
 
         if (_singleCooldown <= 0f)
         {
-            SpawnRandomAsteroid();//RMEOVE "//"!!
-            _singleCooldown = Random.Range(spawningIntervalSingle.x, spawningIntervalSingle.y);
+            SpawnRandomAsteroid();
+            _singleCooldown = Random.Range(spawningIntervalSingle.x, spawningIntervalSingle.y) *
+                              (_secondPhase ? secondPhaseIntervalMultiplier : firstPhaseIntervalMultiplier);
         }
         if (_clusterCooldown <= 0f)
         {
             SpawnRandomCluster();
-            _clusterCooldown = Random.Range(spawningIntervalCluster.x, spawningIntervalCluster.y);
+            _clusterCooldown = Random.Range(spawningIntervalCluster.x, spawningIntervalCluster.y) *
+                               (_secondPhase ? secondPhaseIntervalMultiplier : firstPhaseIntervalMultiplier);
         }
         if (_targetingClusterCooldown <= 0f)
         {
             SpawnTargetingCluster();
-            _targetingClusterCooldown = Random.Range(spawningIntervalTargetingCluster.x, spawningIntervalTargetingCluster.y);
+            _targetingClusterCooldown = Random.Range(spawningIntervalTargetingCluster.x, spawningIntervalTargetingCluster.y) *
+                                        (_secondPhase ? secondPhaseIntervalMultiplier : firstPhaseIntervalMultiplier);
         }
 
         if (_interceptingCooldown <= 0f)
         {
             SpawnIntercepting();
-            _interceptingCooldown = Random.Range(spawningIntervalIntercepting.x, spawningIntervalIntercepting.y);
+            _interceptingCooldown = Random.Range(spawningIntervalIntercepting.x, spawningIntervalIntercepting.y) *
+                                    (_secondPhase ? secondPhaseIntervalMultiplier : firstPhaseIntervalMultiplier);
         }
 
         if (_planetCooldown <= 0f)
         {
             SpawnRandomPlanet();
-            _planetCooldown = Random.Range(spawningIntervalPlanet.x, spawningIntervalPlanet.y);
+            _planetCooldown = Random.Range(spawningIntervalPlanet.x, spawningIntervalPlanet.y) *
+                              (_secondPhase ? secondPhaseIntervalMultiplier : firstPhaseIntervalMultiplier);
         }
 
         if (!_bossSpawned && _bossTimer <= 0f)

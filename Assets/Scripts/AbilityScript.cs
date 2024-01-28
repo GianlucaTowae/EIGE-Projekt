@@ -30,10 +30,10 @@ public class AbilityScript : MonoBehaviour
     [SerializeField] private float sabotageDurationSec = 5f;
     [SerializeField] private float sabotageRelativeSpawnrate0_to_1 = .35f;
     //[Header("Rest")]
-    [SerializeField] private Material DSMat;
-    [SerializeField] private Material SPMat;
-    [SerializeField] private Material PSMat;
-    [SerializeField] private Material defProjMat;
+    [SerializeField] private Color defaultProjectileColor = Color.green;
+    [SerializeField] private Color doubleShotProjectileColor = Color.red;
+    [SerializeField] private Color searchingProjectileColor = Color.yellow;
+    [SerializeField] private Color piercingProjectileColor = Color.blue;
     [SerializeField] private float FOVinDegForSP = 90f;
     [SerializeField] private float rangeForSP = 200f;
     [SerializeField] private float SPDurInSec = 15f;
@@ -64,7 +64,7 @@ public class AbilityScript : MonoBehaviour
     private Coroutine currentSHCoRo, currentPSCoRo, currentSPCoRo, currentDSCoRo, currentXPCoRo, currentSBCoRo, currentOCoRo;
 
     void Start(){
-        projectile.material = defProjMat;
+        UpdateProjectileColor();
         foreach (var pref in abilityPrefabs){
             if (!prefabMap.ContainsKey(pref.name)){
                 prefabMap.Add(pref.name, pref.prefab);
@@ -98,15 +98,28 @@ public class AbilityScript : MonoBehaviour
 
         StartCoroutine(Spawner());
     }
+
+    private void UpdateProjectileColor()
+    {
+        if (searchingProjectilesCount > 0)
+            projectile.material.color = searchingProjectileColor;
+        else if (piercingShotsCount > 0)
+            projectile.material.color = piercingProjectileColor;
+        else if (doubleShotCount > 0)
+            projectile.material.color = doubleShotProjectileColor;
+        else
+            projectile.material.color = defaultProjectileColor;
+    }
+
     private IEnumerator Spawner(){
-        for (int i = 1; i <= abilityMaxSpawnrateSec; i++)
-        {
-            Debug.Log(i + " " +((MathF.Pow(i,2)/MathF.Pow(abilityMaxSpawnrateSec+.5f,2))+1-(MathF.Pow(abilityMaxSpawnrateSec,2)/MathF.Pow(abilityMaxSpawnrateSec+.5f,2))));
-        }
+        // for (int i = 1; i <= abilityMaxSpawnrateSec; i++)
+        // {
+        //     Debug.Log(i + " " +((MathF.Pow(i,2)/MathF.Pow(abilityMaxSpawnrateSec+.5f,2))+1-(MathF.Pow(abilityMaxSpawnrateSec,2)/MathF.Pow(abilityMaxSpawnrateSec+.5f,2))));
+        // }
         int current = 0;
         while (true){
             if (UnityEngine.Random.Range(0f, 1f) <= (MathF.Pow(current,2)/MathF.Pow(abilityMaxSpawnrateSec+.5f,2))+1-(MathF.Pow(abilityMaxSpawnrateSec,2)/MathF.Pow(abilityMaxSpawnrateSec+.5f,2))){// (x^2)/(max+1^2) + 1 - ((max^2)/(max+1^2))
-                Debug.Log("spawned at "+current);
+                // Debug.Log("spawned at "+current);
                 SpawnAbilityPickUp();
                 current = 0;
             }
@@ -118,8 +131,6 @@ public class AbilityScript : MonoBehaviour
     void Update()
     {
         OverchargeObj.transform.position = player.gameObject.transform.position;
-        if (Input.GetKeyDown(KeyCode.R))//TODO Remove
-            SpawnAbilityPickUp();
     }
     private void SpawnAbilityPickUp(){
         float distanceToScreen = 30f;
@@ -178,14 +189,12 @@ public class AbilityScript : MonoBehaviour
         else if(other.name.ToLower().Contains("sabotage")) sabotage();
         else if(other.name.ToLower().Contains("overcharge")) overcharge();
         else UnityEngine.Debug.Log("unknown ability " + other.name);
-
     }
     public void onDeath(){
         StopAllCoroutines();
         if (oObjScript != null)
             oObjScript.Deactivate();
         abilityUIscript.clear();
-        projectile.material = defProjMat;
     }
 
 
@@ -199,7 +208,7 @@ public class AbilityScript : MonoBehaviour
         player.guardianAngleUI = abilityUIscript.Add(AbilityUI.AbilityName.GuardianAngle).Item1;
     }   
     
-    public void shield(){//TODO: reset cooldown on multiple pickup
+    public void shield(){
         shieldCount++;
         if (shieldCount > 1){//ggf.: reset cooldown UI
             abilityUIscript.stopCooldown(currentSHUI, currentSHCoRo);
@@ -276,22 +285,22 @@ public class AbilityScript : MonoBehaviour
     private IEnumerator PiercingDuration()
     {
         projectile.piercing = true;
-        projectile.material = PSMat;
+        UpdateProjectileColor();
         yield return new WaitForSeconds(piercingDurationSec);
         if(piercingShotsCount-- > 1)
             yield break;
         projectile.piercing = false;
-        projectile.material = defProjMat;
+        UpdateProjectileColor();
     }
     private IEnumerator DoubleShotDuration()
     {
         player.doubleShot = true;
-        projectile.material = DSMat;
+        UpdateProjectileColor();
         yield return new WaitForSeconds(doubleShotDurationSec);
         if(doubleShotCount-- > 1) 
             yield break;
         player.doubleShot = false;
-        projectile.material = defProjMat;
+        UpdateProjectileColor();
     }
     private IEnumerator XPMultiplierDuration()
     {
@@ -310,13 +319,13 @@ public class AbilityScript : MonoBehaviour
     }
     private IEnumerator searchingProjectileDuration()
     {
-        projectile.material = SPMat;
+        UpdateProjectileColor();
         projectile.homInActive = true;
         yield return new WaitForSeconds(SPDurInSec);
         if (searchingProjectilesCount-- > 1) 
             yield break;
         projectile.homInActive = false;
-        projectile.material = defProjMat;
+        UpdateProjectileColor();
 
     }
     private IEnumerator SabotageDuration()

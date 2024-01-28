@@ -85,7 +85,7 @@ public class AbilityUI : MonoBehaviour
         cooldown.sprite = CooldownSprite;
         cooldown.color = new Color(cooldown.color.r, cooldown.color.g, cooldown.color.b, cooldownOpacity);
 
-        //cooldown.color = Color.red;//TODO - TMP
+        //cooldown.color = Color.red;
         //start clock animation
         cooldown.type = Image.Type.Filled;
         cooldown.fillOrigin = (int)Image.Origin360.Top;

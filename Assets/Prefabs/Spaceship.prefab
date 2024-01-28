@@ -586,12 +586,15 @@ MonoBehaviour:
   targetingClusterSize: {x: 2, y: 4}
   clusterDistribution: {x: 60, y: 120}
   targetingClusterDistribution: 100
-  bossSpawningDistance: 400
+  bossSpawningDistance: 300
   spawningIntervalSingle: {x: 0.5, y: 1}
   spawningIntervalCluster: {x: 5, y: 7}
   spawningIntervalTargetingCluster: {x: 2, y: 4}
   spawningIntervalIntercepting: {x: 7, y: 10}
   spawningIntervalPlanet: {x: 20, y: 30}
+  firstPhaseIntervalMultiplier: 0.8
+  secondPhaseIntervalMultiplier: 0.6
+  secondPhasePercentOfBossTimer: 0.5
   asteroidStartTime: 2
   interceptingStartTime: 120
   planetStartTime: 30
@@ -618,7 +621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 614e7d462623f489eaadb6905f82a9d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilitySpawnrateBoundSec: {x: 10, y: 15}
+  timeTillDespawnSec: 20
+  abilityMaxSpawnrateSec: 10
   displayRKitPickedUpSec: 1.5
   respawnInvincibleDurationSec: 5
   respawnBlinkingDelaySec: 0.1
@@ -634,10 +638,10 @@ MonoBehaviour:
   overchargeTimeBetweenDamageSec: 1
   sabotageDurationSec: 10
   sabotageRelativeSpawnrate0_to_1: 0.5
-  DSMat: {fileID: 2100000, guid: 481ec502d835c4d6d801a7a42034d2a7, type: 2}
-  SPMat: {fileID: 2100000, guid: 45770c9de123e4c1aa1db93ae2602433, type: 2}
-  PSMat: {fileID: 2100000, guid: 21722b5792938455696adc24f29b3703, type: 2}
-  defProjMat: {fileID: 2100000, guid: 3ce561e831fb4484d816679626b8cac3, type: 2}
+  defaultProjectileColor: {r: 0.21568628, g: 1, b: 0, a: 1}
+  doubleShotProjectileColor: {r: 1, g: 0.050980393, b: 0, a: 1}
+  searchingProjectileColor: {r: 1, g: 0.7529412, b: 0, a: 1}
+  piercingProjectileColor: {r: 0, g: 0.09411765, b: 1, a: 1}
   FOVinDegForSP: 90
   rangeForSP: 200
   SPDurInSec: 15
@@ -669,7 +673,7 @@ MonoBehaviour:
     probability: 20
   - name: 6
     prefab: {fileID: 2100000, guid: d5aec3564ba2a4af5ae9599ee9636f73, type: 2}
-    probability: 30
+    probability: 35
   - name: 4
     prefab: {fileID: 2100000, guid: af6ff1b48546741a7af9b742ee2d52c4, type: 2}
     probability: 30
