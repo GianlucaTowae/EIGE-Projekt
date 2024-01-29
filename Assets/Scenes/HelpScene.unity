@@ -1128,7 +1128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &650397925
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1186,8 +1186,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 50}
-  m_SizeDelta: {x: 750, y: 700}
+  m_AnchoredPosition: {x: -300, y: -15}
+  m_SizeDelta: {x: 750, y: 830}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &671109166
 MonoBehaviour:
@@ -1299,7 +1299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundAttributions:
-  - soundName: Lazer shot - 2
+  - soundName: Lazer shot - 2 / PSProj / SPProj
     link: https://freesound.org/people/colorsCrimsonTears/sounds/580308/
     author: colorsCrimsonTears
     license: 0
@@ -1347,6 +1347,34 @@ MonoBehaviour:
     link: https://freesound.org/people/jivatma07/sounds/173859/
     author: jivatma07
     license: 0
+  - soundName: RK (1) (edited)
+    link: https://freesound.org/s/270589/
+    author: ' michorvath'
+    license: 0
+  - soundName: RK (2) (edited)
+    link: https://freesound.org/s/270588/
+    author: ' michorvath'
+    license: 0
+  - soundName: GA (edited)
+    link: https://freesound.org/s/682633/
+    author: Bastianhallo
+    license: 0
+  - soundName: O and OBG (edited)
+    link: https://freesound.org/s/661677/
+    author: ICHERlandTV
+    license: 0
+  - soundName: SB (edited)
+    link: https://freesound.org/s/532291/
+    author: colorsCrimsonTears
+    license: 0
+  - soundName: SH (edited)
+    link: https://freesound.org/s/584173/
+    author: unfa
+    license: 0
+  - soundName: XP TMP
+    link: TMP
+    author: TMP
+    license: 0
   - soundName: Itemize
     link: https://freesound.org/people/Scrampunk/sounds/345297/
     author: Scrampunk
@@ -1389,8 +1417,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 400, y: 50}
-  m_SizeDelta: {x: 750, y: 700}
+  m_AnchoredPosition: {x: 400, y: -15}
+  m_SizeDelta: {x: 750, y: 830}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &763974959
 MonoBehaviour:
@@ -2650,7 +2678,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1860532751
 RectTransform:
   m_ObjectHideFlags: 0

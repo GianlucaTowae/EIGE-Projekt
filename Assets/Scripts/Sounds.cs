@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,7 +22,16 @@ public class Sounds : MonoBehaviour
         WIN,
         LOSE,
         LEVEL_UP,
-        BUTTON
+        BUTTON,
+        ABILITY_RK,
+        ABILITY_GA,
+        ABILITY_SH,
+        ABILITY_PS,
+        ABILITY_SP,
+        ABILITY_XP,
+        ABILITY_SB,
+        ABILITY_O,
+        ABILITY_OBG,
     }
 
     [Serializable]
@@ -55,9 +65,18 @@ public class Sounds : MonoBehaviour
         catch (Exception)
         {
             Debug.Log(sound + " isn't loaded");
-            return;
+            return ;
         }
         _audioSource.PlayOneShot(audioClip.clip, audioClip.volume);
+    }
+    public static IEnumerator PlayOBS()
+    {   
+        var sound = _staticAudioClips.Find(x => x.sound == Sound.ABILITY_OBG);
+        while(true)
+        {
+            _audioSource.PlayOneShot(sound.clip, sound.volume);
+            yield return new WaitForSeconds(sound.clip.length);
+        }
     }
 
     public static void PlayButtonSound()

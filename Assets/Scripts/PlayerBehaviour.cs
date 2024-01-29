@@ -81,6 +81,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public bool res;
     [HideInInspector] public int XPMultiplier;
     [HideInInspector] public bool invincible;
+    [HideInInspector] public bool shieldActive;
     [HideInInspector] public float respawnInvincibleDur;
     [HideInInspector] public float blinkingDelay;
     [HideInInspector] public GameObject guardianAngleUI;
@@ -176,7 +177,7 @@ public class PlayerBehaviour : MonoBehaviour
         switch (other.transform.tag)
         {
             case "Ability":
-                Sounds.Play(Sounds.Sound.ABILITY_PICKUP);
+                //Sounds.Play(Sounds.Sound.ABILITY_PICKUP);
                 if(res && other.name.ToLower().Contains("guardianangle")) return;
                 Destroy(other.transform.parent.gameObject);
                 _abilityScript.pickedUpAbility(other.gameObject);
@@ -252,7 +253,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void DecreaseHealth(int amount)
     {
-        if (invincible || invincibleForTesting) return;
+        if (invincible || invincibleForTesting) {
+            if(shieldActive)
+                Sounds.Play(Sounds.Sound.ABILITY_SH);
+            return;
+        }
         _health -= amount;
         if (_health <= 0){
             if (!res) LoseGame();
@@ -336,6 +341,7 @@ public class PlayerBehaviour : MonoBehaviour
     
     private IEnumerator InvincibilityOnRes()
     {
+        Sounds.Play(Sounds.Sound.ABILITY_GA);
         invincible = true;
         respawnDurLeft = respawnInvincibleDur;
 

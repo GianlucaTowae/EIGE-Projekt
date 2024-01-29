@@ -24,7 +24,12 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
-        Sounds.Play(Sounds.Sound.PROJECTILE);
+        if(piercing)
+            Sounds.Play(Sounds.Sound.ABILITY_PS);
+        else if(homInActive)
+            Sounds.Play(Sounds.Sound.ABILITY_SP);
+        else
+            Sounds.Play(Sounds.Sound.PROJECTILE);
     }
 
     void Update()

@@ -5631,6 +5631,33 @@ MonoBehaviour:
   - sound: 13
     clip: {fileID: 8300000, guid: a649dc328d4b58f4eb35caf20a86d05e, type: 3}
     volume: 0.2
+  - sound: 15
+    clip: {fileID: 8300000, guid: 82ca337228ee44b7a8b9c1898aad57c2, type: 3}
+    volume: 0.2
+  - sound: 16
+    clip: {fileID: 8300000, guid: becb0f7ab090248f493799f4503fe216, type: 3}
+    volume: 0.2
+  - sound: 17
+    clip: {fileID: 8300000, guid: e5430a02f5d7a407ea2ee0200827db1e, type: 3}
+    volume: 0.2
+  - sound: 18
+    clip: {fileID: 8300000, guid: 4b04646dfdf5146bfbdac3d41a22192b, type: 3}
+    volume: 0.2
+  - sound: 19
+    clip: {fileID: 8300000, guid: b1a4533e901914a3db2786345d87e10a, type: 3}
+    volume: 0.2
+  - sound: 20
+    clip: {fileID: 8300000, guid: 82ca337228ee44b7a8b9c1898aad57c2, type: 3}
+    volume: 0.2
+  - sound: 21
+    clip: {fileID: 8300000, guid: eaece659a03cc438a9a5924fec7a2e62, type: 3}
+    volume: 0.125
+  - sound: 22
+    clip: {fileID: 8300000, guid: 8957e998702244f7ab1ce841ed3f9982, type: 3}
+    volume: 0.2
+  - sound: 23
+    clip: {fileID: 8300000, guid: e5b89c26ce5664079a4b5e5d351ded5a, type: 3}
+    volume: 0.125
 --- !u!82 &1103198190
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6513,6 +6540,14 @@ PrefabInstance:
       propertyPath: abilityUIscript
       value: 
       objectReference: {fileID: 948917472}
+    - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
+      propertyPath: abilityMaxSpawnrateSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
+      propertyPath: abilityPrefabs.Array.data[3].probability
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityPrefabs.Array.data[7].probability
       value: 35

@@ -27,6 +27,20 @@ LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zer
 LICENSED UNDER [Attribution 4.0](https://creativecommons.org/licenses/by/4.0/)
 - "[j1game_over_mono.wav](https://freesound.org/people/jivatma07/sounds/173859/)" by jivatma07 \
 LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zero/1.0/)
+- "[RK (1) (edited)](https://freesound.org/s/270589/)" by  michorvath \
+LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zero/1.0/)
+- "[RK (2) (edited)](https://freesound.org/s/270588/)" by  michorvath \
+LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zero/1.0/)
+- "[GA (edited)](https://freesound.org/s/682633/)" by  Bastianhallo \
+LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zero/1.0/)
+- "[O and OBG (edited)](https://freesound.org/s/661677/)" by  ICHERlandTV \
+LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zero/1.0/)
+- "[SB (edited)](https://freesound.org/s/532291/)" by  colorsCrimsonTears \
+LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zero/1.0/)
+- "[SH (edited)](https://freesound.org/s/584173/)" by  unfa \
+LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zero/1.0/)
+- "[XP TMP](TMP)" by  TMP \
+LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zero/1.0/)
 - "[Itemize](https://freesound.org/people/Scrampunk/sounds/345297/)" by Scrampunk \
 LICENSED UNDER [Attribution 4.0](https://creativecommons.org/licenses/by/4.0/)
 - "[Click / Tick / Menu Navigation](https://freesound.org/people/Foxfire-/sounds/702168/)" by Foxfire- \

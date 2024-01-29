@@ -9,16 +9,19 @@ public class OverchargeDealDamge : MonoBehaviour
     private List<GameObject> currentColl = new List<GameObject>();
     Coroutine currentCoroutine;
     private bool isActive = false;
+    private Coroutine sound;
     public void Awake(){
         GetComponentInChildren<ParticleSystem>().Stop();
     }
     public void Activate(){
         if (isActive) return;
+        sound = StartCoroutine(Sounds.PlayOBS());
         isActive = true;
         currentCoroutine = StartCoroutine(DealDmg());
         GetComponentInChildren<ParticleSystem>().Play();
     }
     public void Deactivate(){
+        StopCoroutine(sound);
         StopCoroutine(currentCoroutine);
         GetComponentInChildren<ParticleSystem>().Stop();
         isActive = false;

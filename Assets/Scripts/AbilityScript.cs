@@ -78,7 +78,7 @@ public class AbilityScript : MonoBehaviour
     }
     void Awake()
     {
-        Transform ls = OverchargeObj.transform.GetChild(0);//sadjf
+        Transform ls = OverchargeObj.transform.GetChild(0);
         ls.localScale = new Vector3(overchargeScale,5 , overchargeScale);
         onDeath();
         enemySpawner = GetComponent<EnemySpawner>();
@@ -88,6 +88,7 @@ public class AbilityScript : MonoBehaviour
         oObjScript.timeBetweenDamageInSec = overchargeTimeBetweenDamageSec;
 
         player.blinkingDelay = this.respawnBlinkingDelaySec;
+        player.shieldActive = false;
         player.doubleShotDelay = this.doubleShotDelaySec;
         player.respawnInvincibleDur = this.respawnInvincibleDurationSec;
         _mainCamera = Camera.main;
@@ -202,16 +203,19 @@ public class AbilityScript : MonoBehaviour
 
 
     public void repairKit(){
+        Sounds.Play(Sounds.Sound.ABILITY_RK);
         abilityUIscript.Add(AbilityUI.AbilityName.RepairKit, displayRKitPickedUpSec);//einf auch kurz zeigen oder hier das ui abänderen??
         player.Heal();
     }   
     public void guradianAngle(){
         if(player.res) return;
+        Sounds.Play(Sounds.Sound.ABILITY_GA);
         player.res = true;
         player.guardianAngleUI = abilityUIscript.Add(AbilityUI.AbilityName.GuardianAngle).Item1;
     }   
     
     public void shield(){
+        Sounds.Play(Sounds.Sound.ABILITY_SH);
         shieldCount++;
         if (shieldCount > 1){//ggf.: reset cooldown UI
             abilityUIscript.stopCooldown(currentSHUI, currentSHCoRo);
@@ -248,6 +252,7 @@ public class AbilityScript : MonoBehaviour
         
     } 
     public void XPMultiplier(){
+        Sounds.Play(Sounds.Sound.ABILITY_XP);
         XPMultiplierCount++;
         if(XPMultiplierCount > 1){//ggf.: reset cooldown UI
             abilityUIscript.stopCooldown(currentXPUI, currentXPCoRo);
@@ -257,6 +262,7 @@ public class AbilityScript : MonoBehaviour
         
     } 
     public void sabotage(){
+        Sounds.Play(Sounds.Sound.ABILITY_SB);
         sabotageCount++;
         if(sabotageCount > 1){//ggf.: reset cooldown UI
             abilityUIscript.stopCooldown(currentSBUI, currentSBCoRo);
@@ -266,6 +272,7 @@ public class AbilityScript : MonoBehaviour
         
     } 
     public void overcharge(){
+        Sounds.Play(Sounds.Sound.ABILITY_O);
         oObjScript.Activate();
         overchargeCount++;
         if(overchargeCount > 1){//ggf.: reset cooldown UI
@@ -279,11 +286,13 @@ public class AbilityScript : MonoBehaviour
     //IENUMS--------------
 
     private IEnumerator InvincibilityOnShield(){
+        player.shieldActive = true;
         player.invincible = true;
         yield return new WaitForSeconds(shieldInvincibleDurationSec);
         if(shieldCount-- > 1) 
             yield break;
         player.invincible = false;
+        player.shieldActive = false;
     }
     private IEnumerator PiercingDuration()
     {
