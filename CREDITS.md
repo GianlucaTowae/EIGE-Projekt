@@ -39,8 +39,6 @@ LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zer
 LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zero/1.0/)
 - "[SH (edited)](https://freesound.org/s/584173/)" by  unfa \
 LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zero/1.0/)
-- "[XP TMP](TMP)" by  TMP \
-LICENSED UNDER [Creative Commons 0](https://creativecommons.org/publicdomain/zero/1.0/)
 - "[Itemize](https://freesound.org/people/Scrampunk/sounds/345297/)" by Scrampunk \
 LICENSED UNDER [Attribution 4.0](https://creativecommons.org/licenses/by/4.0/)
 - "[Click / Tick / Menu Navigation](https://freesound.org/people/Foxfire-/sounds/702168/)" by Foxfire- \
