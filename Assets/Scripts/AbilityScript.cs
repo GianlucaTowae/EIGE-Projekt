@@ -199,8 +199,16 @@ public class AbilityScript : MonoBehaviour
         if (oObjScript != null)
             oObjScript.Deactivate();
         abilityUIscript.clear();
+
     }
 
+    private void OnDestroy()
+    {
+        if (projectile.material == null)
+            projectile.material = projectile.GetComponent<Renderer>().sharedMaterial;
+
+        projectile.material.color = defaultProjectileColor;
+    }
 
     public void repairKit(){
         Sounds.Play(Sounds.Sound.ABILITY_RK);

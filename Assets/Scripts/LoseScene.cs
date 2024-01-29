@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LoseScene : MonoBehaviour
 {
-    [SerializeField] private TMP_Text highscore;
+    [SerializeField] private TMP_Text highscoreLabel;
 
     private bool _waited = false;
 
@@ -13,8 +13,11 @@ public class LoseScene : MonoBehaviour
     {
         Sounds.Play(Sounds.Sound.LOSE);
         StartCoroutine(WaitTime());
-        highscore.text = "Highscore: " + PlayerPrefs.GetInt("highscore")
-                        + "\nScore: " + PlayerPrefs.GetInt("score");
+        int highscore = PlayerPrefs.GetInt("highscore");
+        int score = PlayerPrefs.GetInt("score");
+        highscoreLabel.text = "Highscore: " + highscore
+                                            + "\nScore: " + score
+                                            + (score == highscore ? "\n<i>New Highscore!</i>" : "");
     }
 
     void Update()

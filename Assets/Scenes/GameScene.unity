@@ -6540,18 +6540,6 @@ PrefabInstance:
       propertyPath: abilityUIscript
       value: 
       objectReference: {fileID: 948917472}
-    - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
-      propertyPath: abilityMaxSpawnrateSec
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
-      propertyPath: abilityPrefabs.Array.data[3].probability
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
-      propertyPath: abilityPrefabs.Array.data[7].probability
-      value: 35
-      objectReference: {fileID: 0}
     - target: {fileID: 6498729833354813685, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

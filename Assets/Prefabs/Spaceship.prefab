@@ -564,6 +564,7 @@ MonoBehaviour:
   res: 0
   XPMultiplier: 0
   invincible: 0
+  shieldActive: 0
   respawnInvincibleDur: 0
   blinkingDelay: 0
   guardianAngleUI: {fileID: 0}
@@ -586,7 +587,7 @@ MonoBehaviour:
   targetingClusterSize: {x: 2, y: 4}
   clusterDistribution: {x: 60, y: 120}
   targetingClusterDistribution: 100
-  bossSpawningDistance: 300
+  bossSpawningDistance: 500
   spawningIntervalSingle: {x: 0.5, y: 1}
   spawningIntervalCluster: {x: 5, y: 7}
   spawningIntervalTargetingCluster: {x: 2, y: 4}

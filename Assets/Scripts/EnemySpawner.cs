@@ -126,7 +126,7 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnBoss()
     {
         Vector3 position = Random.insideUnitCircle.normalized;
-        GameObject boss = Instantiate(bossPrefab, position * bossSpawningDistance, bossPrefab.transform.rotation);
+        GameObject boss = Instantiate(bossPrefab, transform.position + position * bossSpawningDistance, bossPrefab.transform.rotation);
         boss.GetComponent<Boss>().SetPlayer(gameObject);
         _bossSpawned = true;
         bossBar.HealthMode(boss.GetComponent<Boss>());

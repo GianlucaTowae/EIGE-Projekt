@@ -184,7 +184,7 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
             case "Asteroid":
                 DecreaseHealth();
-                other.GetComponent<Asteroid>().Explode();
+                other.GetComponent<Asteroid>().ExplodeNoXp();
                 break;
             case "BossProjectile":
                 DecreaseHealth();
@@ -282,6 +282,11 @@ public class PlayerBehaviour : MonoBehaviour
             scoreLevelLabel.text = _level.ToString();
             levelUpPopup.Show();
         }
+    }
+
+    public void IncreaseScoreEnd(int amount)
+    {
+        _score += amount;
     }
 
     private int CalculateLevel()

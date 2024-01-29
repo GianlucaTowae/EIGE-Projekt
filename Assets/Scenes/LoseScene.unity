@@ -1832,7 +1832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5deffda18d65e334b9cb9999f2e4f50e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highscore: {fileID: 617257231}
+  highscoreLabel: {fileID: 617257231}
 --- !u!114 &1906130281
 MonoBehaviour:
   m_ObjectHideFlags: 0

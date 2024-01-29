@@ -945,7 +945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce3ea3e9dd114f049464538f6d6be260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highscore: {fileID: 1176629250}
+  highscoreLabel: {fileID: 1176629250}
 --- !u!1001 &2031501850
 PrefabInstance:
   m_ObjectHideFlags: 0

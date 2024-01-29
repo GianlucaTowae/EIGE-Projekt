@@ -7,6 +7,7 @@ public class Boss : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject bossProjectilePrefab;
     // Change with "Drag" in Rigidbody for smooth stop
+    [SerializeField] private int xp = 1000;
     [SerializeField] private float startHp = 100f;
     [SerializeField] private float speed = 150f;
     [SerializeField] private float maxDistance = 150f;
@@ -128,7 +129,9 @@ public class Boss : MonoBehaviour
         Sounds.Play(Sounds.Sound.HIT_METAL);
         if (_hp < 0f)
         {
-            player.GetComponent<PlayerBehaviour>().SaveScore();
+            PlayerBehaviour pb = player.GetComponent<PlayerBehaviour>();
+            pb.IncreaseScoreEnd(xp);
+            pb.SaveScore();
             SceneManager.LoadScene("WinScene");
         }
     }

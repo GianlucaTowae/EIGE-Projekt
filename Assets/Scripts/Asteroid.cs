@@ -88,7 +88,7 @@ public class Asteroid : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void ExplodeNoXp()
+    public void ExplodeNoXp()
     {
         Sounds.Play(Sounds.Sound.ASTEROID_EXPLOSION);
         Instantiate(explosion, transform.position, Quaternion.identity);
