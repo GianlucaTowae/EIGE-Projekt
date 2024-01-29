@@ -6542,7 +6542,7 @@ PrefabInstance:
       objectReference: {fileID: 948917472}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityMaxSpawnrateSec
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6310752498994466909, guid: 0a69d023e7986884fac70bdfef0ee1fb, type: 3}
       propertyPath: abilityPrefabs.Array.data[3].probability
