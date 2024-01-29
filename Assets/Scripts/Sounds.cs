@@ -59,4 +59,9 @@ public class Sounds : MonoBehaviour
         }
         _audioSource.PlayOneShot(audioClip.clip, audioClip.volume);
     }
+
+    public static void PlayButtonSound()
+    {
+        Play(Sound.BUTTON);
+    }
 }
